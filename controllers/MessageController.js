@@ -11,8 +11,7 @@ function index(req, res, next) {
 
 function store(req, res, next) {
     const message = new Message({
-        score: req.body.score,
-        message: req.body.message
+        content: req.body.content,
     });
     message.save(function (err) {
         if (err) {
