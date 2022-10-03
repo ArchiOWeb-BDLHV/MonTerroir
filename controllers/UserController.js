@@ -31,8 +31,14 @@ function show(req, res, next) {
 }
 
 function update(req, res, next) {
-    res.send("Got a response from the users route");
+    User.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true }, function(err, user) {
+        if (err) {
+            return next(err);
+        }
+        res.json(user);
+    });
 }
+
 
 function destroy(req, res, next) {
     res.send("Got a response from the users route");
