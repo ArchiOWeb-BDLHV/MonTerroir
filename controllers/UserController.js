@@ -41,7 +41,12 @@ function update(req, res, next) {
 
 
 function destroy(req, res, next) {
-    res.send("Got a response from the users route");
+    User.findOneAndDelete({ _id: req.params.id }, function(err, user) {
+        if (err) {
+            return next(err);
+        }
+        res.json(user);
+    });
 }
 
 
