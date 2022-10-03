@@ -9,10 +9,10 @@ import productsRouter from "./routes/products.js";
 import messagesRouter from "./routes/messages.js";
 import reviewsRouter from "./routes/reviews.js";
 
-//Permet de se connecter a la base de donée
+// Permet de se connecter à la base de données
 import mongoose from "mongoose";
 mongoose.Promise = Promise;
-// ou est stocker la base de donée
+// Où est stockée la base de données
 mongoose.connect("mongodb://localhost/tesseve");
 
 const app = express();
@@ -28,14 +28,14 @@ app.use("/products", productsRouter);
 app.use("/messages", messagesRouter);
 app.use("/reviews", reviewsRouter);
 
-// catch 404 and forward to error handler
+// Catch 404 and forward to error handler
 app.use(function(req, res, next) {
     next(createError(404));
 });
 
-// error handler
+// Error handler
 app.use(function(err, req, res, next) {
-    // set locals, only providing error in development
+    // Set locals, only providing error in development
     res.locals.message = err.message;
     res.locals.error = req.app.get("env") === "development" ? err : {};
 
