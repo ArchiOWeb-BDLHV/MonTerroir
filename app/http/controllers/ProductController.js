@@ -12,18 +12,18 @@ function index(req, res, next) {
 }
 
 function store(req, res, next) {
-    const Product = new Product({
+    const product = new Product({
         name: req.body.name,
         description: req.body.description,
         price: req.body.price,
         category: req.body.category,
         image_url: req.body.image_url,
     });
-    Product.save(function(err) {
+    product.save(function(err) {
         if (err) {
             return next(err);
         }
-        res.status(201).send(Product);
+        res.status(201).send(product);
     });
 }
 
