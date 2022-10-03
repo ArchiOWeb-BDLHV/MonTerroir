@@ -1,7 +1,7 @@
-import Message from "../models/message.js";
+import Message from "../../models/message.js";
 
 function index(req, res, next) {
-    Message.find().exec(function (err, messages) {
+    Message.find().exec(function(err, messages) {
         if (err) {
             return next(err);
         }
@@ -13,7 +13,7 @@ function store(req, res, next) {
     const message = new Message({
         content: req.body.content,
     });
-    message.save(function (err) {
+    message.save(function(err) {
         if (err) {
             return next(err);
         }

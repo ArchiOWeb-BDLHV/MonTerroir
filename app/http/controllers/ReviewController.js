@@ -1,4 +1,4 @@
-import Review from "../models/review.js";
+import Review from "../../models/review.js";
 
 function index(req, res, next) {
     Review.find().exec(function(err, reviews) {
