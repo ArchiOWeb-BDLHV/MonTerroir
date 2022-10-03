@@ -1,5 +1,5 @@
 import express from "express";
-import { index, store } from "../controllers/ReviewController.js";
+import { index, store, show, update, destroy } from "../controllers/ReviewController.js";
 
 const router = express.Router();
 
@@ -9,5 +9,8 @@ const router = express.Router();
 
 router.get("/", index);
 router.post("/", store);
+router.get("/:id", show);
+router.put("/:id", update);
+router.delete("/:id", destroy);
 
 export default router;

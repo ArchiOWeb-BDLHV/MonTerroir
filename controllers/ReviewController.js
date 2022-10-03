@@ -5,7 +5,7 @@ function index(req, res, next) {
         if (err) {
             return next(err);
         }
-        res.send(reviews);
+        res.status(200).json(reviews);
     });
 }
 
@@ -23,15 +23,30 @@ function store(req, res, next) {
 }
 
 function show(req, res, next) {
-    res.send("Got a response from the reviews route");
+    Review.findById(req.params.id).exec(function(err, reviews) {
+        if (err) {
+            return next(err);
+        }
+        res.status(200).json(reviews);
+    });
 }
 
 function update(req, res, next) {
-    res.send("Got a response from the reviews route");
+    Review.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true }, function(err, review) {
+        if (err) {
+            return next(err);
+        }
+        res.status(201).json(review);
+    });
 }
 
 function destroy(req, res, next) {
-    res.send("Got a response from the reviews route");
+    Review.findOneAndDelete({ _id: req.params.id }, function(err, review) {
+        if (err) {
+            return next(err);
+        }
+        res.status(204).json();
+    });
 }
 
 
