@@ -22,15 +22,31 @@ function store(req, res, next) {
 }
 
 function show(req, res, next) {
-    res.send("Got a response from the messages route");
+    Message.findById(req.params.id).exec(function (err, messages) {
+        if (err) {
+            return next(err);
+        }
+        res.status(200).json(messages);
+    });
 }
 
 function update(req, res, next) {
-    res.send("Got a response from the messages route");
+    Message.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true }, function (err, message) {
+        if (err) {
+            return next(err);
+        }
+        res.status(201).json(message);
+    });
 }
 
+
 function destroy(req, res, next) {
-    res.send("Got a response from the messages route");
+    Message.findOneAndDelete({ _id: req.params.id }, function (err, message) {
+        if (err) {
+            return next(err);
+        }
+        res.status(204).json();
+    });
 }
 
 
