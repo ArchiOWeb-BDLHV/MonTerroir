@@ -5,7 +5,7 @@ function index(req, res, next) {
         if (err) {
             return next(err);
         }
-        res.send(users);
+        res.status(200).json(users);
     });
 }
 
@@ -26,7 +26,7 @@ function show(req, res, next) {
         if (err) {
             return next(err);
         }
-        res.send(users);
+        res.status(200).json(users);
     });
 }
 
@@ -35,7 +35,7 @@ function update(req, res, next) {
         if (err) {
             return next(err);
         }
-        res.json(user);
+        res.status(201).json(user);
     });
 }
 
@@ -45,7 +45,7 @@ function destroy(req, res, next) {
         if (err) {
             return next(err);
         }
-        res.json(user);
+        res.status(204).json();
     });
 }
 
