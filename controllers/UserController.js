@@ -22,7 +22,12 @@ function store(req, res, next) {
 }
 
 function show(req, res, next) {
-    res.send("Got a response from the users route");
+    User.findById(req.params.id).exec(function(err, users) {
+        if (err) {
+            return next(err);
+        }
+        res.send(users);
+    });
 }
 
 function update(req, res, next) {
