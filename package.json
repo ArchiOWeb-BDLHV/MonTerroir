@@ -4,7 +4,7 @@
     "private": true,
     "type": "module",
     "scripts": {
-        "dev": "DEBUG=test:* nodemon",
+        "dev": "nodemon",
         "start": "node ./bin/start"
     },
     "dependencies": {
