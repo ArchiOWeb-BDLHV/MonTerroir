@@ -8,6 +8,10 @@ import usersRouter from "./routes/users.js";
 import productsRouter from "./routes/products.js";
 import messagesRouter from "./routes/messages.js";
 import reviewsRouter from "./routes/reviews.js";
+import authRouter from "./routes/auth.js";
+
+//Controllers
+import { authenticated } from "./app/http/controllers/AuthController.js";
 
 // Permet de se connecter à la base de données
 import mongoose from "mongoose";
@@ -23,12 +27,16 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+//check if user is authenticated
+
 // Indique nos différentes routes URL
 app.use("/", indexRouter);
-app.use("/users", usersRouter);
-app.use("/products", productsRouter);
-app.use("/messages", messagesRouter);
-app.use("/reviews", reviewsRouter);
+app.use("/auth", authRouter);
+
+app.use("/users", authenticated, usersRouter);
+app.use("/products", authenticated, productsRouter);
+app.use("/messages", authenticated, messagesRouter);
+app.use("/reviews", authenticated, reviewsRouter);
 
 // Catch 404 and forward to error handler
 app.use(function(req, res, next) {

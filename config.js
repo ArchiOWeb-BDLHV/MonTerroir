@@ -11,4 +11,8 @@ export default {
         user: process.env.DB_USER || 'root',
         password: process.env.DB_PASSWORD || '',
     },
+    jwt: {
+        secret: process.env.APP_KEY || 'secret',
+        expiresIn: process.env.JWT_EXPIRES_IN || '1d',
+    },
 };

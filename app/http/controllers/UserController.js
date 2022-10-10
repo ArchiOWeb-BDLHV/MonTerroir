@@ -7,7 +7,7 @@ async function index(req, res, next) {
 
 async function store(req, res, next) {
     const user = new User({
-        name: req.body.name
+        username: req.body.username
     });
     const result = await user.save();
     res.status(201).json(result);
