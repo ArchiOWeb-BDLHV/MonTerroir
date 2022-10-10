@@ -9,6 +9,7 @@ import productsRouter from "./routes/products.js";
 import messagesRouter from "./routes/messages.js";
 import reviewsRouter from "./routes/reviews.js";
 import authRouter from "./routes/auth.js";
+import categorysRouter from "./routes/categorys.js";
 
 //Controllers
 import { authenticated } from "./app/http/controllers/AuthController.js";
@@ -37,6 +38,11 @@ app.use("/users", authenticated, usersRouter);
 app.use("/products", authenticated, productsRouter);
 app.use("/messages", authenticated, messagesRouter);
 app.use("/reviews", authenticated, reviewsRouter);
+app.use("/users", usersRouter);
+app.use("/products", productsRouter);
+app.use("/messages", messagesRouter);
+app.use("/reviews", reviewsRouter);
+app.use("/categorys", categorysRouter);
 
 // Catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -52,7 +58,7 @@ app.use(function(err, req, res, next) {
     // Send the error status
     res.status(err.status || 500);
     res.json({
-        "message": err.message
+        message: err.message,
     });
 });
 

@@ -1,11 +1,11 @@
 import express from "express";
 import {
-    index,
-    store,
-    show,
-    update,
-    destroy,
-} from "../app/http/controllers/ProductController.js";
+  index,
+  store,
+  show,
+  update,
+  destroy,
+} from "../app/http/controllers/CategoryController.js";
 import safeRoute from "./safeRoute.js";
 
 const router = express.Router();
