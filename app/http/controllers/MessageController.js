@@ -1,53 +1,31 @@
 import Message from "../../models/message.js";
 
-function index(req, res, next) {
-    Message.find().exec(function(err, messages) {
-        if (err) {
-            return next(err);
-        }
-        res.send(messages);
-    });
+async function index(req, res, next) {
+    const messages = await Message.find().sort('content');
+    res.status(200).json(messages);
 }
 
-function store(req, res, next) {
+async function store(req, res, next) {
     const message = new Message({
-        content: req.body.content,
+        content: req.body.content
     });
-    message.save(function(err) {
-        if (err) {
-            return next(err);
-        }
-        res.status(201).send(message);
-    });
+    const result = await message.save();
+    res.status(201).json(result);
 }
 
-function show(req, res, next) {
-    Message.findById(req.params.id).exec(function (err, messages) {
-        if (err) {
-            return next(err);
-        }
-        res.status(200).json(messages);
-    });
+async function show(req, res, next) {
+    const message = await Message.findById(req.params.id);
+    res.status(200).json(message);
 }
 
-function update(req, res, next) {
-    Message.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true }, function (err, message) {
-        if (err) {
-            return next(err);
-        }
-        res.status(201).json(message);
-    });
+async function update(req, res, next) {
+    const message = await Message.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true });
+    res.status(200).json(message);
 }
 
-
-function destroy(req, res, next) {
-    Message.findOneAndDelete({ _id: req.params.id }, function (err, message) {
-        if (err) {
-            return next(err);
-        }
-        res.status(204).json();
-    });
+async function destroy(req, res, next) {
+    const message = await Message.findOneAndDelete({ _id: req.params.id });
+    res.status(204).json();
 }
-
 
 export { index, store, show, update, destroy };
