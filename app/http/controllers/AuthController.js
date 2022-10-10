@@ -23,13 +23,13 @@ export function authenticated(req, res, next) {
     })
 }
 
-export function login(req, res) {
+export async function login(req, res) {
     const { username, password } = req.body;
 
     if (!(username && password)) {
         return res.status(400).json({ error: 'Username and password are required' });
     } else {
-        const user = User.findOneByUsername(username);
+        const user = await User.findOneByUsername(username);
         if (!user) {
             return res.status(400).json({ error: 'Username or password incorrect' });
         }
