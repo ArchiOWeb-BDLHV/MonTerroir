@@ -4,7 +4,11 @@ const Schema = mongoose.Schema;
 const productSchema = new Schema({
     name: String,
     description: String,
-    price: Number,
+    price: {
+        type: Number,
+        required: true,
+        min: [0.05, "Le montant minial est de 0.05.- et vous avez envoyez {VALUE}"],
+    },
     category: String,
     image_url: String,
 });
