@@ -11,9 +11,10 @@ import reviewsRouter from "./routes/reviews.js";
 
 // Permet de se connecter à la base de données
 import mongoose from "mongoose";
+import config from "./config.js";
 mongoose.Promise = Promise;
 // Où est stockée la base de données
-mongoose.connect("mongodb://localhost/tesseve");
+mongoose.connect("mongodb://" + config.db.host + "/" + config.db.name);
 
 const app = express();
 
