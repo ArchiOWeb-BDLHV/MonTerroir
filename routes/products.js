@@ -1,9 +1,23 @@
 import express from "express";
-import { index, store } from "../app/http/controllers/ProductController.js";
+import {
+    index,
+    store,
+    show,
+    update,
+    destroy,
+} from "../app/http/controllers/ProductController.js";
+import safeRoute from "./safeRoute.js";
+
 const router = express.Router();
 
-router.get("/", index);
+router.get("/", safeRoute(index));
 
-router.post("/", store);
+router.post("/", safeRoute(store));
+
+router.get("/:id", safeRoute(show));
+
+router.put("/:id", safeRoute(update));
+
+router.delete("/:id", safeRoute(destroy));
 
 export default router;
