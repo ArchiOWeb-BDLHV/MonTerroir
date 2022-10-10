@@ -8,6 +8,7 @@ import usersRouter from "./routes/users.js";
 import productsRouter from "./routes/products.js";
 import messagesRouter from "./routes/messages.js";
 import reviewsRouter from "./routes/reviews.js";
+import categorysRouter from "./routes/categorys.js";
 
 // Permet de se connecter à la base de données
 import mongoose from "mongoose";
@@ -29,23 +30,24 @@ app.use("/users", usersRouter);
 app.use("/products", productsRouter);
 app.use("/messages", messagesRouter);
 app.use("/reviews", reviewsRouter);
+app.use("/categorys", categorysRouter);
 
 // Catch 404 and forward to error handler
-app.use(function(req, res, next) {
-    next(createError(404));
+app.use(function (req, res, next) {
+  next(createError(404));
 });
 
 // Error handler
-app.use(function(err, req, res, next) {
-    // Set locals, only providing error in development
-    res.locals.message = err.message;
-    res.locals.error = req.app.get("env") === "development" ? err : {};
+app.use(function (err, req, res, next) {
+  // Set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.error = req.app.get("env") === "development" ? err : {};
 
-    // Send the error status
-    res.status(err.status || 500);
-    res.json({
-        "message": err.message
-    });
+  // Send the error status
+  res.status(err.status || 500);
+  res.json({
+    message: err.message,
+  });
 });
 
 export default app;

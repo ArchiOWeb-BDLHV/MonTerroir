@@ -56,5 +56,9 @@ const productSchema = new Schema({
   },
 });
 
+productSchema.statics.findByName = function (name) {
+  return this.find({ name: new RegExp(productSchema, "i") });
+};
+
 // Create the model from the schema and export it
 export default mongoose.model("Product", productSchema);
