@@ -1,22 +1,24 @@
 ## Request
 
-`GET /users/`
+`PUT /users/:id`
+
+## Body
+
+```json
+{
+  "name": "NAME"
+}
+```
 
 ## Responses
 
 > `200` : OK
 
 ```json
-[
   {
     "_id": 123,
     "name": "John Doe"
   },
-  {
-    "_id": 345,
-    "name": "Jane Doe"
-  }
-]
 ```
 
 ## Errors

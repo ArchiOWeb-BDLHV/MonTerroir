@@ -1,22 +1,16 @@
 ## Request
 
-`GET /users/`
+`GET /users/:id`
 
-## Responses
+## Response
 
 > `200` : OK
 
 ```json
-[
   {
     "_id": 123,
     "name": "John Doe"
   },
-  {
-    "_id": 345,
-    "name": "Jane Doe"
-  }
-]
 ```
 
 ## Errors

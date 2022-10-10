@@ -1,52 +1,32 @@
 import User from "../../models/user.js";
 
-function index(req, res, next) {
-    User.find().sort('name').exec(function(err, users) {
-        if (err) {
-            return next(err);
-        }
-        res.status(200).json(users);
-    });
+async function index(req, res, next) {
+    const users = await User.find().sort('name');
+    res.status(200).json(users);
 }
 
-function store(req, res, next) {
+async function store(req, res, next) {
     const user = new User({
         name: req.body.name
     });
-    user.save(function(err) {
-        if (err) {
-            return next(err);
-        }
-        res.status(201).send(user);
-    });
+    const result = await user.save();
+    res.status(201).json(result);
 }
 
-function show(req, res, next) {
-    User.findById(req.params.id).exec(function(err, users) {
-        if (err) {
-            return next(err);
-        }
-        res.status(200).json(users);
-    });
+async function show(req, res, next) {
+    const user = await User.findById(req.params.id);
+    res.status(200).json(user);
 }
 
-function update(req, res, next) {
-    User.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true }, function(err, user) {
-        if (err) {
-            return next(err);
-        }
-        res.status(201).json(user);
-    });
+async function update(req, res, next) {
+    const user = await User.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true });
+    res.status(200).json(user);
 }
 
 
-function destroy(req, res, next) {
-    User.findOneAndDelete({ _id: req.params.id }, function(err, user) {
-        if (err) {
-            return next(err);
-        }
-        res.status(204).json();
-    });
+async function destroy(req, res, next) {
+    const user = await User.findOneAndDelete({ _id: req.params.id });
+    res.status(204).json();
 }
 
 

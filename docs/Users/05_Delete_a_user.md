@@ -1,22 +1,13 @@
 ## Request
 
-`GET /users/`
+`DELETE /users/:id`
 
 ## Responses
 
-> `200` : OK
+> `204` : No content
 
 ```json
-[
-  {
-    "_id": 123,
-    "name": "John Doe"
-  },
-  {
-    "_id": 345,
-    "name": "Jane Doe"
-  }
-]
+  {},
 ```
 
 ## Errors

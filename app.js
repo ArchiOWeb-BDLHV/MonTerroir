@@ -41,7 +41,9 @@ app.use(function(err, req, res, next) {
 
     // Send the error status
     res.status(err.status || 500);
-    res.send(err.message);
+    res.json({
+        "message": err.message
+    });
 });
 
 export default app;
