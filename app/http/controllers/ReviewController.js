@@ -1,10 +1,13 @@
 import Review from "../../models/review.js";
 
 async function index(req, res, next) {
-    const reviewsScore = await Review.find().sort('score');
-    res.status(200).json(reviewsScore);
-    const reviewsMsg = await Review.find().sort('message');
-    res.status(200).json(reviewsMsg);
+    if (req.query.score) {
+        const reviewsScore = await Review.find().sort('score');
+        res.status(200).json(reviewsScore);
+    } else {
+        const reviewsMsg = await Review.find().sort('message');
+        res.status(200).json(reviewsMsg);
+    }
 
     //// Ancienne version, sans safeRoute et sans async/await
     // Review.find().exec(function(err, reviews) {
