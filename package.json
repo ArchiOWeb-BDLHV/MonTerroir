@@ -5,7 +5,8 @@
     "type": "module",
     "scripts": {
         "dev": "nodemon",
-        "start": "node ./bin/start"
+        "start": "node ./bin/start",
+        "key:generate": "node ./generateKey.js"
     },
     "dependencies": {
         "bcrypt": "^5.1.0",
