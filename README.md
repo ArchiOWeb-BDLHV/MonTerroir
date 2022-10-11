@@ -15,3 +15,11 @@
 - Générer les fichiers HTML
 
 `daux generate `
+
+## To generate a new command
+
+`npm run - make {name}`
+
+## To execute a personnal command
+
+`npm run - {name}`
