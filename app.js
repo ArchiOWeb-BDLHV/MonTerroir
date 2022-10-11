@@ -34,15 +34,11 @@ app.use(express.urlencoded({ extended: false }));
 app.use("/", indexRouter);
 app.use("/auth", authRouter);
 
-app.use("/users", authenticated, usersRouter);
+app.use("/users", authenticated, usersRouter); // on chaine les middlewares pour vérifier si l'utilisateur est authentifié
 app.use("/products", authenticated, productsRouter);
 app.use("/messages", authenticated, messagesRouter);
 app.use("/reviews", authenticated, reviewsRouter);
-app.use("/users", usersRouter);
-app.use("/products", productsRouter);
-app.use("/messages", messagesRouter);
-app.use("/reviews", reviewsRouter);
-app.use("/categorys", categorysRouter);
+app.use("/categorys", authenticated, categorysRouter);
 
 // Catch 404 and forward to error handler
 app.use(function(req, res, next) {
