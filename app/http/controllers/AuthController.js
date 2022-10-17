@@ -6,7 +6,7 @@ function generateAccessToken(username) {
     return Jwt.sign(username, config.jwt.secret, { expiresIn: config.jwt.expiresIn }); // Generation du token d'authentification
 }
 
-export function authenticated(req, res, next) {
+export function authenticated(req, res, next) { //authenticated est un middleware qui vérifie si l'utilisateur est authentifié
     const authHeader = req.headers['authorization']; // on récupère le header sous la forme "Bearer {token}"
     const token = authHeader && authHeader.split(' ')[1]; // on récupère le token
 

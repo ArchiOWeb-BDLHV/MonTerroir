@@ -9,5 +9,4 @@ if (fs.existsSync(filename)) {
 } else {
     console.log("\x1b[31m", "The command doesn't exists!\n", "\x1b[0m");
     console.log("You can create it with \nnpm run - make " + process.argv[2]);
-
 }
