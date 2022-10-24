@@ -7,7 +7,6 @@ export class UserPolicy extends Policy {
         if (request.user.is(Role.ADMIN)) {
             next();
         } else {
-            console.log(request.user.role);
             throw new Error("You are not authorized to access to this resource", 403);
         }
     }

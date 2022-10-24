@@ -1,6 +1,5 @@
 export function is(role) {
     return (req, res, next) => {
-        console.log(req.user);
         const hasRight = req.user.is(role);
         if (!hasRight) { // On vérifie si le role de l'utilisateur correspond au role passé en paramètre
             return res.status(403).json({
