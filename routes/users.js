@@ -3,18 +3,15 @@ import { index, store, show, update, destroy } from "../app/http/controllers/Use
 import asyncRoute from "./asyncRoute.js";
 import { is } from "../app/http/middlewares/AuthorizationMiddleware.js";
 import { Role } from "../app/models/role.js";
+import { UserPolicy } from "../app/http/policies/userPolicy.js";
 
 
 const router = express.Router();
 
-router.get("/", is(Role.ADMIN), asyncRoute(index));
-
-router.post("/", asyncRoute(store));
-
-router.get("/:id", asyncRoute(show));
-
-router.put("/:id", asyncRoute(update));
-
-router.delete("/:id", asyncRoute(destroy));
+router.get("/", is(Role.ADMIN), UserPolicy.index, asyncRoute(index))
+    .post("/", asyncRoute(store))
+    .get("/:id", UserPolicy.show, asyncRoute(show))
+    .put("/:id", asyncRoute(update))
+    .delete("/:id", asyncRoute(destroy));
 
 export default router;

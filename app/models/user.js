@@ -67,4 +67,8 @@ userSchema.methods.toJSON = function() {
     return obj;
 }
 
+userSchema.methods.is = function(role) {
+    return (this.role & role) ? true : false;
+}
+
 export default mongoose.model('User', userSchema);
