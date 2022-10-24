@@ -12,11 +12,13 @@ import authRouter from "./routes/auth.js";
 import categorysRouter from "./routes/categorys.js";
 
 //Controllers
-import { authenticated } from "./app/http/controllers/AuthController.js";
+import { authenticated } from "./app/http/middlewares/AuthMiddleware.js";
 
 // Permet de se connecter à la base de données
 import mongoose from "mongoose";
 import config from "./config.js";
+import { is } from "./app/http/middlewares/AuthorizationMiddleware.js";
+import { Role } from "./app/models/role.js";
 
 mongoose.Promise = Promise;
 // Où est stockée la base de données
@@ -34,7 +36,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use("/", indexRouter);
 app.use("/auth", authRouter);
 
-app.use("/users", authenticated, usersRouter); // on chaine les middlewares pour vérifier si l'utilisateur est authentifié
+app.use("/users", authenticated, is(Role.ADMIN), usersRouter); // on chaine les middlewares pour vérifier si l'utilisateur est authentifié
 app.use("/products", authenticated, productsRouter);
 app.use("/messages", authenticated, messagesRouter);
 app.use("/reviews", authenticated, reviewsRouter);

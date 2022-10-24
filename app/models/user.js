@@ -20,6 +20,13 @@ const userSchema = new Schema({
         type: String,
         required: true,
     },
+    role: {
+        type: Number,
+        default: 1,
+        // 1 = user
+        // 2 = admin
+    },
+
 });
 
 userSchema.statics.findOneByUsername = function(username) {
