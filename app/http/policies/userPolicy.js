@@ -1,6 +1,5 @@
 import { Error } from "../../../error.js";
 import { Role } from "../../models/role.js";
-import { Policy } from "./Policy.js";
 
 export class UserPolicy {
     static index(request, response, next) {
