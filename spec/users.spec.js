@@ -102,7 +102,6 @@ describe('GET /users/:id', function() {
 });
 
 
-
 afterAll(async() => {
     await mongoose.disconnect();
 });
