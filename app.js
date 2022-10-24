@@ -36,7 +36,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use("/", indexRouter);
 app.use("/auth", authRouter);
 
-app.use("/users", authenticated, is(Role.ADMIN), usersRouter); // on chaine les middlewares pour vérifier si l'utilisateur est authentifié
+app.use("/users", authenticated, usersRouter); // on chaine les middlewares pour vérifier si l'utilisateur est authentifié
 app.use("/products", authenticated, productsRouter);
 app.use("/messages", authenticated, messagesRouter);
 app.use("/reviews", authenticated, reviewsRouter);
