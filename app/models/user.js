@@ -63,6 +63,7 @@ userSchema.methods.comparePassword = function(candidatePassword, cb) {
 userSchema.methods.toJSON = function() {
     var obj = this.toObject();
     delete obj.password;
+    delete obj.__v;
     return obj;
 }
 
