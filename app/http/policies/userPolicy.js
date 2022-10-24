@@ -2,7 +2,7 @@ import { Error } from "../../../error.js";
 import { Role } from "../../models/role.js";
 import { Policy } from "./Policy.js";
 
-export class UserPolicy extends Policy {
+export class UserPolicy {
     static index(request, response, next) {
         if (request.user.is(Role.ADMIN)) {
             next();
