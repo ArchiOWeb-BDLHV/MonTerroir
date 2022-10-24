@@ -3,8 +3,8 @@ export function is(role) {
         (req, res, next) => {
             const hasRight = (req.user.role & role) ? true : false;
             if (!hasRight) { // On vérifie si le role de l'utilisateur correspond au role passé en paramètre
-                return res.status(401).json({
-                    message: 'Unauthorized',
+                return res.status(403).json({
+                    message: 'Forbidden. You don\'t have the right to access this resource.',
                 });
             }
             next();
