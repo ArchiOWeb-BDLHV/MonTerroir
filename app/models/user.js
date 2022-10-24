@@ -30,7 +30,7 @@ const userSchema = new Schema({
 });
 
 userSchema.statics.findOneByUsername = function(username) {
-    return this.findOne({ username: new RegExp(username, 'i') });
+    return this.findOne({ username: username });
 };
 
 userSchema.pre('save', function(next) {
