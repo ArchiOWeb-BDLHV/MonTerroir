@@ -20,12 +20,11 @@ describe('GET /users', function() {
     });
 
     it("shouldn't list all users as non admin", async function() {
-        const user = new User({
+        const user = await User.create({
             username: "user",
             password: "password",
             role: Role.USER
         });
-        await user.save();
         const res = await supertest(app)
             .get('/users')
             .set('Authorization', 'Bearer ' + generateAccessToken(user))
