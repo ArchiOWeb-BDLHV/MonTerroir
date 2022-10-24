@@ -6,7 +6,7 @@ import { cleanUpDatabase } from "./utils.js";
 import User from "../app/models/user.js";
 import { Role } from "../app/models/role.js";
 import { generateAccessToken } from "../app/http/controllers/AuthController.js";
-
+import crypto from "crypto";
 
 describe('GET /users', function() {
     beforeEach(async function() {
@@ -70,13 +70,14 @@ describe('GET /users/:id', function() {
     });
 
     it("shouldn't show user as non own user", async function() {
+
         const user = await User.create({
-            username: "user6",
+            username: crypto.randomBytes(20).toString('hex'),
             password: "password",
         });
         const otherUser = await User.create({
-            username: "otherUser",
-            password: "password",
+            username: crypto.randomBytes(20).toString('hex'),
+            password: "password"
         });
 
         expect(user._id).not.toBe(otherUser._id);
