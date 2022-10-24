@@ -2,7 +2,7 @@ import config from "../../../config.js";
 import User from "../../models/user.js";
 import Jwt from "jsonwebtoken";
 
-function generateAccessToken(user) {
+export function generateAccessToken(user) {
     return Jwt.sign({ username: user.username }, config.jwt.secret, { expiresIn: config.jwt.expiresIn }); // Generation du token d'authentification
 }
 

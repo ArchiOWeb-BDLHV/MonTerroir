@@ -17,12 +17,10 @@ import { authenticated } from "./app/http/middlewares/AuthMiddleware.js";
 // Permet de se connecter à la base de données
 import mongoose from "mongoose";
 import config from "./config.js";
-import { is } from "./app/http/middlewares/AuthorizationMiddleware.js";
-import { Role } from "./app/models/role.js";
 
 mongoose.Promise = Promise;
 // Où est stockée la base de données
-mongoose.connect("mongodb://" + config.db.host + "/" + config.db.name);
+mongoose.connect(config.db.connection);
 
 const app = express();
 
