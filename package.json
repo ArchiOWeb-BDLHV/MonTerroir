@@ -7,7 +7,7 @@
         "dev": "nodemon",
         "start": "node ./bin/start",
         "-": "node ./command.js",
-        "test": "cross-env DB_CONNECTION=mongodb://localhost/tesseve-test node --experimental-vm-modules node_modules/.bin/jest"
+        "test": "cross-env DB_CONNECTION=mongodb://localhost/tesseve-test node --experimental-vm-modules node_modules/.bin/jest --coverage"
     },
     "dependencies": {
         "bcrypt": "^5.1.0",
