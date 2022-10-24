@@ -18,7 +18,7 @@ export async function login(req, res) {
         }
 
         user.comparePassword(password, (err, isMatch) => {
-            if (err) {
+            if (!isMatch || err) {
                 return res.status(401).json({ error: 'Username or password incorrect' }); // si le mot de passe est incorrect, on renvoie une erreur
             } else {
                 const accessToken = generateAccessToken(user.toJSON()); // on génère un token
@@ -36,9 +36,10 @@ export async function register(req, res) {
         res.status(422).json({ message: 'Username and password are required' }); // si le username ou le password est manquant, on renvoie une erreur
     } else {
         const doesUserExist = await User.findOneByUsername(username); // on vérifie si l'utilisateur existe déjà
-        console.warn({ doesUserExist });
-        if (doesUserExist) {
-            res.status(401).json({ message: 'Username already taken' }); // si l'utilisateur existe déjà, on renvoie une erreur
+
+
+        if (doesUserExist != null) {
+            res.status(400).json({ message: 'Username already taken' }); // si l'utilisateur existe déjà, on renvoie une erreur
         } else {
             const user = new User({
                 username: req.body.username,

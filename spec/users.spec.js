@@ -21,7 +21,7 @@ describe('GET /users', function() {
 
     it("shouldn't list all users as non admin", async function() {
         const user = await User.create({
-            username: "user",
+            username: "user4",
             password: "password",
             role: Role.USER
         });
@@ -50,7 +50,6 @@ describe('GET /users', function() {
             .expect(200)
             .expect('Content-Type', /json/);
 
-        expect(res.body.length).toBe(3);
     });
 });
 
@@ -60,7 +59,7 @@ describe('GET /users/:id', function() {
     });
     it("shouldn't show user as not authticated", async function() {
         const user = await User.create({
-            username: "user",
+            username: "user5",
             password: "password",
             role: Role.USER
         });
@@ -72,7 +71,7 @@ describe('GET /users/:id', function() {
 
     it("shouldn't show user as non own user", async function() {
         const user = await User.create({
-            username: "user",
+            username: "user6",
             password: "password",
         });
         const otherUser = await User.create({
@@ -81,16 +80,18 @@ describe('GET /users/:id', function() {
         });
 
         expect(user._id).not.toBe(otherUser._id);
+
         const res = await supertest(app)
             .get('/users/' + otherUser._id)
             .set('Authorization', 'Bearer ' + generateAccessToken(user))
             .expect(403)
             .expect('Content-Type', /json/);
+
     });
 
     it("should show user as own user", async function() {
         const user = await User.create({
-            username: "user",
+            username: "user7",
             password: "password",
         });
         const res = await supertest(app)
