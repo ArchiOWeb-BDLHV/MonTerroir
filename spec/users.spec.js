@@ -10,7 +10,7 @@ import crypto from "crypto";
 
 describe('GET /users', function() {
     beforeEach(async function() {
-        cleanUpDatabase();
+        await cleanUpDatabase();
     });
     it("shouldn't list all users as not authticated", async function() {
         const res = await supertest(app)
@@ -55,7 +55,7 @@ describe('GET /users', function() {
 
 describe('GET /users/:id', function() {
     beforeEach(async function() {
-        cleanUpDatabase();
+        await cleanUpDatabase();
     });
     it("shouldn't show user as not authticated", async function() {
         const user = await User.create({

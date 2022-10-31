@@ -7,7 +7,7 @@ import crypto from "crypto";
 
 describe('POST /login', function() {
     beforeEach(async function() {
-        cleanUpDatabase();
+        await cleanUpDatabase();
     });
     it("shouldn't login as user doesn't exist", async function() {
         const res = await supertest(app)
@@ -48,7 +48,7 @@ describe('POST /login', function() {
 
 describe('POST /register', function() {
     beforeEach(async function() {
-        cleanUpDatabase();
+        await cleanUpDatabase();
     });
     it("should register as user", async function() {
         const username = crypto.randomBytes(20).toString('hex');
