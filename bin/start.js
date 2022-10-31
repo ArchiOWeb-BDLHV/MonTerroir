@@ -8,6 +8,8 @@ import app from "../app.js";
 import createDebugger from "debug";
 import http from "http";
 import config from "../config.js";
+import { createWebSocketServer } from '../ws.js';
+
 
 const debug = createDebugger('tesseve-api:server')
     /**
@@ -22,6 +24,8 @@ app.set("port", port);
  */
 
 const server = http.createServer(app);
+createWebSocketServer(server);
+
 
 /**
  * Listen on provided port, on all network interfaces.
