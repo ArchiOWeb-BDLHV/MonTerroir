@@ -4,8 +4,8 @@
     "private": true,
     "type": "module",
     "scripts": {
-        "dev": "nodemon",
-        "start": "node ./bin/start",
+        "dev": "DEBUG=express-api:* nodemon",
+        "start": "DEBUG=express-api:* node ./bin/start",
         "-": "node ./command.js",
         "test": "cross-env DB_CONNECTION=mongodb://localhost/tesseve-test node --experimental-vm-modules node_modules/.bin/jest --coverage --runInBand"
     },
