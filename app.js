@@ -1,6 +1,7 @@
 import createError from "http-errors";
 import express from "express";
 import logger from "morgan";
+import { WebSocketServer } from "ws";
 
 // Indique nos différentes routes URL
 import indexRouter from "./routes/index.js";
@@ -41,6 +42,22 @@ app.use("/products", authenticated, productsRouter);
 app.use("/messages", authenticated, messagesRouter);
 app.use("/reviews", authenticated, reviewsRouter);
 app.use("/categorys", authenticated, categorysRouter);
+
+
+
+const wss = new WebSocketServer({
+    port: 4000
+});
+wss.on('connection', function connection(ws) {
+    ws.on('message', function incoming(message) {
+        console.log('received: %s', message);
+        ws.send("You said : " + message);
+    });
+});
+
+
+
+
 
 // Catch 404 and forward to error handler
 app.use(function(req, res, next) {
