@@ -1,17 +1,37 @@
 import Conversation from "../../models/conversation.js";
+import User from "../../models/user.js";
 
 export class ConversationController {
     static async index(req, res, next) {
-        const conversations = await Conversation.find().sort('content');
+        const conversations = await Conversation.findMine(req.user);
         res.status(200).json(conversations);
     }
 
     static async store(req, res, next) {
-        const conversation = new Conversation({
-            content: req.body.content
-        });
-        const result = await conversation.save();
-        res.status(201).json(result);
+        try {
+            const users = [req.user._id, ...req.body.users || []];
+            console.log(users);
+            const conversation = new Conversation({
+                name: req.body.name,
+                users: users,
+            });
+            const result = await conversation.save();
+
+            users.forEach(async(userId) => {
+                const user = await User.findById(userId);
+                user.conversations.push(result._id);
+                await User.updateOne({ _id: userId }, user);
+            });
+
+            res.status(201).json(result);
+        } catch (e) {
+            if (e.name === 'ValidationError') {
+                const error = new Error(e.message);
+                error.status = 422;
+                next(error);
+            }
+
+        }
     }
 
     static async show(req, res, next) {

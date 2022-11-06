@@ -4,7 +4,7 @@ import logger from "morgan";
 
 // Indique nos différentes routes URL
 import authRouter from "./routes/auth.js";
-import categorysRouter from "./routes/categorys.js";
+import categoriesRouter from "./routes/categories.js";
 import conversationsRouter from "./routes/conversations.js";
 import indexRouter from "./routes/index.js";
 import messagesRouter from "./routes/messages.js";
@@ -40,7 +40,7 @@ app.use("/users", authenticated, usersRouter); // on chaine les middlewares pour
 app.use("/products", authenticated, productsRouter);
 app.use("/messages", authenticated, messagesRouter);
 app.use("/reviews", authenticated, reviewsRouter);
-app.use("/categorys", authenticated, categorysRouter);
+app.use("/categories", authenticated, categoriesRouter);
 app.use("/conversations", authenticated, conversationsRouter);
 
 // Catch 404 and forward to error handler

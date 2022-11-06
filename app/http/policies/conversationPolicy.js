@@ -1,6 +1,6 @@
 import { Role } from "../../models/role.js";
 
-export class UserPolicy {
+export class ConversationPolicy {
     static index(request, response, next) {
         if (request.user.is(Role.ADMIN)) {
             next();

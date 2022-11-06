@@ -1,18 +1,18 @@
 import express from "express";
-import { index, store, show, update, destroy } from "../app/http/controllers/MessageController.js";
+import { MessageController } from "../app/http/controllers/MessageController.js";
 import asyncRoute from "./asyncRoute.js";
 
 
 const router = express.Router();
 
-router.get("/", asyncRoute(index));
+router.get("/", asyncRoute(MessageController.index));
 
-router.post("/", asyncRoute(store));
+router.post("/", asyncRoute(MessageController.store));
 
-router.get("/:id", asyncRoute(show));
+router.get("/:id", asyncRoute(MessageController.show));
 
-router.put("/:id", asyncRoute(update));
+router.put("/:id", asyncRoute(MessageController.update));
 
-router.delete("/:id", asyncRoute(destroy));
+router.delete("/:id", asyncRoute(MessageController.destroy));
 
 export default router;

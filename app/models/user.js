@@ -1,5 +1,6 @@
-import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
+import crypto from "crypto";
+import mongoose from 'mongoose';
 
 const Schema = mongoose.Schema;
 const SALT_WORK_FACTOR = 10;
@@ -27,10 +28,23 @@ const userSchema = new Schema({
         // 2 = admin
     },
 
+    conversations: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Conversation"
+    }]
+
 });
 
 userSchema.statics.findOneByUsername = function(username) {
     return this.findOne({ username: username });
+};
+
+userSchema.statics.createFake = async function() {
+    const username = crypto.randomBytes(20).toString('hex');
+    return await this.create({
+        username: username,
+        password: 'test',
+    });
 };
 
 userSchema.pre('save', function(next) {

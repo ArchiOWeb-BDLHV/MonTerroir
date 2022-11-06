@@ -1,8 +1,8 @@
 import { Role } from "../../models/role.js";
 
-export class UserPolicy {
+export class MessagePolicy {
     static index(request, response, next) {
-        if (request.user.is(Role.ADMIN)) {
+        if (request.user.conversations.includes(request.params.convId)) {
             next();
         } else {
             const error = new Error("You are not authorized to access to this resource");
