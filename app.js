@@ -1,16 +1,16 @@
-import createError from "http-errors";
 import express from "express";
+import createError from "http-errors";
 import logger from "morgan";
 
 // Indique nos différentes routes URL
-import indexRouter from "./routes/index.js";
-import usersRouter from "./routes/users.js";
-import productsRouter from "./routes/products.js";
-import messagesRouter from "./routes/messages.js";
-import reviewsRouter from "./routes/reviews.js";
 import authRouter from "./routes/auth.js";
 import categorysRouter from "./routes/categorys.js";
-
+import conversationsRouter from "./routes/conversations.js";
+import indexRouter from "./routes/index.js";
+import messagesRouter from "./routes/messages.js";
+import productsRouter from "./routes/products.js";
+import reviewsRouter from "./routes/reviews.js";
+import usersRouter from "./routes/users.js";
 //Controllers
 import { authenticated } from "./app/http/middlewares/AuthMiddleware.js";
 
@@ -41,6 +41,7 @@ app.use("/products", authenticated, productsRouter);
 app.use("/messages", authenticated, messagesRouter);
 app.use("/reviews", authenticated, reviewsRouter);
 app.use("/categorys", authenticated, categorysRouter);
+app.use("/conversations", authenticated, conversationsRouter);
 
 // Catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -1,5 +1,8 @@
-import User from "../../models/user.js";
+import createDebugger from "debug";
 import { broadcastMessage } from "../../../ws.js";
+import User from "../../models/user.js";
+
+const debug = createDebugger('express-api:users')
 
 export class UserController {
 
