@@ -20,6 +20,7 @@ router.delete("/:id", asyncRoute(ConversationController.destroy));
 //message
 
 router.get("/:convId/messages", MessagePolicy.index, asyncRoute(MessageController.index));
+router.post("/:convId/messages", MessagePolicy.store, asyncRoute(MessageController.store));
 
 
 export default router;

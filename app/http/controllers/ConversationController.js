@@ -1,3 +1,4 @@
+import { sendMessageToSpecificUser } from "../../../ws.js";
 import Conversation from "../../models/conversation.js";
 import User from "../../models/user.js";
 
@@ -21,6 +22,9 @@ export class ConversationController {
                 const user = await User.findById(userId);
                 user.conversations.push(result._id);
                 await User.updateOne({ _id: userId }, user);
+                if (userId != req.user._id) {
+                    sendMessageToSpecificUser("Nouvelle conversation " + result.name, userId);
+                }
             });
 
             res.status(201).json(result);

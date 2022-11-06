@@ -12,7 +12,13 @@ export class MessagePolicy {
     }
 
     static store(request, response, next) {
-        next();
+        if (request.user.conversations.includes(request.params.convId)) {
+            next();
+        } else {
+            const error = new Error("You are not authorized to access to this resource");
+            error.status = 403;
+            next(error);
+        }
     }
 
     static show(request, response, next) {

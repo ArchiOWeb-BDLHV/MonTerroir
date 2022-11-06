@@ -73,6 +73,29 @@ describe('GET /conversations/id/messages', function() {
             .expect('Content-Type', /json/);
     });
 
+    it("should create a message in a conversation", async function() {
+        const user = await User.createFake();
+
+        const resConv = await supertest(app)
+            .post('/conversations/')
+            .set('Authorization', 'Bearer ' + generateAccessToken(user))
+            .send({
+                name: 'test',
+                users: [],
+            })
+            .expect(201)
+            .expect('Content-Type', /json/);
+
+        const res = await supertest(app)
+            .post('/conversations/' + resConv.body._id + '/messages')
+            .set('Authorization', 'Bearer ' + generateAccessToken(user))
+            .send({
+                content: 'test',
+            })
+            .expect(201)
+            .expect('Content-Type', /json/);
+    });
+
 });
 
 

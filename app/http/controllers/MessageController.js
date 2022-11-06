@@ -1,20 +1,28 @@
+import { sendMessageToSpecificUser } from "../../../ws.js";
 import Conversation from "../../models/conversation.js";
 import Message from "../../models/message.js";
 
 export class MessageController {
     static async index(req, res, next) {
-        const conversations = await Conversation.findById(req.params.convId);
+        const conversations = await Conversation.findById(req.params.convId).populate('messages');
         res.json(conversations.messages);
-        /* const messages = await Message.find().sort('content');
-        res.status(200).json(messages); */
     }
 
     static async store(req, res, next) {
-        const message = new Message({
-            content: req.body.content
+        const conversation = await Conversation.findById(req.params.convId);
+        const message = await Message.create({
+            content: req.body.content,
+            conversation: req.params.convId,
         });
-        const result = await message.save();
-        res.status(201).json(result);
+        conversation.messages.push(message._id);
+        await Conversation.updateOne({ _id: req.params.convId }, conversation);
+
+        conversation.users.forEach(userId => {
+            if (userId != req.user._id) {
+                sendMessageToSpecificUser("Nouveau message dans la conversation " + conversation.name, userId, "reload_messages");
+            }
+        });
+        res.status(201).json(message);
     }
 
     static async show(req, res, next) {

@@ -17,6 +17,12 @@ export function createWebSocketServer(httpServer) {
         debug('New WebSocket client connected');
 
         const user = await tokenToUser(req);
+        if (!user) {
+            debug('User not authenticated');
+            ws.send('User not authenticated');
+            ws.close();
+            return;
+        }
 
         debug(`User ${user._id} connected`);
 
@@ -53,21 +59,25 @@ export function broadcastMessage(message) {
     // You can easily iterate over the "clients" array to send a message to all
     // connected clients.
 
+    debug(`Clients : ${JSON.stringify(clients)}`);
+
     clients.forEach((client) => {
         client.send(JSON.stringify(message));
     });
 }
 
-export function sendMessageToClient(message, clientID) {
-    debug(
-        `Sending message to client ${client.id}: ${JSON.stringify(message)}`
-    );
+export function sendMessageToSpecificUser(message, clientID, command) {
     // Find the client with the given ID.
-    const client = clients.find((client) => client.id === clientID);
+    const client = clients.find((client) => client.id.equals(clientID));
 
     if (client) {
         // Send the message to the client.
-        client.socket.send(JSON.stringify(message));
+        debug(`Sending message to client ${clientID}: ${JSON.stringify(message)}`);
+        client.socket.send(JSON.stringify({
+            message: message,
+            command: command
+
+        }));
     }
 }
 

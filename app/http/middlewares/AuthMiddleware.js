@@ -21,12 +21,15 @@ export function authenticated(req, res, next) { //authenticated est un middlewar
 
 export function tokenToUser(req) {
     const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1];
+    if (!authHeader) return null;
+
+    const token = authHeader.split(' ')[1];
+    if (!token) return null;
 
     return new Promise((resolve, reject) => {
-        Jwt.verify(token, config.jwt.secret, async(err, user) => {
+        Jwt.verify(token, config.jwt.secret, async(err, res) => {
             if (err) reject(err);
-            const _user = await User.findById(user._id)
+            const _user = await User.findById(res.id)
             resolve(_user);
         })
     })
