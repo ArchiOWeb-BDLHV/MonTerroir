@@ -66,7 +66,7 @@ export function broadcastMessage(message) {
     });
 }
 
-export function sendMessageToSpecificUser(message, clientID, command) {
+export function sendMessageToSpecificUser(message, clientID, code) {
     // Find the client with the given ID.
     const client = clients.find((client) => client.id.equals(clientID));
 
@@ -75,7 +75,7 @@ export function sendMessageToSpecificUser(message, clientID, command) {
         debug(`Sending message to client ${clientID}: ${JSON.stringify(message)}`);
         client.socket.send(JSON.stringify({
             message: message,
-            command: command
+            code: code
 
         }));
     }

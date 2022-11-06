@@ -19,7 +19,7 @@ export class MessageController {
 
         conversation.users.forEach(userId => {
             if (userId != req.user._id) {
-                sendMessageToSpecificUser("Nouveau message dans la conversation " + conversation.name, userId, "reload_messages");
+                sendMessageToSpecificUser("Nouveau message dans la conversation " + conversation.name, userId, "NEW_MESSAGE");
             }
         });
         res.status(201).json(message);

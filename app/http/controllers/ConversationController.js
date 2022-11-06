@@ -23,7 +23,7 @@ export class ConversationController {
                 user.conversations.push(result._id);
                 await User.updateOne({ _id: userId }, user);
                 if (userId != req.user._id) {
-                    sendMessageToSpecificUser("Nouvelle conversation " + result.name, userId);
+                    sendMessageToSpecificUser("Nouvelle conversation " + result.name, userId, "NEW_CONVERSATION");
                 }
             });
 
