@@ -1,9 +1,9 @@
+import Jwt from "jsonwebtoken";
 import config from "../../../config.js";
 import User from "../../models/user.js";
-import Jwt from "jsonwebtoken";
 
 export function generateAccessToken(user) {
-    return Jwt.sign({ username: user.username }, config.jwt.secret, { expiresIn: config.jwt.expiresIn }); // Generation du token d'authentification
+    return Jwt.sign({ id: user._id }, config.jwt.secret, { expiresIn: config.jwt.expiresIn }); // Generation du token d'authentification
 }
 
 export async function login(req, res) {

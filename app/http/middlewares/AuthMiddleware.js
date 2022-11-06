@@ -1,4 +1,3 @@
-import debug from "debug";
 import Jwt from "jsonwebtoken";
 import config from "../../../config.js";
 import User from "../../models/user.js";
@@ -11,7 +10,7 @@ export function authenticated(req, res, next) { //authenticated est un middlewar
 
     Jwt.verify(token, config.jwt.secret, async(err, user) => {
         if (err) return res.status(403).json({ message: "Forbidden. Invalid token." }); // si le token est invalide, on renvoie une erreur
-        const _user = await User.findOneByUsername(user.username) // on ajoute l'utilisateur à la requête
+        const _user = await User.findById(user.id) // on ajoute l'utilisateur à la requête
         req.user = _user;
         next() // on passe à la suite
     })
@@ -24,7 +23,7 @@ export function tokenToUser(req) {
     return new Promise((resolve, reject) => {
         Jwt.verify(token, config.jwt.secret, async(err, user) => {
             if (err) reject(err);
-            const _user = await User.findOneByUsername(user.username)
+            const _user = await User.findById(user._id)
             resolve(_user);
         })
     })
