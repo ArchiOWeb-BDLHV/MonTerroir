@@ -1,6 +1,6 @@
 ## Request
 
-`GET /conversations/:id/messages`
+`GET /conversations/`
 
 ## Responses
 
@@ -10,9 +10,9 @@
 [
   {
     "_id": "123456",
-    "content": "message",
-    "conversation": "2345678",
-    "date": "2022-11-07T07:47:42.309Z",
+    "name": "test",
+    "users": ["987654321"],
+    "messages": [],
     "__v": 0
   }
 ]

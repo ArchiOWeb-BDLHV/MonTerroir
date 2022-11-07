@@ -9,20 +9,28 @@ export class MessageController {
     }
 
     static async store(req, res, next) {
-        const conversation = await Conversation.findById(req.params.convId);
-        const message = await Message.create({
-            content: req.body.content,
-            conversation: req.params.convId,
-        });
-        conversation.messages.push(message._id);
-        await Conversation.updateOne({ _id: req.params.convId }, conversation);
+        try {
+            const conversation = await Conversation.findById(req.params.convId);
+            const message = await Message.create({
+                content: req.body.content,
+                conversation: req.params.convId,
+            });
+            conversation.messages.push(message._id);
+            await Conversation.updateOne({ _id: req.params.convId }, conversation);
 
-        conversation.users.forEach(userId => {
-            if (userId != req.user._id) {
-                sendMessageToSpecificUser("Nouveau message dans la conversation " + conversation.name, userId, "NEW_MESSAGE");
+            conversation.users.forEach(userId => {
+                if (userId != req.user._id) {
+                    sendMessageToSpecificUser("Nouveau message dans la conversation " + conversation.name, userId, "NEW_MESSAGE");
+                }
+            });
+            res.status(201).json(message);
+        } catch (err) {
+            if (err.name === 'ValidationError') {
+                const error = new Error(err.message);
+                error.status = 422;
+                next(error);
             }
-        });
-        res.status(201).json(message);
+        }
     }
 
     static async show(req, res, next) {
