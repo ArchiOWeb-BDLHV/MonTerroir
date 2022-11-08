@@ -4,8 +4,23 @@ import Message from "../../models/message.js";
 
 export class MessageController {
     static async index(req, res, next) {
-        const conversations = await Conversation.findById(req.params.convId).populate('messages');
-        res.json(conversations.messages);
+
+        //paginate messages by 50
+        const page = parseInt(req.query.page) || 1;
+        const perPage = parseInt(req.query.perPage) || 50;
+        const skip = (page - 1) * perPage;
+
+        const messages = await Message.where(req.params.convId).in('conversations')
+
+        .sort({ createdAt: -1 })
+            .skip(skip)
+            .limit(perPage);
+
+        res.json({
+            data: messages,
+            page,
+            perPage,
+        });
     }
 
     static async store(req, res, next) {
