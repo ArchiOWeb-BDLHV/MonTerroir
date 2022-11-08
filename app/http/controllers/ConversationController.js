@@ -11,7 +11,6 @@ export class ConversationController {
     static async store(req, res, next) {
         try {
             const users = [req.user._id, ...req.body.users || []];
-            console.log(users);
             const conversation = new Conversation({
                 name: req.body.name,
                 users: users,

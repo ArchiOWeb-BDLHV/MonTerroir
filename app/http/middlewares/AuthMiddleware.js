@@ -12,14 +12,15 @@ export function authenticated(req, res, next) { //authenticated est un middlewar
     if (token == null) return res.status(401).json({ message: "Unauthorized. Please login." }); // si le token est null, on renvoie une erreur
 
     Jwt.verify(token, config.jwt.secret, async(err, res) => {
-        if (err) {
-            const error = new Error("Forbidden. Invalid token.");
-            error.status = 403;
-            next(error);
-        } // si le token est invalide, on renvoie une erreur
-        const _user = await User.findById(res.id) // on ajoute l'utilisateur à la requête
-        req.user = _user;
-        next() // on passe à la suite
+        if (!err) {
+            const _user = await User.findById(res.id) // on ajoute l'utilisateur à la requête
+            req.user = _user;
+            return next() // on passe à la suite
+
+        }
+        const error = new Error("Forbidden. Invalid token.");
+        error.status = 403;
+        next(error); // si le token est invalide, on renvoie une erreur
     })
 }
 

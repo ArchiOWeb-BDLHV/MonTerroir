@@ -7,7 +7,8 @@
         "dev": "DEBUG=express-api:* nodemon",
         "start": "DEBUG=express-api:* node ./bin/start",
         "-": "node ./command.js",
-        "test": "cross-env DB_CONNECTION=mongodb://localhost/tesseve-test DEBUG=express-api:* node --experimental-vm-modules node_modules/.bin/jest --coverage --runInBand"
+        "test-debug": "cross-env DB_CONNECTION=mongodb://localhost/tesseve-test DEBUG=express-api:* node --experimental-vm-modules node_modules/.bin/jest --coverage --runInBand",
+        "test": "cross-env DB_CONNECTION=mongodb://localhost/tesseve-test node --experimental-vm-modules node_modules/.bin/jest --coverage --runInBand"
     },
     "dependencies": {
         "bcrypt": "^5.1.0",

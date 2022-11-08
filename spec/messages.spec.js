@@ -64,8 +64,6 @@ describe('GET /conversations/id/messages', function() {
 
         user2 = await User.findById(user2._id);
 
-        console.log(user2);
-
         const res = await supertest(app)
             .get('/conversations/' + resConv.body._id + '/messages')
             .set('Authorization', 'Bearer ' + generateAccessToken(user2))
@@ -93,6 +91,30 @@ describe('GET /conversations/id/messages', function() {
                 content: 'test',
             })
             .expect(201)
+            .expect('Content-Type', /json/);
+    });
+
+    it("shouldn't create a message in a conversation as the conversation is not own", async function() {
+        const user = await User.createFake();
+        const user2 = await User.createFake();
+
+        const resConv = await supertest(app)
+            .post('/conversations/')
+            .set('Authorization', 'Bearer ' + generateAccessToken(user))
+            .send({
+                name: 'test',
+                users: [],
+            })
+            .expect(201)
+            .expect('Content-Type', /json/);
+
+        const res = await supertest(app)
+            .post('/conversations/' + resConv.body._id + '/messages')
+            .set('Authorization', 'Bearer ' + generateAccessToken(user2))
+            .send({
+                content: 'test',
+            })
+            .expect(403)
             .expect('Content-Type', /json/);
     });
 

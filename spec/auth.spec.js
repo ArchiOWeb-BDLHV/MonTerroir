@@ -42,7 +42,6 @@ describe('POST /login', function() {
             .send({ username: username, password: "password" })
             .expect(200)
             .expect('Content-Type', /json/);
-
     });
 });
 
@@ -92,6 +91,20 @@ describe('POST /register', function() {
             .expect('Content-Type', /json/);
     });
 
+});
+
+describe('Test auth logic', function() {
+    beforeEach(async function() {
+        await cleanUpDatabase();
+    });
+    it("shouldn't login as the token is invalid", async function() {
+        const res = await supertest(app)
+            .get('/users')
+            .set('Authorization', 'Bearer ' + "invalidtoken")
+            .expect(403)
+            .expect('Content-Type', /json/);
+
+    });
 });
 
 afterAll(async function() {
