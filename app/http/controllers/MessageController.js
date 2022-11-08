@@ -27,10 +27,10 @@ export class MessageController {
             const conversation = await Conversation.findById(req.params.convId);
             const message = await Message.create({
                 content: req.body.content,
-                conversation: req.params.convId,
+                conversation: conversation._id,
             });
             conversation.messages.push(message._id);
-            await Conversation.updateOne({ _id: req.params.convId }, conversation);
+            await Conversation.updateOne({ _id: conversation._id }, conversation);
 
             conversation.users.forEach(userId => {
                 if (userId != req.user._id) {
