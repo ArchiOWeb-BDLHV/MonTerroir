@@ -4,6 +4,7 @@
     "image": "app.png",
     "html": {
         "auto_landing": false,
-        "auto_toc": true
+        "auto_toc": true,
+        "theme": "daux-green"
     }
 }
