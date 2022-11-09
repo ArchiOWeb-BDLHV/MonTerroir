@@ -9,7 +9,8 @@
         "-": "node ./command.js",
         "test-debug": "cross-env DB_CONNECTION=mongodb://localhost/tesseve-test DEBUG=express-api:* node --experimental-vm-modules node_modules/.bin/jest --coverage --runInBand",
         "test": "cross-env DB_CONNECTION=mongodb://localhost/tesseve-test node --experimental-vm-modules node_modules/.bin/jest --coverage --runInBand",
-        "doc": "daux generate --source=documentation --destination=docs"
+        "doc": "daux generate --source=documentation --destination=docs",
+        "prod": "node ./bin/start"
     },
     "dependencies": {
         "bcrypt": "^5.1.0",
