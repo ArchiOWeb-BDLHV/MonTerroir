@@ -1,6 +1,6 @@
 ## Request
 
-`POST /conversations/:id/messages`
+`POST /api/conversations/:id/messages`
 
 ## Body
 

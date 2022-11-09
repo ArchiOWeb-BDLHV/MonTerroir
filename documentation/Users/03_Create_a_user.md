@@ -1,6 +1,6 @@
 ## Request
 
-`POST /users/`
+`POST /api/users/`
 
 ## Body
 

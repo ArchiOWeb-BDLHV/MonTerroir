@@ -33,15 +33,17 @@ app.use(express.urlencoded({ extended: false }));
 //check if user is authenticated
 
 // Indique nos différentes routes URL
-app.use("/", indexRouter);
-app.use("/auth", authRouter);
+//app.use("/", indexRouter);
+app.use(express.static('docs'));
 
-app.use("/users", authenticated, usersRouter); // on chaine les middlewares pour vérifier si l'utilisateur est authentifié
-app.use("/products", authenticated, productsRouter);
-app.use("/messages", authenticated, messagesRouter);
-app.use("/reviews", authenticated, reviewsRouter);
-app.use("/categories", authenticated, categoriesRouter);
-app.use("/conversations", authenticated, conversationsRouter);
+app.use("/api/auth", authRouter);
+
+app.use("/api/users", authenticated, usersRouter); // on chaine les middlewares pour vérifier si l'utilisateur est authentifié
+app.use("/api/products", authenticated, productsRouter);
+app.use("/api/messages", authenticated, messagesRouter);
+app.use("/api/reviews", authenticated, reviewsRouter);
+app.use("/api/categories", authenticated, categoriesRouter);
+app.use("/api/conversations", authenticated, conversationsRouter);
 
 // Catch 404 and forward to error handler
 app.use(function(req, res, next) {

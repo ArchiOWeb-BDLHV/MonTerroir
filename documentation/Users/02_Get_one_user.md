@@ -1,6 +1,6 @@
 ## Request
 
-`GET /users/:id`
+`GET /api/users/:id`
 
 ## Response
 

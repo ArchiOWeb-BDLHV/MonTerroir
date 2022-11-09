@@ -1,6 +1,6 @@
 ## Request
 
-`GET /products/`
+`GET /api/products/`
 
 ## Responses
 

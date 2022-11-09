@@ -1,6 +1,6 @@
 ## Request
 
-`PUT /users/:id`
+`PUT /api/users/:id`
 
 ## Body
 

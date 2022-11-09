@@ -1,6 +1,6 @@
 ## Request
 
-`GET /conversations/`
+`GET /api/conversations/`
 
 ## Responses
 

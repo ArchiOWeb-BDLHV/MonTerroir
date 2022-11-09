@@ -1,6 +1,6 @@
 ## Request
 
-`DELETE /users/:id`
+`DELETE /api/users/:id`
 
 ## Responses
 

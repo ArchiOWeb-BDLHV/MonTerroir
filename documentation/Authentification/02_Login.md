@@ -1,6 +1,6 @@
 ## Request
 
-`POST /auth/login`
+`POST /api/auth/login`
 
 ## Body
 

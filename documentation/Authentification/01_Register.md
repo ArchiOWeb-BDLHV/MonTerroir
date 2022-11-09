@@ -1,6 +1,6 @@
 ## Request
 
-`POST /auth/register`
+`POST /api/auth/register`
 
 ## Body
 
