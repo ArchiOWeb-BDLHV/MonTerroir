@@ -49,7 +49,7 @@ export class MessageController {
             await Conversation.updateOne({ _id: conversation._id }, conversation);
 
             conversation.users.forEach(userId => {
-                if (userId != req.user._id) {
+                if (!userId.equals(req.user._id)) {
                     sendMessageToSpecificUser({
                         "data": {
                             "message": message.content,
