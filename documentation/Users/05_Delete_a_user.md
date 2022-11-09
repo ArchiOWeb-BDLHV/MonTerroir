@@ -7,7 +7,9 @@
 > `204` : No content
 
 ```json
-  {},
+  {
+
+  },
 ```
 
 ## Errors
