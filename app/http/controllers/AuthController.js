@@ -45,6 +45,7 @@ export async function register(req, res) {
                 username: req.body.username,
                 password: req.body.password,
             });
+
             user.save(); // on sauvegarde l'utilisateur
 
             const accessToken = generateAccessToken(user.toJSON()); // on génère un token
