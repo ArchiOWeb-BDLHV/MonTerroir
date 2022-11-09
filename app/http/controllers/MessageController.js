@@ -53,8 +53,8 @@ export class MessageController {
                         "data": {
                             "message": message.content,
                             "conversation": {
-                                "id": message.conversation._id,
-                                "name": message.conversation.name,
+                                "id": conversation._id,
+                                "name": conversation.name,
                             },
                             "sender": {
                                 "id": req.user._id,
