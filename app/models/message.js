@@ -22,6 +22,11 @@ const messageSchema = new Schema({
         ref: 'Conversation',
         required: true
     },
+    sender: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    },
 });
 
 // Create the model from the schema and export it

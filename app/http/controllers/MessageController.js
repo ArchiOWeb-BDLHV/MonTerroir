@@ -13,10 +13,24 @@ export class MessageController {
         const messages = await Message.where(req.params.convId).in('conversations')
             .sort({ "date": -1 })
             .skip(skip)
-            .limit(perPage);
+            .limit(perPage)
+            .populate('sender')
+            .populate('conversation');
 
         res.json({
-            data: messages,
+            data: messages.map(message => {
+                return {
+                    "message": message.content,
+                    "conversation": {
+                        "id": message.conversation._id,
+                        "name": message.conversation.name,
+                    },
+                    "sender": {
+                        "id": message.sender._id,
+                        "username": message.sender.username
+                    },
+                }
+            }),
             page,
             perPage,
         });
@@ -28,13 +42,26 @@ export class MessageController {
             const message = await Message.create({
                 content: req.body.content,
                 conversation: conversation._id,
+                sender: req.user._id,
             });
             conversation.messages.push(message._id);
             await Conversation.updateOne({ _id: conversation._id }, conversation);
 
             conversation.users.forEach(userId => {
                 if (userId != req.user._id) {
-                    sendMessageToSpecificUser(message.content, userId, "NEW_MESSAGE");
+                    sendMessageToSpecificUser({
+                        "data": {
+                            "message": message.content,
+                            "conversation": {
+                                "id": message.conversation._id,
+                                "name": message.conversation.name,
+                            },
+                            "sender": {
+                                "id": req.user._id,
+                                "username": req.user.username
+                            },
+                        },
+                    }, userId, "NEW_MESSAGE");
                 }
             });
             res.status(201).json(message);
