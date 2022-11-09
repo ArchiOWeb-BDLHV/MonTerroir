@@ -6,5 +6,9 @@
         "auto_landing": false,
         "auto_toc": true,
         "theme": "daux-green"
+    },
+    "languages": {
+        "en": "English",
+        "fr": "Français"
     }
 }
