@@ -1,6 +1,6 @@
 import express from "express";
 import { UserController } from "../app/http/controllers/UserController.js";
-import { UserPolicy } from "../app/http/policies/UserPolicy.js";
+import { UserPolicy } from "../app/http/policies/userPolicy.js";
 import asyncRoute from "./asyncRoute.js";
 
 const router = express.Router();
