@@ -29,6 +29,7 @@ export class MessageController {
                         "id": message.sender._id,
                         "username": message.sender.username
                     },
+                    "date": message.date
                 }
             }),
             page,
@@ -60,6 +61,7 @@ export class MessageController {
                                 "id": req.user._id,
                                 "username": req.user.username
                             },
+                            "date": message.date
                         },
                     }, userId, "NEW_MESSAGE");
                 }
