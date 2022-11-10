@@ -33,6 +33,10 @@ const userSchema = new Schema({
         ref: "Conversation"
     }]
 
+}, {
+    timestamps: true,
+    collection: "users",
+    discriminatorKey: 'users'
 });
 
 userSchema.statics.findOneByUsername = function(username) {

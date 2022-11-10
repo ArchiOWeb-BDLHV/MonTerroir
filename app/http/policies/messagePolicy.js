@@ -22,7 +22,7 @@ export class MessagePolicy {
     }
 
     static show(request, response, next) {
-        if (request.user._id == request.params.id || request.user.is(Role.ADMIN)) {
+        if (request.user.conversations.includes(request.params.convId)) {
             next();
         } else {
             const error = new Error("You are not authorized to access to this resource");
@@ -32,10 +32,10 @@ export class MessagePolicy {
     }
 
     static update(request, response, next) {
-        next();
+        next("Not implemented");
     }
 
     static destroy(request, response, next) {
-        next();
+        next("Not implemented");
     }
 }

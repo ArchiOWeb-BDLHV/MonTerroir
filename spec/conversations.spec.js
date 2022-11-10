@@ -12,7 +12,7 @@ describe('GET /conversations', function() {
     });
     it("shouldn't list all conversations as not authenticated", async function() {
         const res = await supertest(app)
-            .get('/conversations')
+            .get('/api/conversations')
             .expect(401)
             .expect('Content-Type', /json/);
     });
@@ -21,7 +21,7 @@ describe('GET /conversations', function() {
         const user = await User.createFake();
 
         const res = await supertest(app)
-            .get('/conversations')
+            .get('/api/conversations')
             .set('Authorization', 'Bearer ' + generateAccessToken(user))
             .expect(200)
             .expect('Content-Type', /json/);
@@ -31,7 +31,7 @@ describe('GET /conversations', function() {
         const user = await User.createFake();
 
         const res = await supertest(app)
-            .post('/conversations')
+            .post('/api/conversations')
             .set('Authorization', 'Bearer ' + generateAccessToken(user))
             .send({
                 name: 'test',
@@ -46,7 +46,7 @@ describe('GET /conversations', function() {
         const user = await User.createFake();
 
         const res = await supertest(app)
-            .post('/conversations')
+            .post('/api/conversations')
             .set('Authorization', 'Bearer ' + generateAccessToken(user))
             .send({
                 users: [user._id],

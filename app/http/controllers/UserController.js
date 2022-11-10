@@ -8,7 +8,6 @@ export class UserController {
 
     static async index(req, res, next) {
         const users = await User.find().sort('name');
-        broadcastMessage("Get All Users");
         res.status(200).json(users);
     }
 

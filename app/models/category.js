@@ -13,6 +13,12 @@ const categorySchema = new Schema({
         `${props.value} is not a valid name! Name must be between 3 and 70 characters.`,
     },
   },
+  products: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Product",
+    },
+  ],
 });
 
 categorySchema.statics.findByName = function (name) {
