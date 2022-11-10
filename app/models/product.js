@@ -44,6 +44,16 @@ const productSchema = new Schema({
       ref: "Image",
     },
   ],
+  productor: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+  },
+  reviews: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Review",
+    },
+  ],
 });
 
 productSchema.statics.findByName = function (name) {
