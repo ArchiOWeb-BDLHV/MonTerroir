@@ -7,12 +7,13 @@ import {
     destroy,
 } from "../app/http/controllers/ProductController.js";
 import asyncRoute from "./asyncRoute.js";
+import fileUpload from "express-fileupload";
 
 const router = express.Router();
 
 router.get("/", asyncRoute(index));
 
-router.post("/", asyncRoute(store));
+router.post("/", fileUpload, asyncRoute(store));
 
 router.get("/:id", asyncRoute(show));
 
