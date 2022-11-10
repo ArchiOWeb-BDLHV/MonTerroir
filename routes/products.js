@@ -30,9 +30,9 @@ router.get("/:id", ProductPolicy.show, asyncRoute(ProductController.show));
 router.put("/:id", ProductPolicy.update, asyncRoute(ProductController.update));
 
 router.delete(
-  "/:id",
-  ProductPolicy.destroy,
-  asyncRoute(ProductController.destroy)
+    "/:id",
+    ProductPolicy.destroy,
+    asyncRoute(ProductController.destroy)
 );
 
 export default router;

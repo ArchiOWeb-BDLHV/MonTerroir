@@ -11,7 +11,7 @@ describe('POST /login', function() {
     });
     it("shouldn't login as user doesn't exist", async function() {
         const res = await supertest(app)
-            .post('/auth/login')
+            .post('/api/auth/login')
             .send({ username: "user", password: "password" })
             .expect(401)
             .expect('Content-Type', /json/);
@@ -24,7 +24,7 @@ describe('POST /login', function() {
             password: "password"
         });
         const res = await supertest(app)
-            .post('/auth/login')
+            .post('/api/auth/login')
             .send({ username: username, password: "wrongpassword" })
             .expect(401)
             .expect('Content-Type', /json/);
@@ -38,7 +38,7 @@ describe('POST /login', function() {
             password: "password"
         });
         const res = await supertest(app)
-            .post('/auth/login')
+            .post('/api/auth/login')
             .send({ username: username, password: "password" })
             .expect(200)
             .expect('Content-Type', /json/);
@@ -53,7 +53,7 @@ describe('POST /register', function() {
         const username = crypto.randomBytes(20).toString('hex');
 
         const res = await supertest(app)
-            .post('/auth/register')
+            .post('/api/auth/register')
             .send({ username: username, password: "password" })
             .expect(200)
             .expect('Content-Type', /json/);
@@ -67,7 +67,7 @@ describe('POST /register', function() {
             password: "password"
         });
         const res = await supertest(app)
-            .post('/auth/register')
+            .post('/api/auth/register')
             .send({ username: username, password: "password" })
             .expect(400)
             .expect('Content-Type', /json/);
@@ -75,7 +75,7 @@ describe('POST /register', function() {
 
     it("shouldn't register as username is missing", async function() {
         const res = await supertest(app)
-            .post('/auth/register')
+            .post('/api/auth/register')
             .send({ password: "password" })
             .expect(422)
             .expect('Content-Type', /json/);
@@ -85,7 +85,7 @@ describe('POST /register', function() {
         const username = crypto.randomBytes(20).toString('hex');
 
         const res = await supertest(app)
-            .post('/auth/register')
+            .post('/api/auth/register')
             .send({ username: username })
             .expect(422)
             .expect('Content-Type', /json/);
@@ -99,7 +99,7 @@ describe('Test auth logic', function() {
     });
     it("shouldn't login as the token is invalid", async function() {
         const res = await supertest(app)
-            .get('/users')
+            .get('/api/users')
             .set('Authorization', 'Bearer ' + "invalidtoken")
             .expect(403)
             .expect('Content-Type', /json/);
