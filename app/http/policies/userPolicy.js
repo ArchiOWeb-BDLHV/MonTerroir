@@ -16,7 +16,7 @@ export class UserPolicy {
     }
 
     static show(request, response, next) {
-        if (request.user._id == request.params.id || request.user.is(Role.ADMIN)) {
+        if (request.user._id.equals(request.params.id) || request.user.is(Role.ADMIN)) {
             next();
         } else {
             const error = new Error("You are not authorized to access to this resource");
