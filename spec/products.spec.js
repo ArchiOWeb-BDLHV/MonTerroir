@@ -140,6 +140,65 @@ describe('GET /products', function() {
 
     });
 
+    it("shouldn't delete a product by id as authenticated but not productor", async function() {
+
+        const user = await User.createFake();
+
+        const product = await supertest(app)
+            .post('/api/products')
+            .set('Authorization', 'Bearer ' + generateAccessToken(user))
+            .send({
+                "name": "test",
+                "description": "description",
+                "price": 2,
+                "category": "category"
+            })
+            .expect(403)
+            .expect('Content-Type', /json/);
+    });
+
+    it("shouldn't update a product by id as authenticated but not productor", async function() {
+
+        const user = await User.createFake();
+
+        const product = await supertest(app)
+            .post('/api/products')
+            .set('Authorization', 'Bearer ' + generateAccessToken(user))
+            .send({
+                "name": "test",
+                "description": "description",
+                "price": 2,
+                "category": "category"
+            })
+            .expect(403)
+            .expect('Content-Type', /json/);
+    });
+
+    it("shouldn't delete a product by id as authenticated but not productor", async function() {
+
+        const productor = await Productor.createFake();
+        const user = await User.createFake();
+
+        const product = await supertest(app)
+            .post('/api/products')
+            .set('Authorization', 'Bearer ' + generateAccessToken(productor))
+            .send({
+                "name": "test",
+                "description": "description",
+                "price": 2,
+                "category": "category"
+            })
+            .expect(201)
+            .expect('Content-Type', /json/);
+
+        const res = await supertest(app)
+            .delete('/api/products/' + product.body._id)
+            .set('Authorization', 'Bearer ' + generateAccessToken(user))
+            .expect(403)
+            .expect('Content-Type', /json/);
+
+    });
+
 
 });
 

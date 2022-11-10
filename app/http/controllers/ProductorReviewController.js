@@ -25,9 +25,17 @@ export class ProductorReviewController {
             author: req.user._id,
             productor: req.params.id
         });
-        const result = await review.save();
 
-        res.status(201).json(result);
+        try {
+            const result = await review.save();
+            res.status(201).json(result);
+        } catch (e) {
+            if (e.name === 'ValidationError') {
+                const error = new Error(e.message);
+                error.status = 422;
+                next(error);
+            }
+        }
     }
 
     static async show(req, res, next) {
@@ -37,12 +45,12 @@ export class ProductorReviewController {
     }
 
     static async update(req, res, next) {
-        const review = await Review.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true });
+        const review = await Review.findOneAndUpdate({ _id: req.params.reviewId }, req.body, { new: true });
         res.status(200).json(review);
     }
 
     static async destroy(req, res, next) {
-        const review = await Review.findOneAndDelete({ _id: req.params.id });
+        const review = await Review.findOneAndDelete({ _id: req.params.reviewId });
         res.status(204).json();
     }
 

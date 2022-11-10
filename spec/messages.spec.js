@@ -72,7 +72,6 @@ describe('GET /conversations/id/messages', function() {
     });
 
     it("should create a message in a conversation", async function() {
-        return;
         const user = await User.createFake();
 
         const resConv = await supertest(app)
