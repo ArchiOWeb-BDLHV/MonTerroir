@@ -67,8 +67,7 @@ describe('Test product review logic', function() {
         });
 
         const res = await supertest(app)
-
-        .put('/api/products/' + product._id + '/reviews/' + review._id)
+            .put('/api/products/' + product._id + '/reviews/' + review._id)
             .set('Authorization', 'Bearer ' + generateAccessToken(user))
             .send({
                 score: 5,

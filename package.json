@@ -8,7 +8,7 @@
         "start": "DEBUG=express-api:* node ./bin/start",
         "-": "node ./command.js",
         "test-debug": "cross-env DB_CONNECTION=mongodb://localhost/tesseve-test DEBUG=express-api:* node --experimental-vm-modules node_modules/.bin/jest --coverage --runInBand",
-        "test": "cross-env DB_CONNECTION=mongodb://localhost/tesseve-test node --experimental-vm-modules node_modules/.bin/jest --coverage --runInBand",
+        "test": "cross-env DB_CONNECTION=mongodb://localhost/tesseve-test NODE_ENV=test node --experimental-vm-modules node_modules/.bin/jest --coverage --runInBand",
         "doc": "daux generate --source=documentation --destination=docs",
         "prod": "node ./bin/start"
     },

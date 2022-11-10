@@ -3,6 +3,7 @@ import { broadcastMessage } from "../../../ws.js";
 import Review from "../../models/review.js";
 import Productor from "../../models/productor.js";
 import mongoose from "mongoose";
+import { nonProcessable } from "../../../errors.js";
 
 const debug = createDebugger('express-api:reviews');
 
@@ -31,9 +32,7 @@ export class ProductorReviewController {
             res.status(201).json(result);
         } catch (e) {
             if (e.name === 'ValidationError') {
-                const error = new Error(e.message);
-                error.status = 422;
-                next(error);
+                nonProcessable(next, e);
             }
         }
     }

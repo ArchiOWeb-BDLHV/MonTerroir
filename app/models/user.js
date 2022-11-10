@@ -85,15 +85,6 @@ userSchema.methods.toJSON = function() {
     return obj;
 }
 
-userSchema.methods.displayPublic = function() {
-    var obj = this.toObject();
-    delete obj.password;
-    delete obj.__v;
-    delete obj.role;
-    delete obj.conversations;
-    return obj;
-}
-
 userSchema.methods.is = function(role) {
     return (this.role & role) ? true : false;
 }

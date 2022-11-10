@@ -13,7 +13,8 @@ export class UserController {
 
     static async store(req, res, next) {
         const user = new User({
-            username: req.body.username
+            username: req.body.username,
+            password: req.body.password,
         });
         const result = await user.save();
         res.status(201).json(result);

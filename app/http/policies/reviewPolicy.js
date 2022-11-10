@@ -1,4 +1,4 @@
-import { Role } from "../../models/role.js";
+import { nonProcessable } from "../../../errors.js";
 
 export class ReviewPolicy {
 
@@ -15,7 +15,11 @@ export class ReviewPolicy {
     }
 
     static update(request, response, next) {
-        next();
+        if (!request.body.author == (request.user._id)) {
+            nonProcessable(next);
+        } else {
+            next();
+        }
     }
 
     static destroy(request, response, next) {

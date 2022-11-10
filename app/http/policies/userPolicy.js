@@ -1,3 +1,4 @@
+import { unauthorized } from "../../../errors.js";
 import { Role } from "../../models/role.js";
 
 export class UserPolicy {
@@ -5,9 +6,7 @@ export class UserPolicy {
         if (request.user.is(Role.ADMIN)) {
             next();
         } else {
-            const error = new Error("You are not authorized to access to this resource");
-            error.status = 403;
-            next(error);
+            unauthorized(next);
         }
     }
 
@@ -15,9 +14,7 @@ export class UserPolicy {
         if (request.user.is(Role.ADMIN)) {
             next();
         } else {
-            const error = new Error("You are not authorized to access to this resource");
-            error.status = 403;
-            next(error);
+            unauthorized(next);
         }
     }
 
@@ -25,9 +22,7 @@ export class UserPolicy {
         if (request.user._id.equals(request.params.id) || request.user.is(Role.ADMIN)) {
             next();
         } else {
-            const error = new Error("You are not authorized to access to this resource");
-            error.status = 403;
-            next(error);
+            unauthorized(next);
         }
     }
 
@@ -35,9 +30,7 @@ export class UserPolicy {
         if (request.user._id == request.params.id || request.user.is(Role.ADMIN)) {
             next();
         } else {
-            const error = new Error("You are not authorized to access to this resource");
-            error.status = 403;
-            next(error);
+            unauthorized(next);
         }
     }
 
@@ -45,9 +38,7 @@ export class UserPolicy {
         if (request.user._id == request.params.id || request.user.is(Role.ADMIN)) {
             next();
         } else {
-            const error = new Error("You are not authorized to access to this resource");
-            error.status = 403;
-            next(error);
+            unauthorized(next);
         }
     }
 }

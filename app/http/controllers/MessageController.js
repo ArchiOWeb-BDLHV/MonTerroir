@@ -1,3 +1,4 @@
+import { nonProcessable } from "../../../errors.js";
 import { sendMessageToSpecificUser } from "../../../ws.js";
 import Conversation from "../../models/conversation.js";
 import Message from "../../models/message.js";
@@ -45,8 +46,6 @@ export class MessageController {
                 conversation: conversation._id,
                 sender: req.user._id,
             });
-            conversation.messages.push(message._id);
-            await Conversation.updateOne({ _id: conversation._id }, conversation);
 
             conversation.users.forEach(userId => {
                 if (!userId.equals(req.user._id)) {
@@ -69,9 +68,7 @@ export class MessageController {
             res.status(201).json(message);
         } catch (err) {
             if (err.name === 'ValidationError') {
-                const error = new Error(err.message);
-                error.status = 422;
-                next(error);
+                nonProcessable(next, err);
             }
         }
     }

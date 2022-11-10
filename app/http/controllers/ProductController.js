@@ -1,6 +1,7 @@
 import createDebugger from "debug";
 import Product from "../../models/product.js";
 import Image from "../../models/image.js";
+import { nonProcessable } from "../../../errors.js";
 
 const debug = createDebugger("express-api:product");
 
@@ -43,9 +44,7 @@ export class ProductController {
             res.status(201).json(result);
         } catch (e) {
             if (e.name === "ValidationError") {
-                const error = new Error(e.message);
-                error.status = 422;
-                next(error);
+                nonProcessable(next, e);
             }
         }
     }

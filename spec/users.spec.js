@@ -110,6 +110,79 @@ describe('GET /users/:id', function() {
             .expect(200)
             .expect('Content-Type', /json/);
     });
+
+    it("should create user as admin", async function() {
+        const username = crypto.randomBytes(20).toString('hex');
+        const usernameAdmin = crypto.randomBytes(20).toString('hex');
+
+        const user = await User.create({
+            username: usernameAdmin,
+            password: "password",
+            role: Role.ADMIN
+        });
+
+        const res = await supertest(app)
+            .post('/api/users')
+            .set('Authorization', 'Bearer ' + generateAccessToken(user))
+            .send({ username: username, password: "password", role: Role.USER })
+            .expect(201)
+            .expect('Content-Type', /json/);
+    });
+
+    it("shouldn't create user as non admin", async function() {
+
+        const user = await User.createFake();
+
+        const res = await supertest(app)
+            .post('/api/users')
+            .set('Authorization', 'Bearer ' + generateAccessToken(user))
+            .send({ username: crypto.randomBytes(20).toString('hex'), password: "password", role: Role.USER })
+            .expect(403)
+            .expect('Content-Type', /json/);
+    });
+
+    it("shouldn't update user as not own", async function() {
+
+        const user = await User.createFake();
+        const otherUser = await User.createFake();
+
+        const res = await supertest(app)
+            .put('/api/users/' + otherUser._id)
+            .set('Authorization', 'Bearer ' + generateAccessToken(user))
+            .send({ username: crypto.randomBytes(20).toString('hex'), password: "password", role: Role.USER })
+            .expect(403)
+            .expect('Content-Type', /json/);
+    });
+
+    it("should delete user as admin", async function() {
+
+        const user = await User.create({
+            username: crypto.randomBytes(20).toString('hex'),
+            password: "password",
+            role: Role.ADMIN
+        });
+
+        const otherUser = await User.createFake();
+
+        const res = await supertest(app)
+            .delete('/api/users/' + otherUser._id)
+            .set('Authorization', 'Bearer ' + generateAccessToken(user))
+            .expect(204)
+    });
+
+    it("shouldn't delete user as non admin", async function() {
+
+        const user = await User.createFake();
+
+        const otherUser = await User.createFake();
+
+        const res = await supertest(app)
+            .delete('/api/users/' + otherUser._id)
+            .set('Authorization', 'Bearer ' + generateAccessToken(user))
+            .expect(403)
+            .expect('Content-Type', /json/);
+    });
+
 });
 
 

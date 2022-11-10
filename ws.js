@@ -67,6 +67,12 @@ export function broadcastMessage(message) {
 }
 
 export function sendMessageToSpecificUser(message, clientID, code) {
+
+    // return if in test
+    if (process.env.NODE_ENV === 'test') {
+        return;
+    }
+
     // Find the client with the given ID.
     const client = clients.find((client) => client.id.equals(clientID));
 

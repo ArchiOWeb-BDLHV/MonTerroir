@@ -1,4 +1,5 @@
 import createDebugger from "debug";
+import { nonProcessable } from "../../../errors.js";
 import Review from "../../models/review.js";
 
 const debug = createDebugger('express-api:reviews');
@@ -24,9 +25,7 @@ export class ProductReviewController {
             res.status(201).json(result);
         } catch (e) {
             if (e.name === 'ValidationError') {
-                const error = new Error(e.message);
-                error.status = 422;
-                next(error);
+                nonProcessable(next, e);
             }
         }
     }

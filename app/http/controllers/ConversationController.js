@@ -1,3 +1,4 @@
+import { nonProcessable } from "../../../errors.js";
 import { sendMessageToSpecificUser } from "../../../ws.js";
 import Conversation from "../../models/conversation.js";
 import User from "../../models/user.js";
@@ -28,9 +29,7 @@ export class ConversationController {
             res.status(201).json(result);
         } catch (e) {
             if (e.name === 'ValidationError') {
-                const error = new Error(e.message);
-                error.status = 422;
-                next(error);
+                nonProcessable(next, e);
             }
 
         }

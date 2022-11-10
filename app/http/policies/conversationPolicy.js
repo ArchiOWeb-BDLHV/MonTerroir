@@ -1,14 +1,9 @@
 import { Role } from "../../models/role.js";
+import { unauthorized } from "../../../errors.js";
 
 export class ConversationPolicy {
     static index(request, response, next) {
-        if (request.user.is(Role.ADMIN)) {
-            next();
-        } else {
-            const error = new Error("You are not authorized to access to this resource");
-            error.status = 403;
-            next(error);
-        }
+        next();
     }
 
     static store(request, response, next) {
@@ -16,20 +11,29 @@ export class ConversationPolicy {
     }
 
     static show(request, response, next) {
-        if (request.user._id == request.params.id || request.user.is(Role.ADMIN)) {
+        if (request.user.conversations.includes(request.params.id) || request.user.is(Role.ADMIN)) {
             next();
         } else {
-            const error = new Error("You are not authorized to access to this resource");
-            error.status = 403;
-            next(error);
+            unauthorized(next);
         }
     }
 
     static update(request, response, next) {
-        next();
+        if (request.user.conversations.includes(request.params.id) || request.user.is(Role.ADMIN)) {
+            next();
+        } else {
+            unauthorized(next);
+
+        }
     }
 
     static destroy(request, response, next) {
-        next();
+        if (request.user.conversations.includes(request.params.id) || request.user.is(Role.ADMIN)) {
+            next();
+        } else {
+            unauthorized(next);
+        }
     }
+
+
 }

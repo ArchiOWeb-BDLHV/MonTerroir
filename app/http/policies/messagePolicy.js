@@ -1,13 +1,13 @@
 import { Role } from "../../models/role.js";
+import { unauthorized } from "../../../errors.js";
 
 export class MessagePolicy {
     static index(request, response, next) {
         if (request.user.conversations.includes(request.params.convId)) {
             next();
         } else {
-            const error = new Error("You are not authorized to access to this resource");
-            error.status = 403;
-            next(error);
+            unauthorized(next);
+
         }
     }
 
@@ -15,9 +15,8 @@ export class MessagePolicy {
         if (request.user.conversations.includes(request.params.convId)) {
             next();
         } else {
-            const error = new Error("You are not authorized to access to this resource");
-            error.status = 403;
-            next(error);
+            unauthorized(next);
+
         }
     }
 
@@ -25,17 +24,24 @@ export class MessagePolicy {
         if (request.user.conversations.includes(request.params.convId)) {
             next();
         } else {
-            const error = new Error("You are not authorized to access to this resource");
-            error.status = 403;
-            next(error);
+            unauthorized(next);
+
         }
     }
 
     static update(request, response, next) {
-        next("Not implemented");
+        if (request.user.conversations.includes(request.params.convId)) {
+            next();
+        } else {
+            unauthorized(next);
+        }
     }
 
     static destroy(request, response, next) {
-        next("Not implemented");
+        if (request.user.conversations.includes(request.params.convId)) {
+            next();
+        } else {
+            unauthorized(next);
+        }
     }
 }

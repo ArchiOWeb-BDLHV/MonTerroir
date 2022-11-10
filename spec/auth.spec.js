@@ -4,6 +4,8 @@ import mongoose from "mongoose";
 import { cleanUpDatabase } from "./utils.js";
 import User from "../app/models/user.js";
 import crypto from "crypto";
+import { tokenToUser } from "../app/http/middlewares/AuthMiddleware.js";
+import { generateAccessToken } from "../app/http/controllers/AuthController.js";
 
 describe('POST /login', function() {
     beforeEach(async function() {
@@ -102,6 +104,15 @@ describe('Test auth logic', function() {
             .get('/api/users')
             .set('Authorization', 'Bearer ' + "invalidtoken")
             .expect(403)
+            .expect('Content-Type', /json/);
+
+    });
+
+    it("shouldn't login as the token is missing", async function() {
+
+        const res = await supertest(app)
+            .get('/api/users')
+            .expect(401)
             .expect('Content-Type', /json/);
 
     });
