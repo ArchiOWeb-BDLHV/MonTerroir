@@ -17,10 +17,9 @@ export class ConversationController {
             });
             const result = await conversation.save();
 
+            await User.updateMany({ _id: { $in: users } }, { $push: { conversations: result._id } });
+
             users.forEach(async(userId) => {
-                const user = await User.findById(userId);
-                user.conversations.push(result._id);
-                await User.updateOne({ _id: userId }, user);
                 if (userId != req.user._id) {
                     sendMessageToSpecificUser("Nouvelle conversation " + result.name, userId, "NEW_CONVERSATION");
                 }

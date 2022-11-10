@@ -24,8 +24,37 @@ const reviewSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User',
         required: true
-    }
+    },
+    product: {
+        type: Schema.Types.ObjectId,
+        ref: 'Product',
+        required: false,
+    },
+    productor: {
+        type: Schema.Types.ObjectId,
+        ref: 'Productor',
+        required: false,
+    },
 });
+
+reviewSchema.statics.withAverageRating = function() {
+    return this.aggregate([{
+            $lookup: {
+                from: "reviews",
+                localField: "_id",
+                foreignField: "product",
+                as: "reviews",
+            },
+        },
+        {
+            $addFields: {
+                averageRating: {
+                    $avg: "$reviews.score",
+                },
+            },
+        },
+    ]);
+}
 
 // Create the model from the schema and export it
 export default mongoose.model('Review', reviewSchema);

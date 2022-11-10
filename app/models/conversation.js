@@ -14,11 +14,6 @@ const conversationSchema = new Schema({
         required: true,
     }],
 
-    messages: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Message",
-
-    }]
 });
 
 conversationSchema.statics.findMine = function(user) {

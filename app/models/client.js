@@ -1,5 +1,9 @@
-import User from 'user.js';
+import User from './user.js';
+import mongoose from 'mongoose';
 
-const Client = User.discriminator('Client', User);
-
-export default Client;
+export default User.discriminator('Client', new mongoose.Schema({
+    role: {
+        type: Number,
+        default: 1,
+    },
+}));

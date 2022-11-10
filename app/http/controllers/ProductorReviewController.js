@@ -1,25 +1,35 @@
 import createDebugger from "debug";
 import { broadcastMessage } from "../../../ws.js";
 import Review from "../../models/review.js";
-import Productor from "../../../models/productor.js";
+import Productor from "../../models/productor.js";
+import mongoose from "mongoose";
 
 const debug = createDebugger('express-api:reviews');
 
 export class ProductorReviewController {
-    
+
     static async index(req, res, next) {
-        const productor = await Productor.findById(req.params.id); // populate('author') is used to get the author's name
-        const review = productor.reviews;
-        res.status(200).json(reviewsScore);
+        const reviews = await Review.find().where('productor').equals(req.params.id)
+            .populate("author", { 'username': 1 }) // populate('author') is used to get the author's datas
+            .populate("productor", "username")
+
+        const average = await Review.aggregate([
+            { $match: { productor: mongoose.Types.ObjectId(req.params.id) } },
+            { $group: { _id: req.params.id, average: { $avg: "$score" } } }
+        ])
+
+        res.status(200).json({ data: { reviews, average: average[0].average } });
     }
 
     static async store(req, res, next) {
         const review = new Review({
             score: req.body.score,
             message: req.body.message,
-            author: req.body.author
+            author: req.user._id,
+            productor: req.params.id
         });
         const result = await review.save();
+
         res.status(201).json(result);
     }
 

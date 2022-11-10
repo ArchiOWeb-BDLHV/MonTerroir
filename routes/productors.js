@@ -12,6 +12,7 @@ router.put("/:id", ReviewPolicy.update, asyncRoute(ProductorReviewController.upd
 router.delete("/:id", ReviewPolicy.destroy, asyncRoute(ProductorReviewController.destroy));
 
 // review routes
-router.get("/:id/reviews", asyncRoute(ProductorReviewController.index));
+router.get("/:id/reviews", ReviewPolicy.index, asyncRoute(ProductorReviewController.index));
+router.post("/:id/reviews", ReviewPolicy.store, asyncRoute(ProductorReviewController.store));
 
 export default router;

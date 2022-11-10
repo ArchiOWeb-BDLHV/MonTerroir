@@ -6,9 +6,9 @@ import Product from "../../../models/product.js";
 const debug = createDebugger('express-api:reviews');
 
 export class ProductReviewController {
-    
+
     static async index(req, res, next) {
-        const product = await Product.findById(req.params.id).populate('reviews'); 
+        const product = await Product.findById(req.params.id).populate('reviews').withAverageRating();;
         res.status(200).json(product.reviews);
     }
 

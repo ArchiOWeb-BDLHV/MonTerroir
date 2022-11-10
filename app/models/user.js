@@ -36,7 +36,7 @@ const userSchema = new Schema({
 }, {
     timestamps: true,
     collection: "users",
-    discriminatorKey: 'users'
+    discriminatorKey: 'type'
 });
 
 userSchema.statics.findOneByUsername = function(username) {
@@ -82,6 +82,15 @@ userSchema.methods.toJSON = function() {
     var obj = this.toObject();
     delete obj.password;
     delete obj.__v;
+    return obj;
+}
+
+userSchema.methods.displayPublic = function() {
+    var obj = this.toObject();
+    delete obj.password;
+    delete obj.__v;
+    delete obj.role;
+    delete obj.conversations;
     return obj;
 }
 

@@ -11,6 +11,7 @@ import messagesRouter from "./routes/messages.js";
 import productsRouter from "./routes/products.js";
 import reviewsRouter from "./routes/reviews.js";
 import usersRouter from "./routes/users.js";
+import productorsRouter from "./routes/productors.js";
 //Controllers
 import { authenticated } from "./app/http/middlewares/AuthMiddleware.js";
 
@@ -44,6 +45,8 @@ app.use("/api/messages", authenticated, messagesRouter);
 app.use("/api/reviews", authenticated, reviewsRouter);
 app.use("/api/categories", authenticated, categoriesRouter);
 app.use("/api/conversations", authenticated, conversationsRouter);
+app.use("/api/productors", authenticated, productorsRouter);
+
 
 // Catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -5,55 +5,54 @@ import Image from "../../models/image.js";
 const debug = createDebugger("express-api:product");
 
 export class ProductController {
-  static async index(req, res, next) {
-    const products = await User.find().sort("name");
-    res.status(200).json(products);
-  }
-
-  static async store(req, res, next) {
-    let images = [];
-    for (const image of req.files.images) {
-      // deplacer image sur serveur
-      const url = "/storage/uploads" + image.name;
-      image.mv(url);
-
-      const i = await Image.create({
-        url: url,
-      });
-      images.push(i);
+    static async index(req, res, next) {
+        const products = await Product.find().sort("name").withAverageRating();
+        res.status(200).json(products);
     }
 
-    const product = new Product({
-      name: req.body.name,
-      description: req.body.description,
-      price: req.body.price,
-      category: req.body.category,
-      images: images,
-    });
-    const result = await product.save();
-    res.status(201).json(result);
-  }
+    static async store(req, res, next) {
+        let images = [];
+        for (const image of req.files.images) {
+            // deplacer image sur serveur
+            const path = "/uploads" + image.name;
+            const url = __dirname + "/../../public" + path;
+            image.mv(url);
 
-  static async show(req, res, next) {
-    const product = await Product.findById(req.params.id);
-    res.status(200).json(product);
-  }
+            const i = await Image.create({
+                url: path,
+            });
+            images.push(i);
+        }
 
-  static async update(req, res, next) {
-    const product = await Product.findOneAndUpdate(
-      { _id: req.params.id },
-      req.body,
-      {
-        new: true,
-      }
-    );
-    res.status(200).json(product);
-  }
+        const product = new Product({
+            name: req.body.name,
+            description: req.body.description,
+            price: req.body.price,
+            category: req.body.category,
+            images: images,
+        });
+        const result = await product.save();
+        res.status(201).json(result);
+    }
 
-  static async destroy(req, res, next) {
-    const product = await Product.findOneAndDelete({ _id: req.params.id });
-    res.status(204).json();
-  }
+    static async show(req, res, next) {
+        const product = await Product.findById(req.params.id).withAverageRating();
+        res.status(200).json(product);
+    }
+
+    static async update(req, res, next) {
+        const product = await Product.findOneAndUpdate({ _id: req.params.id },
+            req.body, {
+                new: true,
+            }
+        );
+        res.status(200).json(product);
+    }
+
+    static async destroy(req, res, next) {
+        const product = await Product.findOneAndDelete({ _id: req.params.id });
+        res.status(204).json();
+    }
 }
 
 // export { index, store, show, update, destroy };
