@@ -37,23 +37,17 @@ const reviewSchema = new Schema({
     },
 });
 
-reviewSchema.statics.withAverageRating = function() {
-    return this.aggregate([{
-            $lookup: {
-                from: "reviews",
-                localField: "_id",
-                foreignField: "product",
-                as: "reviews",
-            },
+reviewSchema.statics.getAverage = async function(type, value) {
+    return (await this.aggregate([{
+            $match: {
+                [type]: mongoose.Types.ObjectId(value),
+            }
         },
-        {
-            $addFields: {
-                averageRating: {
-                    $avg: "$reviews.score",
-                },
-            },
-        },
-    ]);
+        { $group: { _id: value, score: { $avg: "$score" } } },
+
+
+
+    ]))[0];
 }
 
 // Create the model from the schema and export it

@@ -6,17 +6,26 @@ const debug = createDebugger("express-api:product");
 
 export class ProductController {
     static async index(req, res, next) {
-        const products = await Product.find().sort("name").withAverageRating();
+        const products = await Product.find().sort("name").populate("images");
         res.status(200).json(products);
     }
 
     static async store(req, res, next) {
+        if (!req.files || req.files.length == 0) {
+            const error = new Error("No files uploaded");
+            error.status = 422;
+            return next(error);
+        }
         let images = [];
         for (const image of req.files.images) {
             // deplacer image sur serveur
-            const path = "/uploads" + image.name;
-            const url = __dirname + "/../../public" + path;
-            image.mv(url);
+            const path = "/uploads/" + Date.now() + "_" + image.name;
+            const url = process.cwd() + "/public" + path;
+            image.mv(url, (error) => {
+                if (error) {
+                    return next(error);
+                }
+            });
 
             const i = await Image.create({
                 url: path,
@@ -36,7 +45,7 @@ export class ProductController {
     }
 
     static async show(req, res, next) {
-        const product = await Product.findById(req.params.id).withAverageRating();
+        const product = await Product.findById(req.params.id).populate("images");
         res.status(200).json(product);
     }
 

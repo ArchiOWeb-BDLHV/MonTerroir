@@ -1,15 +1,16 @@
 import createDebugger from "debug";
-import { broadcastMessage } from "../../../ws.js";
 import Review from "../../models/review.js";
-import Product from "../../../models/product.js";
 
 const debug = createDebugger('express-api:reviews');
 
 export class ProductReviewController {
 
     static async index(req, res, next) {
-        const product = await Product.findById(req.params.id).populate('reviews').withAverageRating();;
-        res.status(200).json(product.reviews);
+        const reviews = await Review.find().where('product').equals(req.params.id).populate('reviews');
+
+        const average = await Review.getAverage('product', req.params.id);
+
+        res.status(200).json({ data: { reviews, average: average } });
     }
 
     static async store(req, res, next) {

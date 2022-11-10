@@ -19,10 +19,12 @@ const router = express.Router();
 router.get("/", ProductPolicy.index, asyncRoute(ProductController.index));
 
 router.post(
-  "/",
-  ProductPolicy.store,
-  fileUpload,
-  asyncRoute(ProductController.store)
+    "/",
+    ProductPolicy.store,
+    fileUpload({
+        limits: { fileSize: 50 * 1024 * 1024 },
+    }),
+    asyncRoute(ProductController.store)
 );
 
 router.get("/:id", ProductPolicy.show, asyncRoute(ProductController.show));

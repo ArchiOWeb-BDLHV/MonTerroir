@@ -2,6 +2,7 @@ import Jwt from "jsonwebtoken";
 import config from "../../../config.js";
 import User from "../../models/user.js";
 import Client from "../../models/client.js";
+import Productor from "../../models/productor.js";
 
 export function generateAccessToken(user) {
     return Jwt.sign({ id: user._id }, config.jwt.secret, { expiresIn: config.jwt.expiresIn }); // Generation du token d'authentification
@@ -42,10 +43,19 @@ export async function register(req, res) {
         if (doesUserExist != null) {
             res.status(400).json({ message: 'Username already taken' }); // si l'utilisateur existe déjà, on renvoie une erreur
         } else {
-            const user = new Client({
-                username: req.body.username,
-                password: req.body.password,
-            });
+            let user;
+            if (req.body.role == "productor") {
+                user = new Productor({
+                    username: username,
+                    password: password,
+                    role: req.body.role
+                });
+            } else {
+                user = new Client({
+                    username: req.body.username,
+                    password: req.body.password,
+                });
+            }
 
             user.save(); // on sauvegarde l'utilisateur
 
