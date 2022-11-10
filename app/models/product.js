@@ -74,6 +74,17 @@ productSchema.statics.withAverageRating = function() {
     ]);
 }
 
+productSchema.statics.createFake = async function() {
+    return await this.create({
+        name: "Fake Product",
+        description: "This is a fake product",
+        price: 0.05,
+        categories: [],
+        images: [],
+        productor: null,
+        reviews: [],
+    });
+};
 
 
 // Create the model from the schema and export it

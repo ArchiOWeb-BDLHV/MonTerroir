@@ -82,12 +82,12 @@ export class MessageController {
     }
 
     static async update(req, res, next) {
-        const message = await Message.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true });
+        const message = await Message.findOneAndUpdate({ _id: req.params.messageId }, req.body, { new: true });
         res.status(200).json(message);
     }
 
     static async destroy(req, res, next) {
-        const message = await Message.findOneAndDelete({ _id: req.params.id });
+        const message = await Message.findOneAndDelete({ _id: req.params.messageId });
         res.status(204).json();
     }
 }

@@ -11,37 +11,43 @@ export class ProductController {
     }
 
     static async store(req, res, next) {
-        if (!req.files || req.files.length == 0) {
-            const error = new Error("No files uploaded");
-            error.status = 422;
-            return next(error);
-        }
+
         let images = [];
-        for (const image of req.files.images) {
-            // deplacer image sur serveur
-            const path = "/uploads/" + Date.now() + "_" + image.name;
-            const url = process.cwd() + "/public" + path;
-            image.mv(url, (error) => {
-                if (error) {
-                    return next(error);
-                }
-            });
+        if (req.files) {
+            for (const image of req.files.images) {
+                // deplacer image sur serveur
+                const path = "/uploads/" + Date.now() + "_" + image.name;
+                const url = process.cwd() + "/public" + path;
+                image.mv(url, (error) => {
+                    if (error) {
+                        return next(error);
+                    }
+                });
 
-            const i = await Image.create({
-                url: path,
-            });
-            images.push(i);
+                const i = await Image.create({
+                    url: path,
+                });
+                images.push(i);
+            }
         }
+        try {
+            const product = new Product({
+                name: req.body.name,
+                description: req.body.description,
+                price: req.body.price,
+                category: req.body.category,
+                images: images,
+            });
 
-        const product = new Product({
-            name: req.body.name,
-            description: req.body.description,
-            price: req.body.price,
-            category: req.body.category,
-            images: images,
-        });
-        const result = await product.save();
-        res.status(201).json(result);
+            const result = await product.save();
+            res.status(201).json(result);
+        } catch (e) {
+            if (e.name === "ValidationError") {
+                const error = new Error(e.message);
+                error.status = 422;
+                next(error);
+            }
+        }
     }
 
     static async show(req, res, next) {

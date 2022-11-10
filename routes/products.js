@@ -13,6 +13,8 @@ import { ProductController } from "../app/http/controllers/ProductController.js"
 import { ProductPolicy } from "../app/http/policies/productPolicy.js";
 import asyncRoute from "./asyncRoute.js";
 import fileUpload from "express-fileupload";
+import { ReviewPolicy } from "../app/http/policies/reviewPolicy.js";
+import { ProductReviewController } from "../app/http/controllers/ProductReviewController.js";
 
 const router = express.Router();
 
@@ -36,5 +38,13 @@ router.delete(
     ProductPolicy.destroy,
     asyncRoute(ProductController.destroy)
 );
+
+//reviews 
+
+router.get("/:id/reviews", ReviewPolicy.index, asyncRoute(ProductReviewController.index));
+router.post("/:id/reviews", ReviewPolicy.store, asyncRoute(ProductReviewController.store));
+router.put("/:id/reviews/:reviewId", ReviewPolicy.update, asyncRoute(ProductReviewController.update));
+router.delete("/:id/reviews/:reviewId", ReviewPolicy.destroy, asyncRoute(ProductReviewController.destroy));
+
 
 export default router;
