@@ -20,6 +20,11 @@ const reviewSchema = new Schema({
             message: props => `${props.value} is not a valid message! Message must be between 1 and 1000 characters.`
         },
     },
+    author: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    }
 });
 
 // Create the model from the schema and export it

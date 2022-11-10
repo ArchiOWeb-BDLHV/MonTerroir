@@ -14,7 +14,7 @@ describe('GET /users', function() {
     });
     it("shouldn't list all users as not authticated", async function() {
         const res = await supertest(app)
-            .get('/users')
+            .get('/api/users')
             .expect(401)
             .expect('Content-Type', /json/);
     });
@@ -27,7 +27,7 @@ describe('GET /users', function() {
             role: Role.USER
         });
         const res = await supertest(app)
-            .get('/users')
+            .get('/api/users')
             .set('Authorization', 'Bearer ' + generateAccessToken(user))
             .expect(403)
             .expect('Content-Type', /json/);
@@ -50,7 +50,7 @@ describe('GET /users', function() {
         });
 
         const res = await supertest(app)
-            .get('/users')
+            .get('/api/users')
             .set('Authorization', 'Bearer ' + generateAccessToken(user))
             .expect(200)
             .expect('Content-Type', /json/);
@@ -71,7 +71,7 @@ describe('GET /users/:id', function() {
             role: Role.USER
         });
         const res = await supertest(app)
-            .get('/users/' + user._id)
+            .get('/api/users/' + user._id)
             .expect(401)
             .expect('Content-Type', /json/);
     });
@@ -90,7 +90,7 @@ describe('GET /users/:id', function() {
         expect(user._id).not.toBe(otherUser._id);
 
         const res = await supertest(app)
-            .get('/users/' + otherUser._id)
+            .get('/api/users/' + otherUser._id)
             .set('Authorization', 'Bearer ' + generateAccessToken(user))
             .expect(403)
             .expect('Content-Type', /json/);
@@ -105,7 +105,7 @@ describe('GET /users/:id', function() {
             password: "password",
         });
         const res = await supertest(app)
-            .get('/users/' + user._id)
+            .get('/api/users/' + user._id)
             .set('Authorization', 'Bearer ' + generateAccessToken(user))
             .expect(200)
             .expect('Content-Type', /json/);

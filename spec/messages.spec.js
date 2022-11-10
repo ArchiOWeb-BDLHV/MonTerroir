@@ -16,7 +16,7 @@ describe('GET /conversations/id/messages', function() {
         const user2 = await User.createFake();
 
         const resConv = await supertest(app)
-            .post('/conversations/')
+            .post('/api/conversations/')
             .set('Authorization', 'Bearer ' + generateAccessToken(user))
             .send({
                 name: 'test',
@@ -27,7 +27,7 @@ describe('GET /conversations/id/messages', function() {
 
 
         const res = await supertest(app)
-            .get('/conversations/' + resConv.body._id + '/messages')
+            .get('/api/conversations/' + resConv.body._id + '/messages')
             .set('Authorization', 'Bearer ' + generateAccessToken(user2))
             .expect(403)
             .expect('Content-Type', /json/);
@@ -37,7 +37,7 @@ describe('GET /conversations/id/messages', function() {
         const user = await User.createFake();
 
         const resConv = await supertest(app)
-            .post('/conversations/')
+            .post('/api/conversations/')
             .set('Authorization', 'Bearer ' + generateAccessToken(user))
             .send({
                 name: 'test',
@@ -53,7 +53,7 @@ describe('GET /conversations/id/messages', function() {
         let user2 = await User.createFake();
 
         const resConv = await supertest(app)
-            .post('/conversations/')
+            .post('/api/conversations/')
             .set('Authorization', 'Bearer ' + generateAccessToken(user))
             .send({
                 name: 'test',
@@ -65,7 +65,7 @@ describe('GET /conversations/id/messages', function() {
         user2 = await User.findById(user2._id);
 
         const res = await supertest(app)
-            .get('/conversations/' + resConv.body._id + '/messages')
+            .get('/api/conversations/' + resConv.body._id + '/messages')
             .set('Authorization', 'Bearer ' + generateAccessToken(user2))
             .expect(200)
             .expect('Content-Type', /json/);
@@ -75,7 +75,7 @@ describe('GET /conversations/id/messages', function() {
         const user = await User.createFake();
 
         const resConv = await supertest(app)
-            .post('/conversations/')
+            .post('/api/conversations/')
             .set('Authorization', 'Bearer ' + generateAccessToken(user))
             .send({
                 name: 'test',
@@ -85,7 +85,7 @@ describe('GET /conversations/id/messages', function() {
             .expect('Content-Type', /json/);
 
         const res = await supertest(app)
-            .post('/conversations/' + resConv.body._id + '/messages')
+            .post('/api/conversations/' + resConv.body._id + '/messages')
             .set('Authorization', 'Bearer ' + generateAccessToken(user))
             .send({
                 content: 'test',
@@ -99,7 +99,7 @@ describe('GET /conversations/id/messages', function() {
         const user2 = await User.createFake();
 
         const resConv = await supertest(app)
-            .post('/conversations/')
+            .post('/api/conversations/')
             .set('Authorization', 'Bearer ' + generateAccessToken(user))
             .send({
                 name: 'test',
@@ -109,7 +109,7 @@ describe('GET /conversations/id/messages', function() {
             .expect('Content-Type', /json/);
 
         const res = await supertest(app)
-            .post('/conversations/' + resConv.body._id + '/messages')
+            .post('/api/conversations/' + resConv.body._id + '/messages')
             .set('Authorization', 'Bearer ' + generateAccessToken(user2))
             .send({
                 content: 'test',

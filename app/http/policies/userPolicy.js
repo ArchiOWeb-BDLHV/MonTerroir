@@ -12,7 +12,13 @@ export class UserPolicy {
     }
 
     static store(request, response, next) {
-        next();
+        if (request.user.is(Role.ADMIN)) {
+            next();
+        } else {
+            const error = new Error("You are not authorized to access to this resource");
+            error.status = 403;
+            next(error);
+        }
     }
 
     static show(request, response, next) {
@@ -26,10 +32,22 @@ export class UserPolicy {
     }
 
     static update(request, response, next) {
-        next();
+        if (request.user._id == request.params.id || request.user.is(Role.ADMIN)) {
+            next();
+        } else {
+            const error = new Error("You are not authorized to access to this resource");
+            error.status = 403;
+            next(error);
+        }
     }
 
     static destroy(request, response, next) {
-        next();
+        if (request.user._id == request.params.id || request.user.is(Role.ADMIN)) {
+            next();
+        } else {
+            const error = new Error("You are not authorized to access to this resource");
+            error.status = 403;
+            next(error);
+        }
     }
 }
