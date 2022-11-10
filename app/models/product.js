@@ -32,28 +32,18 @@ const productSchema = new Schema({
       "is not a valid prince! The minimum amount is 0.05.- and you sent {VALUE}",
     ],
   },
-  category: {
-    type: String,
-    required: true,
-    validate: {
-      validator: function (v) {
-        return v.length > 2 && v.length <= 70;
-      },
-      message: (props) =>
-        `${props.value} is not a valid category! Category must be between 3 and 70 characters.`,
+  categories: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Category",
     },
-  },
-  image_url: {
-    type: String,
-    required: true,
-    validate: {
-      validator: function (v) {
-        return v.length > 2;
-      },
-      message: (props) =>
-        `${props.value} is not a valid image_url! Image_url must be bigger than 3 characters.`,
+  ],
+  images: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Image",
     },
-  },
+  ],
 });
 
 productSchema.statics.findByName = function (name) {
