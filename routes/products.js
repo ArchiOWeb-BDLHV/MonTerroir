@@ -1,24 +1,33 @@
+// import express from "express";
+// import {
+//     index,
+//     store,
+//     show,
+//     update,
+//     destroy,
+// } from "../app/http/controllers/ProductController.js";
+// import asyncRoute from "./asyncRoute.js";
+
 import express from "express";
-import {
-    index,
-    store,
-    show,
-    update,
-    destroy,
-} from "../app/http/controllers/ProductController.js";
+import { ProductController } from "../app/http/controllers/ProductController.js";
+import { ProductPolicy } from "../app/http/policies/productPolicy.js";
 import asyncRoute from "./asyncRoute.js";
 import fileUpload from "express-fileupload";
 
 const router = express.Router();
 
-router.get("/", asyncRoute(index));
+router.get("/", ProductPolicy.index, asyncRoute(ProductController.index));
 
-router.post("/", fileUpload, asyncRoute(store));
+router.post("/", ProductPolicy.store, asyncRoute(ProductController.store));
 
-router.get("/:id", asyncRoute(show));
+router.get("/:id", ProductPolicy.show, asyncRoute(ProductController.show));
 
-router.put("/:id", asyncRoute(update));
+router.put("/:id", ProductPolicy.update, asyncRoute(ProductController.update));
 
-router.delete("/:id", asyncRoute(destroy));
+router.delete(
+    "/:id",
+    ProductPolicy.destroy,
+    asyncRoute(ProductController.destroy)
+);
 
 export default router;
