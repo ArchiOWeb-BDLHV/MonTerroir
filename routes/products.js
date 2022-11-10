@@ -12,12 +12,18 @@ import express from "express";
 import { ProductController } from "../app/http/controllers/ProductController.js";
 import { ProductPolicy } from "../app/http/policies/productPolicy.js";
 import asyncRoute from "./asyncRoute.js";
+import fileUpload from "express-fileupload";
 
 const router = express.Router();
 
 router.get("/", ProductPolicy.index, asyncRoute(ProductController.index));
 
-router.post("/", ProductPolicy.store, asyncRoute(ProductController.store));
+router.post(
+  "/",
+  ProductPolicy.store,
+  fileUpload,
+  asyncRoute(ProductController.store)
+);
 
 router.get("/:id", ProductPolicy.show, asyncRoute(ProductController.show));
 

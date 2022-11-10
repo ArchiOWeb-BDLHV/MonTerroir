@@ -1,5 +1,6 @@
 import createDebugger from "debug";
 import Product from "../../models/product.js";
+import Image from "../../models/image.js";
 
 const debug = createDebugger("express-api:product");
 
@@ -10,12 +11,24 @@ export class ProductController {
   }
 
   static async store(req, res, next) {
+    let images = [];
+    for (const image of req.files.images) {
+      // deplacer image sur serveur
+      const url = "/storage/uploads" + image.name;
+      image.mv(url);
+
+      const i = await Image.create({
+        url: url,
+      });
+      images.push(i);
+    }
+
     const product = new Product({
       name: req.body.name,
       description: req.body.description,
       price: req.body.price,
       category: req.body.category,
-      image_url: req.body.image_url,
+      images: images,
     });
     const result = await product.save();
     res.status(201).json(result);
