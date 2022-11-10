@@ -13,12 +13,9 @@ export class ProductorReviewController {
             .populate("author", { 'username': 1 }) // populate('author') is used to get the author's datas
             .populate("productor", "username")
 
-        const average = await Review.aggregate([
-            { $match: { productor: mongoose.Types.ObjectId(req.params.id) } },
-            { $group: { _id: req.params.id, average: { $avg: "$score" } } }
-        ])
+        const average = await Review.getAverage('productor', req.params.id);
 
-        res.status(200).json({ data: { reviews, average: average[0].average } });
+        res.status(200).json({ data: { reviews, average: average } });
     }
 
     static async store(req, res, next) {
