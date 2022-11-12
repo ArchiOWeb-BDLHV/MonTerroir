@@ -19,6 +19,9 @@ import { authenticated } from "./app/http/middlewares/AuthMiddleware.js";
 import mongoose from "mongoose";
 import config from "./config.js";
 
+//cors
+import cors from "cors";
+
 mongoose.Promise = Promise;
 // Où est stockée la base de données
 mongoose.connect(config.db.connection);
@@ -28,6 +31,10 @@ const app = express();
 if (process.env.NODE_ENV !== "test") {
     app.use(logger("dev"));
 }
+
+app.use(cors())
+
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
