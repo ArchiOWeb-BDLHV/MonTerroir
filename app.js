@@ -41,8 +41,10 @@ app.use(express.urlencoded({ extended: false }));
 //check if user is authenticated
 
 // Indique nos différentes routes URL
-//app.use("/", indexRouter);
-app.use(express.static('docs'));
+app.use("/", function(req, res, next) {
+    res.redirect('https://mon-terroir.stoplight.io/docs/mon-terroir/');
+});
+//app.use(express.static('docs'));
 
 app.use("/api/auth", authRouter);
 
