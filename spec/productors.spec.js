@@ -140,6 +140,7 @@ describe('GET /productors', function() {
             .set('Authorization', 'Bearer ' + generateAccessToken(user))
             .query({
                 location: "0.001,0.001",
+                distance: 10000
             })
             .expect(200)
             .expect('Content-Type', /json/);

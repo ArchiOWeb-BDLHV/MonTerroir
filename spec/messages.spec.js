@@ -73,26 +73,26 @@ describe('GET /conversations/id/messages', function() {
 
     it("should create a message in a conversation", async function() {
 
-        /*  const user = await User.createFake();
- 
- const resConv = await supertest(app)
-     .post('/api/conversations')
-     .set('Authorization', 'Bearer ' + generateAccessToken(user))
-     .send({
-         name: 'test',
-         users: [],
-     })
-     .expect(201)
-     .expect('Content-Type', /json/);
- 
- const res = await supertest(app)
-     .post('/api/conversations/' + resConv.body._id + '/messages')
-     .set('Authorization', 'Bearer ' + generateAccessToken(user))
-     .send({
-         content: 'test',
-     })
-     .expect(201)
-     .expect('Content-Type', /json/); */
+        const user = await User.createFake();
+
+        const resConv = await supertest(app)
+            .post('/api/conversations')
+            .set('Authorization', 'Bearer ' + generateAccessToken(user))
+            .send({
+                name: 'test',
+                users: [],
+            })
+            .expect(201)
+            .expect('Content-Type', /json/);
+
+        const res = await supertest(app)
+            .post('/api/conversations/' + resConv.body._id + '/messages')
+            .set('Authorization', 'Bearer ' + generateAccessToken(user))
+            .send({
+                content: 'test',
+            })
+            .expect(201)
+            .expect('Content-Type', /json/);
     });
 
     it("shouldn't create a message in a conversation as the conversation is not own", async function() {
@@ -211,6 +211,7 @@ describe('GET /conversations/id/messages', function() {
             })
             .expect(200)
             .expect('Content-Type', /json/);
+
     });
 
     it("shouldn't update a message in a conversation as not own", async function() {

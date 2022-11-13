@@ -82,7 +82,7 @@ export class MessageController {
     }
 
     static async update(req, res, next) {
-        const message = await Message.findOneAndUpdate({ _id: req.params.messageId }, req.body, { new: true });
+        const message = await Message.findOneAndUpdate({ _id: req.params.messageId }, req.body, { new: true }).populate('conversation');
 
         message.conversation.users.forEach(userId => {
             if (!userId.equals(req.user._id)) {
@@ -110,7 +110,7 @@ export class MessageController {
     }
 
     static async destroy(req, res, next) {
-        const message = await Message.findOneAndDelete({ _id: req.params.messageId });
+        const message = await Message.findOneAndDelete({ _id: req.params.messageId }).populate('conversation');
         message.conversation.users.forEach(userId => {
             if (!userId.equals(req.user._id)) {
                 sendMessageToSpecificUser({
