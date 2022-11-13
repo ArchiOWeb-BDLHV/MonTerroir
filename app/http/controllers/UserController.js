@@ -15,6 +15,8 @@ export class UserController {
         const user = new User({
             username: req.body.username,
             password: req.body.password,
+            role: req.body.role,
+            location: req.body.location
         });
         const result = await user.save();
         res.status(201).json(result);

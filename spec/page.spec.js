@@ -3,10 +3,10 @@ import app from '../app.js';
 import mongoose from 'mongoose';
 
 describe('pages', function() {
-    it("should return page 404", async function() {
+    it("should redirect page 404 to the documentation", async function() {
         const res = await supertest(app)
             .get('/404')
-            .expect(404);
+            .expect(302);
     });
 });
 

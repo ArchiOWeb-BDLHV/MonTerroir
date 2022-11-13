@@ -1,15 +1,17 @@
 import express from "express";
+import { ProductorController } from "../app/http/controllers/ProductorController.js";
 import { ProductorReviewController } from "../app/http/controllers/ProductorReviewController.js";
+import { ProductorPolicy } from "../app/http/policies/productorPolicy.js";
 import { ReviewPolicy } from "../app/http/policies/reviewPolicy.js";
 import asyncRoute from "./asyncRoute.js";
 
 const router = express.Router();
 
-router.get("/", ReviewPolicy.index, asyncRoute(ProductorReviewController.index));
-router.post("/", ReviewPolicy.store, asyncRoute(ProductorReviewController.store));
-// router.get("/:id", ReviewPolicy.show, asyncRoute(ProductorReviewController.show));
-router.put("/:id", ReviewPolicy.update, asyncRoute(ProductorReviewController.update));
-router.delete("/:id", ReviewPolicy.destroy, asyncRoute(ProductorReviewController.destroy));
+router.get("/", ProductorPolicy.index, asyncRoute(ProductorController.index));
+router.post("/", ProductorPolicy.store, asyncRoute(ProductorController.store));
+router.get("/:id", ProductorPolicy.show, asyncRoute(ProductorController.show));
+router.put("/:id", ProductorPolicy.update, asyncRoute(ProductorController.update));
+router.delete("/:id", ProductorPolicy.destroy, asyncRoute(ProductorController.destroy));
 
 // review routes
 router.get("/:id/reviews", ReviewPolicy.index, asyncRoute(ProductorReviewController.index));

@@ -1,6 +1,7 @@
 import bcrypt from 'bcrypt';
 import crypto from "crypto";
 import mongoose from 'mongoose';
+import { Role } from './role.js';
 
 const Schema = mongoose.Schema;
 const SALT_WORK_FACTOR = 10;
@@ -31,7 +32,23 @@ const userSchema = new Schema({
     conversations: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "Conversation"
-    }]
+    }],
+
+    location: {
+        type: {
+            type: String,
+            required: true,
+            enum: ['Point']
+        },
+        coordinates: {
+            type: [Number],
+            required: true,
+            validate: {
+                validator: validateGeoJsonCoordinates,
+                message: '{VALUE} is not a valid longitude/latitude(/altitude) coordinates array'
+            }
+        }
+    }
 
 }, {
     timestamps: true,
@@ -39,15 +56,35 @@ const userSchema = new Schema({
     discriminatorKey: 'type'
 });
 
+userSchema.index({ location: '2dsphere' });
+
+// Validate a GeoJSON coordinates array (longitude, latitude and optional altitude).
+function validateGeoJsonCoordinates(value) {
+    return Array.isArray(value) && value.length >= 2 && value.length <= 3 && isLongitude(value[0]) && isLatitude(value[1]);
+}
+
+function isLatitude(value) {
+    return value >= -90 && value <= 90;
+}
+
+function isLongitude(value) {
+    return value >= -180 && value <= 180;
+}
+
 userSchema.statics.findOneByUsername = function(username) {
     return this.findOne({ username: username });
 };
 
-userSchema.statics.createFake = async function() {
+userSchema.statics.createFake = async function({ password = "test", role = Role.USER } = {}) {
     const username = crypto.randomBytes(20).toString('hex');
     return await this.create({
         username: username,
-        password: 'test',
+        password: password,
+        role: role,
+        location: {
+            type: "Point",
+            coordinates: [0, 0]
+        }
     });
 };
 

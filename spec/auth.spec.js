@@ -21,10 +21,8 @@ describe('POST /login', function() {
 
     it("shouldn't login as password is wrong", async function() {
         const username = crypto.randomBytes(20).toString('hex');
-        await User.create({
-            username: username,
-            password: "password"
-        });
+        await User.createFake();
+
         const res = await supertest(app)
             .post('/api/auth/login')
             .send({ username: username, password: "wrongpassword" })
@@ -33,15 +31,12 @@ describe('POST /login', function() {
     });
 
     it("should login as user", async function() {
-        const username = crypto.randomBytes(20).toString('hex');
 
-        await User.create({
-            username: username,
-            password: "password"
-        });
+        const user = await User.createFake({ password: "password" });
+
         const res = await supertest(app)
             .post('/api/auth/login')
-            .send({ username: username, password: "password" })
+            .send({ username: user.username, password: "password" })
             .expect(200)
             .expect('Content-Type', /json/);
     });
@@ -56,21 +51,25 @@ describe('POST /register', function() {
 
         const res = await supertest(app)
             .post('/api/auth/register')
-            .send({ username: username, password: "password" })
+            .send({
+                username: username,
+                password: "password",
+                location: {
+                    type: "Point",
+                    coordinates: [10, 10]
+                },
+            })
             .expect(200)
             .expect('Content-Type', /json/);
     });
 
     it("shouldn't register as user already exists", async function() {
-        const username = crypto.randomBytes(20).toString('hex');
 
-        await User.create({
-            username: username,
-            password: "password"
-        });
+        const user = await User.createFake({ password: "password" });
+
         const res = await supertest(app)
             .post('/api/auth/register')
-            .send({ username: username, password: "password" })
+            .send({ username: user.username, password: "password" })
             .expect(400)
             .expect('Content-Type', /json/);
     });

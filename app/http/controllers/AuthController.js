@@ -48,12 +48,14 @@ export async function register(req, res) {
                 user = new Productor({
                     username: username,
                     password: password,
-                    role: req.body.role
+                    role: req.body.role,
+                    location: req.body.location,
                 });
             } else {
                 user = new Client({
                     username: req.body.username,
                     password: req.body.password,
+                    location: req.body.location,
                 });
             }
 
