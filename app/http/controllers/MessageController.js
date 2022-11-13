@@ -51,7 +51,10 @@ export class MessageController {
                 if (!userId.equals(req.user._id)) {
                     sendMessageToSpecificUser({
                         "data": {
-                            "message": message.content,
+                            "message": {
+                                "id": message._id,
+                                "content": message.content,
+                            },
                             "conversation": {
                                 "id": conversation._id,
                                 "name": conversation.name,
@@ -80,11 +83,55 @@ export class MessageController {
 
     static async update(req, res, next) {
         const message = await Message.findOneAndUpdate({ _id: req.params.messageId }, req.body, { new: true });
+
+        message.conversation.users.forEach(userId => {
+            if (!userId.equals(req.user._id)) {
+                sendMessageToSpecificUser({
+                    "data": {
+                        "message": {
+                            "id": message._id,
+                            "content": message.content,
+                        },
+                        "conversation": {
+                            "id": message.conversation._id,
+                            "name": message.conversation.name,
+                        },
+                        "sender": {
+                            "id": req.user._id,
+                            "username": req.user.username
+                        },
+                        "date": message.date
+                    },
+                }, userId, "UPDATE_MESSAGE");
+            }
+        });
+
         res.status(200).json(message);
     }
 
     static async destroy(req, res, next) {
         const message = await Message.findOneAndDelete({ _id: req.params.messageId });
+        message.conversation.users.forEach(userId => {
+            if (!userId.equals(req.user._id)) {
+                sendMessageToSpecificUser({
+                    "data": {
+                        "message": {
+                            "id": message._id,
+                            "content": message.content,
+                        },
+                        "conversation": {
+                            "id": message.conversation._id,
+                            "name": message.conversation.name,
+                        },
+                        "sender": {
+                            "id": req.user._id,
+                            "username": req.user.username
+                        },
+                        "date": message.date
+                    },
+                }, userId, "DELETE_MESSAGE");
+            }
+        });
         res.status(204).json();
     }
 }
