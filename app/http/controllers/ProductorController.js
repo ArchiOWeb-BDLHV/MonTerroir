@@ -18,7 +18,7 @@ export class ProductorController {
                     },
                     distanceField: "distance",
                     spherical: true,
-                    maxDistance: 100000
+                    maxDistance: (req.query.distance || 100)
                 }
             }]);
         } else {

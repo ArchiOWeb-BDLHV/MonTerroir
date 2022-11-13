@@ -42,6 +42,8 @@ describe('GET /products', function() {
             })
             .expect(201)
             .expect('Content-Type', /json/);
+
+        console.log(res.body);
     });
 
     it("shouldn't create a product as authenticated but without name", async function() {
