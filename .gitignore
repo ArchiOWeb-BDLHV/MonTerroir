@@ -109,4 +109,4 @@ dist
 
 .vscode
 
-public/uploads
+public/uploads/*
