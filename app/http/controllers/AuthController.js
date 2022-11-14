@@ -48,7 +48,7 @@ export async function register(req, res) {
                 user = new Productor({
                     username: username,
                     password: password,
-                    role: req.body.role,
+                    role: 2,
                     location: req.body.location,
                 });
             } else {
