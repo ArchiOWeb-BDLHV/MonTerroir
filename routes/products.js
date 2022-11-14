@@ -25,6 +25,7 @@ router.post(
     ProductPolicy.store,
     fileUpload({
         limits: { fileSize: 50 * 1024 * 1024 },
+        createParentPath: true,
     }),
     asyncRoute(ProductController.store)
 );

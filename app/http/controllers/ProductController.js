@@ -21,7 +21,6 @@ export class ProductController {
                 const path = "/uploads/" + Date.now() + "_" + image.name;
                 const url = process.cwd() + "/public" + path;
 
-                fs.writeFileSync(url, "");
                 image.mv(url, (error) => {
                     if (error) {
                         return next(error);
