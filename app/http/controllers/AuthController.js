@@ -59,7 +59,7 @@ export async function register(req, res) {
                 });
             }
 
-            user.save(); // on sauvegarde l'utilisateur
+            await user.save(); // on sauvegarde l'utilisateur
 
             const accessToken = generateAccessToken(user.toJSON()); // on génère un token
             res.json({
