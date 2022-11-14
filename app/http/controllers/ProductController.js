@@ -23,7 +23,7 @@ export class ProductController {
 
                 //create folder if not exist
                 if (!fs.existsSync(process.cwd() + "/public/uploads")) {
-                    fs.mkdirSync(process.cwd() + "/public/uploads");
+                    fs.mkdirSync(process.cwd() + "/public/uploads", { recursive: true });
                 }
 
                 image.mv(url, (error) => {
