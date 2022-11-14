@@ -9,6 +9,7 @@ export class CategoryController {
     static async store(req, res, next) {
         const category = new Category({
             name: req.body.name,
+            description: req.body.description,
         });
         const result = await category.save();
         res.status(201).json(result);
