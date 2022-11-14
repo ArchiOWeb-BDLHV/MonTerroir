@@ -1,23 +1,18 @@
 import express from "express";
-import {
-    index,
-    store,
-    show,
-    update,
-    destroy,
-} from "../app/http/controllers/CategoryController.js";
+import { CategoryController } from "../app/http/controllers/CategoryController.js";
+import { CategoryPolicy } from "../app/http/policies/CategoryPolicy.js";
 import asyncRoute from "./asyncRoute.js";
 
 const router = express.Router();
 
-router.get("/", asyncRoute(index));
+router.get("/", CategoryPolicy.index, asyncRoute(CategoryController.index));
 
-router.post("/", asyncRoute(store));
+router.post("/", CategoryPolicy.store, asyncRoute(CategoryController.store));
 
-router.get("/:id", asyncRoute(show));
+router.get("/:id", CategoryPolicy.show, asyncRoute(CategoryController.show));
 
-router.put("/:id", asyncRoute(update));
+router.put("/:id", CategoryPolicy.update, asyncRoute(CategoryController.update));
 
-router.delete("/:id", asyncRoute(destroy));
+router.delete("/:id", CategoryPolicy.destroy, asyncRoute(CategoryController.destroy));
 
 export default router;
