@@ -1,6 +1,6 @@
 import express from "express";
 import { CategoryController } from "../app/http/controllers/CategoryController.js";
-import { CategoryPolicy } from "../app/http/policies/CategoryPolicy.js";
+import { CategoryPolicy } from "../app/http/policies/categoryPolicy.js";
 import asyncRoute from "./asyncRoute.js";
 
 const router = express.Router();
