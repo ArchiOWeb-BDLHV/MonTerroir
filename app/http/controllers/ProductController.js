@@ -2,6 +2,7 @@ import createDebugger from "debug";
 import Product from "../../models/product.js";
 import Image from "../../models/image.js";
 import { nonProcessable } from "../../../errors.js";
+import { fsum } from "d3";
 
 const debug = createDebugger("express-api:product");
 
@@ -19,6 +20,8 @@ export class ProductController {
                 // deplacer image sur serveur
                 const path = "/uploads/" + Date.now() + "_" + image.name;
                 const url = process.cwd() + "/public" + path;
+
+                fs.writeFileSync(url, "");
                 image.mv(url, (error) => {
                     if (error) {
                         return next(error);
