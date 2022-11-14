@@ -44,8 +44,13 @@ app.use(express.urlencoded({ extended: false }));
 
 //app.use(express.static('docs'));
 
-app.use("/api/auth", authRouter);
+app.use("/docs", function(req, res, next) {
+    res.redirect('https://mon-terroir.stoplight.io/docs/mon-terroir/');
+});
 
+app.use("/", express.static("public"));
+
+app.use("/api/auth", authRouter);
 app.use("/api/users", authenticated, usersRouter); // on chaine les middlewares pour vérifier si l'utilisateur est authentifié
 app.use("/api/products", authenticated, productsRouter);
 app.use("/api/messages", authenticated, messagesRouter);
@@ -55,9 +60,7 @@ app.use("/api/conversations", authenticated, conversationsRouter);
 app.use("/api/productors", authenticated, productorsRouter);
 
 
-app.use("/", function(req, res, next) {
-    res.redirect('https://mon-terroir.stoplight.io/docs/mon-terroir/');
-});
+
 
 // Catch 404 and forward to error handler
 app.use(function(req, res, next) {
