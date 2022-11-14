@@ -2,7 +2,7 @@ import createDebugger from "debug";
 import Product from "../../models/product.js";
 import Image from "../../models/image.js";
 import { nonProcessable } from "../../../errors.js";
-import { fsum } from "d3";
+import fs from "fs";
 
 const debug = createDebugger("express-api:product");
 
