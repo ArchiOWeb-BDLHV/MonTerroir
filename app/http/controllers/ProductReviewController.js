@@ -18,7 +18,7 @@ export class ProductReviewController {
         const review = new Review({
             score: req.body.score,
             message: req.body.message,
-            author: req.body.author
+            author: req.user._id,
         });
         try {
             const result = await review.save();

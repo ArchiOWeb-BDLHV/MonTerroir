@@ -23,7 +23,7 @@ const reviewSchema = new Schema({
     author: {
         type: Schema.Types.ObjectId,
         ref: 'User',
-        required: true
+        required: false
     },
     product: {
         type: Schema.Types.ObjectId,
