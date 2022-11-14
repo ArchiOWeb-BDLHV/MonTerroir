@@ -13,6 +13,18 @@ const categorySchema = new Schema({
                 `${props.value} is not a valid name! Name must be between 3 and 70 characters.`,
         },
     },
+    description: {
+        type: String,
+        required: false,
+        default: "",
+        validate: {
+            validator: function(v) {
+                return v.length > 2 && v.length <= 1000;
+            },
+            message: (props) =>
+                `${props.value} is not a valid description! Description must be between 3 and 1000 characters.`,
+        },
+    },
     products: [{
         type: Schema.Types.ObjectId,
         ref: "Product",
