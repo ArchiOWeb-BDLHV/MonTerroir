@@ -16,6 +16,7 @@ export class UserController {
             username: req.body.username,
             password: req.body.password,
             role: req.body.role == "productor" ? Role.PRODUCTOR : Role.USER,
+            type: req.body.role == "productor" ? "productor" : "client",
             location: req.body.location
         });
         const result = await user.save();
