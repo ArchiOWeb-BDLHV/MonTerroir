@@ -21,6 +21,11 @@ export class ProductController {
                 const path = "/uploads/" + Date.now() + "_" + image.name;
                 const url = process.cwd() + "/public" + path;
 
+                //create folder if not exist
+                if (!fs.existsSync(process.cwd() + "/public/uploads")) {
+                    fs.mkdirSync(process.cwd() + "/public/uploads");
+                }
+
                 image.mv(url, (error) => {
                     if (error) {
                         return next(error);
