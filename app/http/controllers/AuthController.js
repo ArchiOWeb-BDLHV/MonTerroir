@@ -3,6 +3,7 @@ import config from "../../../config.js";
 import User from "../../models/user.js";
 import Client from "../../models/client.js";
 import Productor from "../../models/productor.js";
+import { nonProcessable } from "../../../errors.js";
 
 export function generateAccessToken(user) {
     return Jwt.sign({ id: user._id }, config.jwt.secret, { expiresIn: config.jwt.expiresIn }); // Generation du token d'authentification
@@ -30,7 +31,7 @@ export async function login(req, res) {
     }
 }
 
-export async function register(req, res) {
+export async function register(req, res, next) {
 
     const { username, password } = req.body; // on récupère le username et le password dans le body de la requête
 
@@ -43,29 +44,33 @@ export async function register(req, res) {
         if (doesUserExist != null) {
             res.status(400).json({ message: 'Username already taken' }); // si l'utilisateur existe déjà, on renvoie une erreur
         } else {
-            let user;
-            if (req.body.role == "productor") {
-                user = new Productor({
-                    username: username,
-                    password: password,
-                    role: 2,
-                    location: req.body.location,
-                });
-            } else {
-                user = new Client({
-                    username: req.body.username,
-                    password: req.body.password,
-                    location: req.body.location,
-                });
+            try {
+                let user;
+                if (req.body.role == "productor") {
+                    user = new Productor({
+                        username: username,
+                        password: password,
+                        role: 2,
+                        location: req.body.location,
+                    });
+                } else {
+                    user = new Client({
+                        username: req.body.username,
+                        password: req.body.password,
+                        location: req.body.location,
+                    });
+                }
+
+                await user.save(); // on sauvegarde l'utilisateur
+
+                const accessToken = generateAccessToken(user.toJSON()); // on génère un token
+                res.json({
+                    user,
+                    accessToken
+                }); // on renvoie l'utilisateur et le token
+            } catch (err) {
+                nonProcessable(next, err);
             }
-
-            await user.save(); // on sauvegarde l'utilisateur
-
-            const accessToken = generateAccessToken(user.toJSON()); // on génère un token
-            res.json({
-                user,
-                accessToken
-            }); // on renvoie l'utilisateur et le token
         }
     }
 }
