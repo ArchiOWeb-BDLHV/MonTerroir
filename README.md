@@ -1,25 +1,39 @@
 # TesseveApi
 
-# Documentation
+## RealTime endpoint
 
-## Configuration
+To use the realtime endpoint, open a connexion to wss://mon-terroir.onrender.com
+Then, you will receive different datas when something append on the chat section. 
 
-- Installer Daux
+```json
 
-`composer global require daux/daux.io`
+{
+    "message": {
+        "data": {
+            "message": {
+                "id": "6377a3ea213fd71052a12ad3",
+                "content": "MESSAGE"
+            },
+            "conversation": {
+                "id": "6377a3a2213fd71052a12acb",
+                "name": "NAME"
+            },
+            "sender": {
+                "id": "63725469318e318232053d09",
+                "username": "USERNAME"
+            },
+            "date": "2022-11-18T15:25:30.751Z"
+        }
+    },
+    "code": "NEW_MESSAGE"
+}
 
-## Utilisation
+```
 
-- Ecrire des fichier md dans docs
+The code can change and say what to do.
 
-- Générer les fichiers HTML
-
-`daux generate `
-
-## To generate a new command
-
-`npm run - make {name}`
-
-## To execute a personnal command
-
-`npm run - {name}`
+There is 4 differents codes:
+- NEW_MESSAGE
+- NEW_CONVERSATION
+- UPDATE_MESSAGE
+- DELETE_MESSAGE
