@@ -40,5 +40,6 @@ There is 4 differents codes:
 
 ## Full Documentation
 
-You can find the full documentation on https://mon-terroir.stoplight.io
+You can find the full documentation on https://mon-terroir.stoplight.io/docs/mon-terroir/
+
 Or get the OpenAPI Json on https://stoplight.io/api/v1/projects/mon-terroir/mon-terroir/nodes/reference/Mon-Terroir.json
