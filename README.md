@@ -37,3 +37,8 @@ There is 4 differents codes:
 - NEW_CONVERSATION
 - UPDATE_MESSAGE
 - DELETE_MESSAGE
+
+## Full Documentation
+
+You can find the full documentation on https://mon-terroir.stoplight.io
+Or get the OpenAPI Json on https://stoplight.io/api/v1/projects/mon-terroir/mon-terroir/nodes/reference/Mon-Terroir.json
