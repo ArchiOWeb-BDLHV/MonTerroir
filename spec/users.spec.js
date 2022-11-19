@@ -47,6 +47,15 @@ describe('GET /users', function() {
             .expect(200)
             .expect('Content-Type', /json/);
 
+        expect(res.body).toEqual(
+            expect.arrayContaining([
+                expect.objectContaining({
+                    _id: expect.any(String),
+                    username: expect.any(String),
+                    location: expect.any(Object),
+                })
+            ])
+        );
     });
 });
 
@@ -89,6 +98,14 @@ describe('GET /users/:id', function() {
             .set('Authorization', 'Bearer ' + generateAccessToken(user))
             .expect(200)
             .expect('Content-Type', /json/);
+
+        expect(res.body).toEqual(
+            expect.objectContaining({
+                _id: expect.any(String),
+                username: expect.any(String),
+                location: expect.any(Object),
+            })
+        );
     });
 
     it("should create user as admin", async function() {
@@ -109,6 +126,14 @@ describe('GET /users/:id', function() {
             })
             .expect(201)
             .expect('Content-Type', /json/);
+
+        expect(res.body).toEqual(
+            expect.objectContaining({
+                _id: expect.any(String),
+                username: expect.any(String),
+                location: expect.any(Object),
+            })
+        );
     });
 
     it("shouldn't create user as non admin", async function() {
@@ -162,6 +187,9 @@ describe('GET /users/:id', function() {
             .delete('/api/users/' + otherUser._id)
             .set('Authorization', 'Bearer ' + generateAccessToken(user))
             .expect(204)
+
+        expect(res.body).toEqual({});
+        expect(await User.findById(otherUser._id)).toBeNull();
     });
 
     it("shouldn't delete user as non admin", async function() {
