@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import crypto from 'crypto';
 
 const Schema = mongoose.Schema;
 
@@ -19,6 +20,14 @@ const conversationSchema = new Schema({
 conversationSchema.statics.findMine = function(user) {
     return this.find().where('_id').in(user.conversations)
 };
+
+conversationSchema.statics.createFake = function({ users = [] } = {}) {
+    return this.create({
+        name: crypto.randomBytes(20).toString('hex'),
+        users: users,
+    });
+}
+
 
 
 // Create the model from the schema and export it

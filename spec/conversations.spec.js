@@ -4,6 +4,7 @@ import app from "../app.js";
 import { generateAccessToken } from "../app/http/controllers/AuthController.js";
 import User from "../app/models/user.js";
 import { cleanUpDatabase } from "./utils.js";
+import Conversation from "../app/models/conversation.js";
 
 
 describe('GET /conversations', function() {
@@ -21,10 +22,31 @@ describe('GET /conversations', function() {
         const user = await User.createFake();
 
         const res = await supertest(app)
+            .post('/api/conversations')
+            .set('Authorization', 'Bearer ' + generateAccessToken(user))
+            .send({
+                name: 'test',
+                users: [user._id],
+            })
+            .expect(201)
+            .expect('Content-Type', /json/);
+
+        const res2 = await supertest(app)
             .get('/api/conversations')
             .set('Authorization', 'Bearer ' + generateAccessToken(user))
             .expect(200)
             .expect('Content-Type', /json/);
+
+        expect(res2.body).toEqual(
+            expect.arrayContaining([
+                expect.objectContaining({
+                    _id: expect.any(String),
+                    users: expect.any(Array),
+                    name: expect.any(String),
+                })
+            ])
+        );
+
     });
 
     it("should create a conversation", async function() {
@@ -39,6 +61,14 @@ describe('GET /conversations', function() {
             })
             .expect(201)
             .expect('Content-Type', /json/);
+
+        expect(res.body).toEqual(
+            expect.objectContaining({
+                _id: expect.any(String),
+                users: expect.any(Array),
+                name: expect.any(String),
+            })
+        );
     });
 
 
@@ -97,6 +127,15 @@ describe('GET /conversations', function() {
             .set('Authorization', 'Bearer ' + generateAccessToken(user))
             .expect(200)
             .expect('Content-Type', /json/);
+
+        expect(res.body).toEqual(
+            expect.objectContaining({
+                _id: expect.any(String),
+                users: expect.any(Array),
+                name: expect.any(String),
+            })
+        );
+
     });
 
     it("shouldn't update a conversation as not own", async function() {
@@ -146,6 +185,14 @@ describe('GET /conversations', function() {
             })
             .expect(200)
             .expect('Content-Type', /json/);
+
+        expect(res.body).toEqual(
+            expect.objectContaining({
+                _id: expect.any(String),
+                users: expect.any(Array),
+                name: expect.any(String),
+            })
+        );
     });
 
     it("shouldn't delete a conversation as not own", async function() {
@@ -188,6 +235,8 @@ describe('GET /conversations', function() {
             .delete('/api/conversations/' + resConv.body._id)
             .set('Authorization', 'Bearer ' + generateAccessToken(user))
             .expect(204)
+
+        expect(res.body).toEqual({});
     });
 
 });
