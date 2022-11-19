@@ -22,11 +22,26 @@ describe('GET /productors', function() {
     it("should list all productors as authenticated", async function() {
         const user = await User.createFake();
 
+        const productor = await Productor.createFake();
+
         const res = await supertest(app)
             .get('/api/productors')
             .set('Authorization', 'Bearer ' + generateAccessToken(user))
             .expect(200)
             .expect('Content-Type', /json/);
+
+
+
+        expect(res.body).toEqual(
+            expect.arrayContaining([
+                expect.objectContaining({
+                    _id: expect.any(String),
+                    username: expect.any(String),
+                    location: expect.any(Object),
+                })
+            ])
+        );
+
     });
 
     it("shouldn't create a productor as not admin", async function() {
@@ -60,6 +75,14 @@ describe('GET /productors', function() {
             })
             .expect(201)
             .expect('Content-Type', /json/);
+
+        expect(res.body).toEqual(
+            expect.objectContaining({
+                _id: expect.any(String),
+                username: expect.any(String),
+                location: expect.any(Object),
+            })
+        );
     });
 
     it("should show a productor", async function() {
@@ -71,6 +94,15 @@ describe('GET /productors', function() {
             .set('Authorization', 'Bearer ' + generateAccessToken(user))
             .expect(200)
             .expect('Content-Type', /json/);
+
+        expect(res.body).toEqual(
+            expect.objectContaining({
+                _id: expect.any(String),
+                username: expect.any(String),
+                location: expect.any(Object),
+            })
+        );
+
     });
 
 
@@ -99,6 +131,14 @@ describe('GET /productors', function() {
             })
             .expect(200)
             .expect('Content-Type', /json/);
+
+        expect(res.body).toEqual(
+            expect.objectContaining({
+                _id: expect.any(String),
+                username: expect.any(String),
+                location: expect.any(Object),
+            })
+        );
     });
 
     it("shouldn't delete a productor as not me", async function() {
@@ -119,6 +159,8 @@ describe('GET /productors', function() {
             .delete('/api/productors/' + productor.id)
             .set('Authorization', 'Bearer ' + generateAccessToken(productor))
             .expect(204)
+
+        expect(res.body).toEqual({});
     });
 
 
@@ -146,8 +188,14 @@ describe('GET /productors', function() {
             .expect('Content-Type', /json/);
 
         expect(res.body.length).toBe(1);
-        expect(res.body[0]._id).toBe(productor.id);
-        expect(res.body[0].distance).toBe(157.42862037304747); // exact value
+        expect(res.body).toEqual(
+            expect.arrayContaining([
+                expect.objectContaining({
+                    _id: productor.id,
+                    distance: 157.42862037304747,
+                })
+            ])
+        );
 
     });
 });
