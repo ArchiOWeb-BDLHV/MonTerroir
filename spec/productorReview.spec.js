@@ -20,6 +20,12 @@ describe('Test productor review logic', function() {
             .set('Authorization', 'Bearer ' + generateAccessToken(user))
             .expect(200)
             .expect('Content-Type', /json/);
+
+        expect(res.body).toEqual(
+            expect.objectContaining({
+                data: expect.any(Object),
+            })
+        );
     });
 
     it('should create a review', async function() {
