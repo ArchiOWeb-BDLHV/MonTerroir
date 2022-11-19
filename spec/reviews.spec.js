@@ -30,11 +30,17 @@ describe('GET all reviews', function() {
             .set('Authorization', 'Bearer ' + generateAccessToken(user))
             .expect(200)
             .expect('Content-Type', /json/);
+
+        expect(res.body).toEqual(
+            expect.objectContaining({
+                data: expect.objectContaining({
+                    reviews: expect.any(Array),
+                }),
+            })
+        );
     });
 
 });
-
-
 
 afterAll(async() => {
     await mongoose.disconnect();
