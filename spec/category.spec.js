@@ -23,6 +23,8 @@ describe("Category tests", function() {
 
     it("should list all categories as auth", async function() {
 
+        await Category.createFake();
+
         const user = await User.createFake();
 
         const res = await supertest(app)
@@ -30,6 +32,18 @@ describe("Category tests", function() {
             .set('Authorization', 'Bearer ' + generateAccessToken(user))
             .expect(200)
             .expect('Content-Type', /json/);
+
+        expect(res.body).toEqual(
+            expect.arrayContaining([
+                expect.objectContaining({
+                    _id: expect.any(String),
+                    name: expect.any(String),
+                    description: expect.any(String),
+                    products: expect.any(Array),
+                })
+            ])
+        );
+
     });
 
     it("shouldn't create a category as unauth", async function() {
@@ -51,6 +65,15 @@ describe("Category tests", function() {
             .send({ name: 'test', description: 'test' })
             .expect(201)
             .expect('Content-Type', /json/);
+
+        expect(res.body).toEqual(
+            expect.objectContaining({
+                _id: expect.any(String),
+                name: 'test',
+                description: 'test',
+                products: expect.any(Array),
+            })
+        );
     });
 
     it("shouldn't update a category as unauth", async function() {
@@ -74,6 +97,15 @@ describe("Category tests", function() {
             .send({ name: 'test', description: 'test' })
             .expect(200)
             .expect('Content-Type', /json/);
+
+        expect(res.body).toEqual(
+            expect.objectContaining({
+                _id: expect.any(String),
+                name: 'test',
+                description: 'test',
+                products: expect.any(Array),
+            })
+        );
     });
 
     it("shouldn't delete a category as unauth", async function() {
@@ -94,6 +126,8 @@ describe("Category tests", function() {
             .delete('/api/categories/' + category._id)
             .set('Authorization', 'Bearer ' + generateAccessToken(user))
             .expect(204)
+
+        expect(res.body).toEqual({});
     });
 
 
