@@ -1,4 +1,4 @@
-import { nonProcessable } from "../../../errors.js";
+import { nonProcessable, unauthorized } from "../../../errors.js";
 import { sendMessageToSpecificUser } from "../../../ws.js";
 import Conversation from "../../models/conversation.js";
 import Message from "../../models/message.js";
@@ -77,7 +77,10 @@ export class MessageController {
     }
 
     static async show(req, res, next) {
-        const message = await Message.findById(req.params.id);
+        const message = await Message.findById(req.params.messageId);
+        if (!message.conversation.equals(req.params.convId)) {
+            unauthorized(next);
+        }
         res.status(200).json(message);
     }
 

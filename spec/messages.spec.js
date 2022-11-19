@@ -46,6 +46,20 @@ describe('GET /conversations/id/messages', function() {
             .expect(201)
             .expect('Content-Type', /json/);
 
+        const res = await supertest(app)
+            .get('/api/conversations/' + resConv.body._id + '/messages')
+            .set('Authorization', 'Bearer ' + generateAccessToken(user))
+            .expect(200)
+            .expect('Content-Type', /json/);
+
+        expect(res.body).toEqual(
+            expect.objectContaining({
+                data: expect.any(Array),
+                perPage: expect.any(Number),
+                page: expect.any(Number),
+            })
+        );
+
     });
 
     it("should access to a message as the conversation is own but not creator", async function() {
@@ -69,6 +83,14 @@ describe('GET /conversations/id/messages', function() {
             .set('Authorization', 'Bearer ' + generateAccessToken(user2))
             .expect(200)
             .expect('Content-Type', /json/);
+
+        expect(res.body).toEqual(
+            expect.objectContaining({
+                data: expect.any(Array),
+                perPage: expect.any(Number),
+                page: expect.any(Number),
+            })
+        );
     });
 
     it("should create a message in a conversation", async function() {
@@ -93,6 +115,16 @@ describe('GET /conversations/id/messages', function() {
             })
             .expect(201)
             .expect('Content-Type', /json/);
+
+        expect(res.body).toEqual(
+            expect.objectContaining({
+                _id: expect.any(String),
+                content: expect.any(String),
+                conversation: expect.any(String),
+                sender: expect.any(String),
+                date: expect.any(String),
+            })
+        );
     });
 
     it("shouldn't create a message in a conversation as the conversation is not own", async function() {
@@ -146,7 +178,19 @@ describe('GET /conversations/id/messages', function() {
             .get('/api/conversations/' + resConv.body._id + '/messages/' + res.body._id)
             .set('Authorization', 'Bearer ' + generateAccessToken(user))
             .expect(200)
-            .expect('Content-Type', /json/);
+            .expect('Content-Type', /json/)
+
+
+        expect(res2.body).toEqual(
+            expect.objectContaining({
+                _id: expect.any(String),
+                content: expect.any(String),
+                conversation: expect.any(String),
+                sender: expect.any(String),
+                date: expect.any(String),
+            })
+        );
+
     });
 
     it("shouldn't show a message in a conversation as not own", async function() {
@@ -212,6 +256,15 @@ describe('GET /conversations/id/messages', function() {
             .expect(200)
             .expect('Content-Type', /json/);
 
+        expect(res2.body).toEqual(
+            expect.objectContaining({
+                _id: expect.any(String),
+                content: expect.any(String),
+                conversation: expect.any(Object),
+                sender: expect.any(String),
+                date: expect.any(String),
+            })
+        );
     });
 
     it("shouldn't update a message in a conversation as not own", async function() {
@@ -275,6 +328,8 @@ describe('GET /conversations/id/messages', function() {
             .delete('/api/conversations/' + resConv.body._id + '/messages/' + res.body._id)
             .set('Authorization', 'Bearer ' + generateAccessToken(user))
             .expect(204)
+
+        expect(res2.body).toEqual({});
     });
 
     it("shouldn't delete a message in a conversation as not own", async function() {
