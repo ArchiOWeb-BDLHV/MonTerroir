@@ -20,6 +20,17 @@ describe('Test product review logic', function() {
             .set('Authorization', 'Bearer ' + generateAccessToken(user))
             .expect(200)
             .expect('Content-Type', /json/);
+
+        console.log(res.body);
+
+        expect(res.body).toEqual(
+            expect.objectContaining({
+                data: expect.objectContaining({
+                    reviews: expect.any(Array),
+                }),
+            })
+        );
+
     });
 
     it('should create a review', async function() {
@@ -37,6 +48,14 @@ describe('Test product review logic', function() {
             })
             .expect(201)
             .expect('Content-Type', /json/);
+
+        expect(res.body).toEqual(
+            expect.objectContaining({
+                _id: expect.any(String),
+                score: expect.any(Number),
+                message: expect.any(String),
+            })
+        );
     });
 
     it('should not create a review as authenticated but without score', async function() {
@@ -77,6 +96,14 @@ describe('Test product review logic', function() {
             })
             .expect(200)
             .expect('Content-Type', /json/);
+
+        expect(res.body).toEqual(
+            expect.objectContaining({
+                _id: expect.any(String),
+                score: expect.any(Number),
+                message: expect.any(String),
+            })
+        );
     });
 
     it('shoud delete a review', async function() {
@@ -95,11 +122,11 @@ describe('Test product review logic', function() {
             .set('Authorization', 'Bearer ' + generateAccessToken(user))
             .expect(204)
 
+        expect(res.body).toEqual({});
+
         const review2 = await Review.findById(review._id);
         expect(review2).toBeNull();
     });
-
-
 });
 
 afterAll(async function() {
