@@ -15,17 +15,20 @@ describe('POST /login', function() {
             .send({ username: "user", password: "password" })
             .expect(401)
             .expect('Content-Type', /json/);
+
+        expect(res.body).toEqual({ error: "Username or password incorrect" });
     });
 
     it("shouldn't login as password is wrong", async function() {
-        const username = crypto.randomBytes(20).toString('hex');
-        await User.createFake();
+        const user = await User.createFake();
 
         const res = await supertest(app)
             .post('/api/auth/login')
-            .send({ username: username, password: "wrongpassword" })
+            .send({ username: user.username, password: "wrongpassword" })
             .expect(401)
             .expect('Content-Type', /json/);
+
+        expect(res.body).toEqual({ error: "Username or password incorrect" });
     });
 
     it("should login as user", async function() {
@@ -37,6 +40,18 @@ describe('POST /login', function() {
             .send({ username: user.username, password: "password" })
             .expect(200)
             .expect('Content-Type', /json/);
+
+        expect(res.body).toEqual(
+            expect.objectContaining({
+                user: expect.objectContaining({
+                    _id: user._id.toString(),
+                    username: user.username,
+                    location: user.location,
+                    conversations: expect.any(Array),
+                }),
+                accessToken: expect.any(String)
+            })
+        );
     });
 });
 
@@ -59,6 +74,21 @@ describe('POST /register', function() {
             })
             .expect(200)
             .expect('Content-Type', /json/);
+
+        expect(res.body).toEqual(
+            expect.objectContaining({
+                user: expect.objectContaining({
+                    _id: expect.any(String),
+                    username: username,
+                    location: {
+                        type: "Point",
+                        coordinates: [10, 10]
+                    },
+                    conversations: expect.any(Array),
+                }),
+                accessToken: expect.any(String)
+            })
+        );
     });
 
     it("shouldn't register as user already exists", async function() {
