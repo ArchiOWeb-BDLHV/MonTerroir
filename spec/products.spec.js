@@ -6,6 +6,7 @@ import User from '../app/models/user.js';
 import { generateAccessToken } from '../app/http/controllers/AuthController.js';
 import Productor from '../app/models/productor.js';
 import path from 'path';
+import Product from '../app/models/product.js';
 
 describe('GET /products', function() {
     beforeEach(async function() {
@@ -21,11 +22,23 @@ describe('GET /products', function() {
 
     it("should list all products as authentificated", async function() {
         const user = await User.createFake();
+        const product = await Product.createFake();
         const res = await supertest(app)
             .get('/api/products/')
             .set('Authorization', 'Bearer ' + generateAccessToken(user))
             .expect(200)
             .expect('Content-Type', /json/);
+
+        expect(res.body).toEqual(
+            expect.arrayContaining([
+                expect.objectContaining({
+                    _id: expect.any(String),
+                    name: expect.any(String),
+                    description: expect.any(String),
+                    price: expect.any(Number),
+                })
+            ])
+        );
     });
 
     it("should create a product", async function() {
@@ -42,6 +55,15 @@ describe('GET /products', function() {
             })
             .expect(201)
             .expect('Content-Type', /json/);
+
+        expect(res.body).toEqual(
+            expect.objectContaining({
+                _id: expect.any(String),
+                name: expect.any(String),
+                description: expect.any(String),
+                price: expect.any(Number),
+            })
+        );
     });
 
     it("shouldn't create a product as authenticated but without name", async function() {
@@ -81,6 +103,15 @@ describe('GET /products', function() {
             .set('Authorization', 'Bearer ' + generateAccessToken(productor))
             .expect(200)
             .expect('Content-Type', /json/);
+
+        expect(res.body).toEqual(
+            expect.objectContaining({
+                _id: expect.any(String),
+                name: expect.any(String),
+                description: expect.any(String),
+                price: expect.any(Number),
+            })
+        );
     });
 
     it('should update a product by id', async function() {
@@ -110,6 +141,15 @@ describe('GET /products', function() {
             })
             .expect(200)
             .expect('Content-Type', /json/);
+
+        expect(res.body).toEqual(
+            expect.objectContaining({
+                _id: expect.any(String),
+                name: expect.any(String),
+                description: expect.any(String),
+                price: expect.any(Number),
+            })
+        );
     });
 
     it('should delete a product by id', async function() {
@@ -132,6 +172,8 @@ describe('GET /products', function() {
             .delete('/api/products/' + product.body._id)
             .set('Authorization', 'Bearer ' + generateAccessToken(productor))
             .expect(204)
+
+        expect(res.body).toEqual({});
 
 
         //check if the product is deleted in the database
@@ -196,10 +238,7 @@ describe('GET /products', function() {
             .set('Authorization', 'Bearer ' + generateAccessToken(user))
             .expect(403)
             .expect('Content-Type', /json/);
-
     });
-
-
 });
 
 afterAll(async() => {
