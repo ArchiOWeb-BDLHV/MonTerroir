@@ -29,7 +29,12 @@ export class UserController {
     }
 
     static async update(req, res, next) {
-        const user = await User.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true });
+        const user = await User.findOneAndUpdate({ _id: req.params.id }, {
+            username: req.body.username,
+            location: req.body.location,
+            role: req.body.role == "productor" ? Role.PRODUCTOR : Role.USER,
+            type: req.body.role == "productor" ? "Productor" : "Client",
+        }, { new: true });
         res.status(200).json(user);
     }
 
