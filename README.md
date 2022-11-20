@@ -20,6 +20,14 @@ PORT=3000
 JWT_EXPIRES_IN=1d
 ```
 
+## Tests
+
+To run the test, simply run 
+
+```bash
+npm test
+```
+
 ## RealTime endpoint
 
 To use the realtime endpoint, open a connexion to wss://mon-terroir.onrender.com
