@@ -31,6 +31,9 @@ npm test
 ## RealTime endpoint
 
 To use the realtime endpoint, open a connexion to wss://mon-terroir.onrender.com
+
+This endpoint is authenticated. You have to pass a header Authorization Bearer to access.
+
 Then, you will receive different datas when something append on the chat section. 
 
 ```json
