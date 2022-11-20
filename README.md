@@ -5,6 +5,7 @@
 To install this app in local :
 ```bash
 git clone https://github.com/Tesseve/MonTerroir
+cd MonTerroir
 cp .env.example .env
 npm install
 npm run - generateKey
