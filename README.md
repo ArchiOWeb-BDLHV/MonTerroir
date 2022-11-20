@@ -1,5 +1,24 @@
 # TesseveApi
 
+## Installation
+
+To install this app in local :
+```bash
+git clone https://github.com/Tesseve/MonTerroir
+cp .env.example .env
+npm install
+npm run - generateKey
+npm run dev
+```
+
+You can then update the key in the .env file for example : 
+
+```bash
+DB_CONNECTION="mongodb://localhost:27017/tesseve"
+PORT=3000
+JWT_EXPIRES_IN=1d
+```
+
 ## RealTime endpoint
 
 To use the realtime endpoint, open a connexion to wss://mon-terroir.onrender.com
