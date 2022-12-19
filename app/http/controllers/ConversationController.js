@@ -36,7 +36,7 @@ export class ConversationController {
     }
 
     static async show(req, res, next) {
-        const conversation = await Conversation.findById(req.params.id);
+        const conversation = await Conversation.findById(req.params.id).populate('users');
         res.status(200).json(conversation);
     }
 
