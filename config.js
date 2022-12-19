@@ -11,4 +11,5 @@ export default {
         secret: process.env.APP_KEY || 'secret',
         expiresIn: process.env.JWT_EXPIRES_IN || '1d',
     },
+    appUrl: process.env.APP_URL,
 };
