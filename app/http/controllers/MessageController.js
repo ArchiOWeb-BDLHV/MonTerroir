@@ -11,7 +11,7 @@ export class MessageController {
         const perPage = parseInt(req.query.perPage) || 50;
         const skip = (page - 1) * perPage;
 
-        const messages = await Message.where(req.params.convId).in('conversation')
+        const messages = await Message.where('conversation').equals(req.params.convId)
             .sort({ "date": -1 })
             .skip(skip)
             .limit(perPage)
