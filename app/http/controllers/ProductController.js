@@ -15,8 +15,8 @@ export class ProductController {
     static async store(req, res, next) {
 
         let images = [];
-        if (req.images) {
-            for (const image of req.images) {
+        if (req.files) {
+            for (const image of req.files.images) {
                 // deplacer image sur serveur
                 const path = "/uploads/" + Date.now() + "_" + image.name;
                 const url = process.cwd() + "/public" + path;
@@ -26,8 +26,12 @@ export class ProductController {
                     fs.mkdirSync(process.cwd() + "/public/uploads", { recursive: true });
                 }
 
-                let buff = Buffer.from(data, 'base64');
-                fs.writeFileSync(url, buff);
+
+                image.mv(url, (error) => {
+                    if (error) {
+                        return next(error);
+                    }
+                });
 
                 const i = await Image.create({
                     url: path,

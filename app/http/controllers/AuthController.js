@@ -62,11 +62,8 @@ export async function register(req, res, next) {
                             fs.mkdirSync(process.cwd() + "/public/uploads", { recursive: true });
                         }
 
-                        image.mv(url, (error) => {
-                            if (error) {
-                                return next(error);
-                            }
-                        });
+                        let buff = Buffer.from(data, 'base64');
+                        fs.writeFileSync(url, buff);
 
                         const i = await Image.create({
                             url: path,
