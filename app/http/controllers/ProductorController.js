@@ -10,7 +10,7 @@ export class ProductorController {
         //if query string contains a location, filter by location
         let productors;
         if (req.query.location) {
-            productors = await Productor.populate('images').aggregate([{
+            productors = await Productor.aggregate([{
                 $geoNear: {
                     near: {
                         type: "Point",
@@ -21,7 +21,7 @@ export class ProductorController {
 
                     maxDistance: (parseInt(req.query.distance) || 100)
                 }
-            }]);
+            }]).populate('images');
         } else {
             productors = await Productor.find().sort('name').populate('images');
         }
