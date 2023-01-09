@@ -11,25 +11,25 @@ export class ProductorController {
         let productors;
         if (req.query.location) {
             productors = await Productor.aggregate([{
-                $geoNear: {
-                    near: {
-                        type: "Point",
-                        coordinates: req.query.location.split(',').map(Number)
+                    $geoNear: {
+                        near: {
+                            type: "Point",
+                            coordinates: req.query.location.split(',').map(Number)
+                        },
+                        distanceField: "distance",
+                        spherical: true,
+
+                        maxDistance: (parseInt(req.query.distance) || 100)
                     },
-                    distanceField: "distance",
-                    spherical: true,
 
-                    maxDistance: (parseInt(req.query.distance) || 100)
                 },
-
-            }, {
-                $lookup: {
-                    from: "images",
-                    localField: "_id",
-                    foreignField: "productor",
-                    as: "images"
+                {
+                    $lookup: {
+                        from: "images",
+                        localField: "_id",
+                    }
                 }
-            }]);
+            ]);
         } else {
             productors = await Productor.find().sort('name').populate('images');
         }
