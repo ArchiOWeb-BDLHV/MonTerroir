@@ -1,6 +1,8 @@
 import express from "express";
 import { login, register } from "../app/http/controllers/AuthController.js";
 import asyncRoute from "./asyncRoute.js";
+import fileUpload from "express-fileupload";
+
 
 
 const router = express.Router();
