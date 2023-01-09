@@ -21,6 +21,8 @@ export class ProductorController {
 
                     maxDistance: (parseInt(req.query.distance) || 100)
                 },
+
+            }, {
                 $lookup: {
                     from: "images",
                     localField: "_id",
