@@ -48,7 +48,11 @@ const userSchema = new Schema({
                 message: '{VALUE} is not a valid longitude/latitude(/altitude) coordinates array'
             }
         }
-    }
+    },
+    images: [{
+        type: Schema.Types.ObjectId,
+        ref: "Image",
+    }, ],
 
 }, {
     timestamps: true,

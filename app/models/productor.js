@@ -16,6 +16,7 @@ const productorSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "Review",
     }],
+
 });
 
 productorSchema.statics.withAverageRating = function() {

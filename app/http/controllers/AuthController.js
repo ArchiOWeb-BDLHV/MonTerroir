@@ -46,18 +46,46 @@ export async function register(req, res, next) {
         } else {
             try {
                 let user;
+
+                let images = [];
+                if (req.files) {
+                    for (const image of req.files.images) {
+                        // deplacer image sur serveur
+                        const path = "/uploads/" + Date.now() + "_" + image.name;
+                        const url = process.cwd() + "/public" + path;
+
+                        //create folder if not exist
+                        if (!fs.existsSync(process.cwd() + "/public/uploads")) {
+                            fs.mkdirSync(process.cwd() + "/public/uploads", { recursive: true });
+                        }
+
+                        image.mv(url, (error) => {
+                            if (error) {
+                                return next(error);
+                            }
+                        });
+
+                        const i = await Image.create({
+                            url: path,
+                        });
+                        images.push(i);
+                    }
+                }
+
                 if (req.body.role == "productor") {
                     user = new Productor({
                         username: username,
                         password: password,
                         role: 2,
                         location: req.body.location,
+                        images: images,
                     });
                 } else {
                     user = new Client({
                         username: req.body.username,
                         password: req.body.password,
                         location: req.body.location,
+                        images: images,
                     });
                 }
 

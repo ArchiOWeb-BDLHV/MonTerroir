@@ -7,7 +7,12 @@ const router = express.Router();
 
 router.post("/login", asyncRoute(login));
 
-router.post("/register", asyncRoute(register));
+router.post("/register",
+    fileUpload({
+        limits: { fileSize: 50 * 1024 * 1024 },
+        createParentPath: true,
+    }),
+    asyncRoute(register));
 
 
 export default router;
