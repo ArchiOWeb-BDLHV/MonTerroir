@@ -23,14 +23,14 @@ export class ProductorController {
                     },
 
                 },
-                {
+                /* {
                     $lookup: {
                         from: "images",
                         localField: "images",
                         foreignField: "_id",
                         as: "images",
                     }
-                }
+                } */
             ]);
         } else {
             productors = await Productor.find().sort('name').populate('images');
