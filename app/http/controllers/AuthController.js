@@ -4,6 +4,9 @@ import User from "../../models/user.js";
 import Client from "../../models/client.js";
 import Productor from "../../models/productor.js";
 import { nonProcessable } from "../../../errors.js";
+import fs from "fs";
+import Image from "../../models/image.js";
+
 
 export function generateAccessToken(user) {
     return Jwt.sign({ id: user._id }, config.jwt.secret, { expiresIn: config.jwt.expiresIn }); // Generation du token d'authentification
