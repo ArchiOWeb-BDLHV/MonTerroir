@@ -23,7 +23,7 @@ export class ProductorController {
                 }
             }]);
         } else {
-            productors = await Productor.find().sort('name');
+            productors = await Productor.find().sort('name').populate('images');
         }
 
         //hide properties from response
