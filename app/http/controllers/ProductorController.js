@@ -26,8 +26,8 @@ export class ProductorController {
                 {
                     $lookup: {
                         from: "images",
-                        localField: "_id",
-                        foreignField: "user",
+                        localField: "images",
+                        foreignField: "_id",
                         as: "images",
                     }
                 }
