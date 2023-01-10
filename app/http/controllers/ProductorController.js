@@ -1,5 +1,6 @@
 import createDebugger from "debug";
 import Productor from "../../models/productor.js";
+import config from "../../../config.js";
 
 const debug = createDebugger('express-api:productors')
 
@@ -36,24 +37,32 @@ export class ProductorController {
             productors = await Productor.find().sort('name').populate('images');
         }
 
-        //hide properties from response
-        const productorsFiltered = productors.map(productor => {
-            var obj = productor;
-            delete obj.password;
-            delete obj.__v;
-            delete obj.role;
-            delete obj.conversations;
-            delete obj.updatedAt;
-            delete obj.createdAt;
-            delete obj.type;
-
-            obj.images = obj.images.map(image => {
-                var obj = image;
+        try {
+            //hide properties from response
+            const productorsFiltered = productors.map(productor => {
+                let obj = productor;
+                delete obj.password;
                 delete obj.__v;
+                delete obj.role;
+                delete obj.conversations;
+                delete obj.updatedAt;
+                delete obj.createdAt;
+                delete obj.type;
+
+                obj.images = obj.images.map(image => {
+                    let obj = image;
+                    delete obj.__v;
+                    obj.url = config.appUrl + obj.url;
+                    return obj;
+                });
                 return obj;
             });
-            return obj;
-        });
+        } catch (err) {
+            next(err);
+        }
+
+
+
 
         res.status(200).json(productorsFiltered);
     }
