@@ -44,6 +44,8 @@ export class ProductorController {
             delete obj.role;
             delete obj.conversations;
             delete obj.updatedAt;
+            delete obj.createdAt;
+            delete obj.type;
             return obj;
         });
 
