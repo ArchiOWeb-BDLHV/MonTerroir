@@ -26,7 +26,6 @@ export class ProductController {
                     fs.mkdirSync(process.cwd() + "/public/uploads", { recursive: true });
                 }
 
-
                 image.mv(url, (error) => {
                     if (error) {
                         return next(error);
