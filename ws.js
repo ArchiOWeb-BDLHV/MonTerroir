@@ -16,7 +16,7 @@ export function createWebSocketServer(httpServer) {
     wss.on('connection', async function(ws, req) {
         debug('New WebSocket client connected');
 
-        const user = await tokenToUser(req);
+        const user = await tokenToUser(req.url.searchParams['token']);
         if (!user) {
             debug('User not authenticated');
             ws.send('User not authenticated');
