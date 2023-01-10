@@ -53,6 +53,7 @@ export class ProductorController {
     }
 
     static async store(req, res, next) {
+
         const user = new Productor({
             username: req.body.username,
             password: req.body.password,
