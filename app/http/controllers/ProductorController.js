@@ -36,7 +36,7 @@ export class ProductorController {
             productors = await Productor.find().sort('name').populate('images');
         }
 
-        /* //hide properties from response
+        //hide properties from response
         const productorsFiltered = productors.map(productor => {
             var obj = productor;
             delete obj.password;
@@ -47,9 +47,9 @@ export class ProductorController {
             delete obj.createdAt;
             delete obj.type;
             return obj;
-        }); */
+        });
 
-        res.status(200).json(productors);
+        res.status(200).json(productorsFiltered);
     }
 
     static async store(req, res, next) {
