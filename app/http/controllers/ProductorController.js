@@ -37,16 +37,17 @@ export class ProductorController {
         }
 
         //hide properties from response
-        productors = productors.map(productor => {
-            delete productor.password;
-            delete productor.__v;
-            delete productor.role;
-            delete productor.conversations;
-            delete productor.updatedAt;
-            return productor;
+        const productorsFiltered = productors.map(productor => {
+            var obj = productor.toObject();
+            delete obj.password;
+            delete obj.__v;
+            delete obj.role;
+            delete obj.conversations;
+            delete obj.updatedAt;
+            return obj;
         });
 
-        res.status(200).json(productors);
+        res.status(200).json(productorsFiltered);
     }
 
     static async store(req, res, next) {
