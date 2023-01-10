@@ -21,23 +21,23 @@ const productorSchema = new mongoose.Schema({
     toObject: {
         transform: function(doc, ret) {
             delete ret.__v;
-            delete obj.password;
-            delete obj.role;
-            delete obj.conversations;
-            delete obj.updatedAt;
-            delete obj.createdAt;
-            delete obj.type;
+            delete ret.password;
+            delete ret.role;
+            delete ret.conversations;
+            delete ret.updatedAt;
+            delete ret.createdAt;
+            delete ret.type;
         }
     },
     toJSON: {
         transform: function(doc, ret) {
             delete ret.__v;
-            delete obj.password;
-            delete obj.role;
-            delete obj.conversations;
-            delete obj.updatedAt;
-            delete obj.createdAt;
-            delete obj.type;
+            delete ret.password;
+            delete ret.role;
+            delete ret.conversations;
+            delete ret.updatedAt;
+            delete ret.createdAt;
+            delete ret.type;
         }
     }
 });
