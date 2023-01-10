@@ -27,7 +27,7 @@ export function authenticated(req, res, next) { //authenticated est un middlewar
 export function tokenToUser(req) {
 
     //get the token in the req query 
-    let token = req.query['token'];
+    let token = req.query.token;
     if (!token) {
         const authHeader = req.headers['authorization'];
         if (!authHeader) return null;
