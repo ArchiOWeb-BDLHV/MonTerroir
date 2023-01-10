@@ -62,7 +62,7 @@ export class MessageController {
                                 "username": message.sender.username
                             },
                             "date": message.date,
-                            "mine": message.sender._id.equals(req.user._id)
+                            "mine": false
                         },
                     }, userId, "NEW_MESSAGE");
                 }
