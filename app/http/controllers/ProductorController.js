@@ -49,12 +49,9 @@ export class ProductorController {
                 delete obj.createdAt;
                 delete obj.type;
 
-                /* obj.images = obj.images.map(image => {
-                    let objI = image;
-                    delete objI.__v;
-                    objI.url = config.appUrl + objI.url;
-                    return objI;
-                }); */
+                obj.images = obj.images.map(image => {
+                    return image.toJSON();
+                });
                 return obj;
             });
             res.status(200).json(productorsFiltered);
