@@ -18,6 +18,17 @@ const imageSchema = new Schema({
         type: Date,
         default: Date.now,
     },
+}, {
+    toObject: {
+        transform: function(doc, ret) {
+            ret.url = config.appUrl + ret.url;
+        }
+    },
+    toJSON: {
+        transform: function(doc, ret) {
+            ret.url = config.appUrl + ret.url;
+        }
+    }
 });
 
 imageSchema.methods.toJSON = function() {
