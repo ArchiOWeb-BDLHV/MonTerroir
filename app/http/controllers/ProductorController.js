@@ -40,7 +40,7 @@ export class ProductorController {
         try {
             //hide properties from response
             const productorsFiltered = productors.map(productor => {
-                let obj = productor;
+                let obj = productor.toObject();
                 delete obj.password;
                 delete obj.__v;
                 delete obj.role;
@@ -62,10 +62,6 @@ export class ProductorController {
         } catch (err) {
             next(err);
         }
-
-
-
-
     }
 
     static async store(req, res, next) {
