@@ -27,10 +27,7 @@ export function authenticated(req, res, next) { //authenticated est un middlewar
 export function tokenToUser(req) {
 
     console.log('HEADERS', req.headers);
-    const authHeader = req.headers['authorization'];
-    if (!authHeader) return null;
-
-    const token = authHeader.split(' ')[1];
+    const token = req.headers['sec-websocket-protocol'];
     if (!token) return null;
 
     return new Promise((resolve, reject) => {
