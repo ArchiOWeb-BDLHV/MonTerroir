@@ -35,6 +35,7 @@ export class ProductorController {
             ]);
         } else {
             productors = await Productor.find().sort('name').populate('images');
+            res.status(200).json(productors);
         }
 
         try {
