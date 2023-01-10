@@ -46,6 +46,11 @@ export class ProductorController {
             delete obj.updatedAt;
             delete obj.createdAt;
             delete obj.type;
+
+            obj.images = obj.images.map(image => {
+                var obj = image;
+                delete obj.__v;
+            });
             return obj;
         });
 
