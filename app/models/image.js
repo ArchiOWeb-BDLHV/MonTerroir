@@ -31,11 +31,5 @@ const imageSchema = new Schema({
     }
 });
 
-imageSchema.methods.toJSON = function() {
-    var obj = this.toObject();
-    obj.url = config.appUrl + obj.url;
-    return obj;
-}
-
 // Create the model from the schema and export it
 export default mongoose.model("Image", imageSchema);
