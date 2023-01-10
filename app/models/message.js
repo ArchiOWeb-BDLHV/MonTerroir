@@ -27,7 +27,7 @@ const messageSchema = new Schema({
         ref: 'User',
         required: true
     },
-});
+}, );
 
 // Create the model from the schema and export it
 export default mongoose.model("Message", messageSchema);
