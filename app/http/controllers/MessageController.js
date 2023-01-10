@@ -31,7 +31,7 @@ export class MessageController {
                         "username": message.sender.username
                     },
                     "date": message.date,
-                    "isMine": message.sender._id.equals(req.user._id)
+                    "mine": message.sender._id.equals(req.user._id)
                 }
             }),
             page,
