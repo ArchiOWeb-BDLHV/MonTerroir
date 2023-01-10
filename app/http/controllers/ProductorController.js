@@ -50,6 +50,7 @@ export class ProductorController {
             obj.images = obj.images.map(image => {
                 var obj = image;
                 delete obj.__v;
+                return obj;
             });
             return obj;
         });
