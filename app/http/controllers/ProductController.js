@@ -77,5 +77,3 @@ export class ProductController {
         res.status(204).json();
     }
 }
-
-// export { index, store, show, update, destroy };
