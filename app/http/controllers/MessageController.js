@@ -64,12 +64,25 @@ export class MessageController {
                                 "id": req.user._id,
                                 "username": req.user.username
                             },
-                            "date": message.date
+                            "date": message.date,
+                            "mine": false
                         },
                     }, userId, "NEW_MESSAGE");
                 }
             });
-            res.status(201).json(message);
+            res.status(201).json({
+                "message": message.content,
+                "conversation": {
+                    "id": message.conversation._id,
+                    "name": message.conversation.name,
+                },
+                "sender": {
+                    "id": message.sender._id,
+                    "username": message.sender.username
+                },
+                "date": message.date,
+                "mine": message.sender._id.equals(req.user._id)
+            });
         } catch (err) {
             if (err.name === 'ValidationError') {
                 nonProcessable(next, err);
