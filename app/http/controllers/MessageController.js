@@ -52,20 +52,17 @@ export class MessageController {
                 if (!userId.equals(req.user._id)) {
                     sendMessageToSpecificUser({
                         "data": {
-                            "message": {
-                                "id": message._id,
-                                "content": message.content,
-                            },
+                            "message": message.content,
                             "conversation": {
-                                "id": conversation._id,
-                                "name": conversation.name,
+                                "id": message.conversation._id,
+                                "name": message.conversation.name,
                             },
                             "sender": {
-                                "id": req.user._id,
-                                "username": req.user.username
+                                "id": message.sender._id,
+                                "username": message.sender.username
                             },
                             "date": message.date,
-                            "mine": false
+                            "mine": message.sender._id.equals(req.user._id)
                         },
                     }, userId, "NEW_MESSAGE");
                 }
