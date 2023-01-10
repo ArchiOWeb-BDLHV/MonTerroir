@@ -28,6 +28,7 @@ export function tokenToUser(req) {
 
     //get the token in the req query 
     let token = req.query.token;
+    console.log(token)
     if (!token) {
         const authHeader = req.headers['authorization'];
         if (!authHeader) return null;
