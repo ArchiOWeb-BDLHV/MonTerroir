@@ -52,7 +52,7 @@ export class ProductorController {
                 obj.images = obj.images.map(image => {
                     let objI = image;
                     delete objI.__v;
-                    if (!objI.url.contains('http')) {
+                    if (!objI.url.includes('http')) {
                         objI.url = config.appUrl + objI.url;
                     }
                     return objI;
