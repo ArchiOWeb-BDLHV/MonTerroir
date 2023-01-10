@@ -3,6 +3,7 @@ import Product from "../../models/product.js";
 import Image from "../../models/image.js";
 import { nonProcessable } from "../../../errors.js";
 import fs from "fs";
+import config from "../../../config.js";
 
 const debug = createDebugger("express-api:product");
 
@@ -32,7 +33,7 @@ export class ProductController {
                 });
 
                 const i = await Image.create({
-                    url: path,
+                    url: config.appUrl + path,
                 });
                 images.push(i);
             }
