@@ -57,6 +57,8 @@ export class ProductorController {
                 });
                 return obj;
             });
+            res.status(200).json(productorsFiltered);
+
         } catch (err) {
             next(err);
         }
@@ -64,7 +66,6 @@ export class ProductorController {
 
 
 
-        res.status(200).json(productorsFiltered);
     }
 
     static async store(req, res, next) {
