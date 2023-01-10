@@ -13,7 +13,6 @@ export class ProductController {
     }
 
     static async store(req, res, next) {
-
         let images = [];
         if (req.files) {
             for (const image of req.files.images) {
