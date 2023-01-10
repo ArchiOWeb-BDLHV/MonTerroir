@@ -38,7 +38,7 @@ export class ProductorController {
 
         //hide properties from response
         const productorsFiltered = productors.map(productor => {
-            var obj = productor.toObject();
+            var obj = productor;
             delete obj.password;
             delete obj.__v;
             delete obj.role;
