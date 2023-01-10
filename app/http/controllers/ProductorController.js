@@ -50,10 +50,10 @@ export class ProductorController {
                 delete obj.type;
 
                 obj.images = obj.images.map(image => {
-                    let obj = image;
-                    delete obj.__v;
-                    obj.url = config.appUrl + obj.url;
-                    return obj;
+                    let objI = image;
+                    delete objI.__v;
+                    objI.url = config.appUrl + objI.url;
+                    return objI;
                 });
                 return obj;
             });
