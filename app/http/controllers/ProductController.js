@@ -12,7 +12,7 @@ export class ProductController {
         let products;
         if (req.query.category) {
             //where products categories includes req.query.category with query
-            products = await Product.find({ categoeries: req.query.category }).sort("name").populate("images")
+            products = await Product.find({ categories: req.query.category }).sort("name").populate("images")
         } else {
             products = await Product.find().sort("name").populate("images")
         }
