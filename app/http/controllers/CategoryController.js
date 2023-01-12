@@ -7,12 +7,11 @@ export class CategoryController {
     }
 
     static async store(req, res, next) {
-        const category = new Category({
+        const category = await Category.create({
             name: req.body.name,
             description: req.body.description,
         });
-        const result = await category.save();
-        res.status(201).json(result);
+        res.status(201).json(category);
     }
 
     static async show(req, res, next) {
