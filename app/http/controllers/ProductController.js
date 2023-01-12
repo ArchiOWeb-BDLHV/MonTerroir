@@ -9,7 +9,14 @@ const debug = createDebugger("express-api:product");
 
 export class ProductController {
     static async index(req, res, next) {
-        const products = await Product.find().sort("name").populate("images");
+        let products;
+        if (req.query.category) {
+            //where products categories includes req.query.category with query
+            products = await Product.find({ categoeries: req.query.category });
+        } else {
+            products = await Product.find();
+        }
+        products.sort("name").populate("images");
         res.status(200).json(products);
     }
 
