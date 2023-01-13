@@ -11,8 +11,6 @@ export class ConversationController {
 
     static async store(req, res, next) {
         try {
-
-            //if users already has a conversation with body users[0] return it
             let existingConversation = await Conversation.findOne({
                 users: {
                     $all: [req.user._id, ...req.body.users]
