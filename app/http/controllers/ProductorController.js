@@ -42,7 +42,13 @@ export class ProductorController {
                 },
             ]);
         } else {
-            productors = await Productor.find().sort('name').populate('images').populate('reviews');
+            productors = await Productor.find().sort('name').populate('images').populate({
+                path: 'reviews',
+                populate: {
+                    path: 'author',
+                    model: 'User',
+                },
+            });
         }
 
         try {
@@ -87,7 +93,12 @@ export class ProductorController {
             },
         }).populate({
             path: 'reviews',
+            populate: {
+                path: 'author',
+                model: 'User',
+            },
         });
+
         if (!user) {
             return res.status(404).json({ message: 'Productor not found' });
         }
