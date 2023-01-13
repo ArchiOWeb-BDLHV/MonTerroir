@@ -71,7 +71,7 @@ export class ProductorController {
     }
 
     static async show(req, res, next) {
-        const user = await Productor.findById(req.params.id);
+        const user = await Productor.findById(req.params.id).populate('images');
         if (!user) {
             return res.status(404).json({ message: 'Productor not found' });
         }
