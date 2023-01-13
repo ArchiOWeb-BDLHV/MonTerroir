@@ -24,11 +24,18 @@ export class ProductorReviewController {
             score: req.body.score,
             message: req.body.message,
             author: req.user._id,
-            productor: req.params.id
         });
+
+
+
 
         try {
             const result = await review.save();
+            //attach the review to the productor
+            const productor = await Productor.findById(req.params.id);
+            productor.reviews.push(review._id);
+            await productor.save();
+
             res.status(201).json(result);
         } catch (e) {
             if (e.name === 'ValidationError') {
