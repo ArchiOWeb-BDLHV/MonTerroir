@@ -1,6 +1,6 @@
 import createDebugger from "debug";
 import Productor from "../../models/productor.js";
-import config from "../../../config.js";
+import Review from "../../models/review.js";
 
 const debug = createDebugger('express-api:productors')
 
@@ -36,6 +36,10 @@ export class ProductorController {
         } else {
             productors = await Productor.find().sort('name').populate('images');
         }
+
+        productors.forEach(element => {
+            element.reviews = Review.where('productor').equals(element._id);
+        });
 
         try {
             //hide properties from response
