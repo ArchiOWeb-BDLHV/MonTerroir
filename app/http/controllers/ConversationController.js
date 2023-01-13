@@ -11,12 +11,24 @@ export class ConversationController {
 
     static async store(req, res, next) {
         try {
+
+            //if users already has a conversation with body users[0] return it
+            let existingConversation = await Conversation.findOne({
+                users: {
+                    $all: [req.user._id, req.body.users[0]]
+                }
+            });
+
+            if (existingConversation) {
+                return res.status(200).json(existingConversation);
+            }
+
             const users = [req.user._id, ...req.body.users || []];
-            const conversation = new Conversation({
+            const newConversation = new Conversation({
                 name: req.body.name,
                 users: users,
             });
-            const result = await conversation.save();
+            const result = await newConversation.save();
 
             await User.updateMany({ _id: { $in: users } }, { $push: { conversations: result._id } });
 
