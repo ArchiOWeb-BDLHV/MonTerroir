@@ -84,7 +84,9 @@ export class ProductorController {
             populate: {
                 path: 'images',
                 model: 'Image',
-            }
+            },
+        }).populate({
+            path: 'reviews',
         });
         if (!user) {
             return res.status(404).json({ message: 'Productor not found' });
