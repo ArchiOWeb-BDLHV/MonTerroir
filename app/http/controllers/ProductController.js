@@ -6,6 +6,7 @@ import fs from "fs";
 import config from "../../../config.js";
 import User from "../../models/user.js";
 import Category from "../../models/category.js";
+import { randomUUID } from "crypto";
 
 const debug = createDebugger("express-api:product");
 
@@ -23,10 +24,10 @@ export class ProductController {
 
     static async store(req, res, next) {
         let images = [];
-        if (req.files) {
-            for (const image of req.files.images) {
+        if (req.body.images) {
+            for (const image64 of req.body.images) {
                 // deplacer image sur serveur
-                const path = "/uploads/" + Date.now() + "_" + image.name;
+                const path = "/uploads/" + Date.now() + "_" + randomUUID() + ".png";
                 const url = process.cwd() + "/public" + path;
 
                 //create folder if not exist
@@ -34,11 +35,8 @@ export class ProductController {
                     fs.mkdirSync(process.cwd() + "/public/uploads", { recursive: true });
                 }
 
-                image.mv(url, (error) => {
-                    if (error) {
-                        return next(error);
-                    }
-                });
+                let buff = Buffer.from(image64, 'base64');
+                fs.writeFileSync(url, buff);
 
                 const i = await Image.create({
                     url: config.appUrl + path,
