@@ -18,7 +18,13 @@ export async function login(req, res) {
     if (!(username && password)) {
         return res.status(422).json({ error: 'Username and password are required' }); // si le username ou le password est manquant, on renvoie une erreur
     } else {
-        const user = await User.findOneByUsername(username).populate('products'); // on récupère l'utilisateur correspondant au username
+        const user = await User.findOneByUsername(username).populate({
+            path: 'products',
+            populate: {
+                path: 'images',
+                model: 'Image'
+            }
+        }); // on récupère l'utilisateur correspondant au username
         if (!user) {
             return res.status(401).json({ error: 'Username or password incorrect' }); // si l'utilisateur n'existe pas, on renvoie une erreur
         }
@@ -41,7 +47,13 @@ export async function register(req, res, next) {
     if (!(username && password)) {
         res.status(422).json({ message: 'Username and password are required' }); // si le username ou le password est manquant, on renvoie une erreur
     } else {
-        const doesUserExist = await User.findOneByUsername(username).populate('products'); // on vérifie si l'utilisateur existe déjà
+        const doesUserExist = await User.findOneByUsername(username).populate({
+            path: 'products',
+            populate: {
+                path: 'images',
+                model: 'Image'
+            }
+        }); // on vérifie si l'utilisateur existe déjà
 
 
         if (doesUserExist != null) {
