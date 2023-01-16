@@ -26,7 +26,6 @@ const productorSchema = new mongoose.Schema({
             delete ret.conversations;
             delete ret.updatedAt;
             delete ret.createdAt;
-            delete ret.type;
         }
     },
     toJSON: {
@@ -37,7 +36,6 @@ const productorSchema = new mongoose.Schema({
             delete ret.conversations;
             delete ret.updatedAt;
             delete ret.createdAt;
-            delete ret.type;
         }
     }
 });
