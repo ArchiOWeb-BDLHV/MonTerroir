@@ -76,11 +76,41 @@ export class ProductController {
     }
 
     static async update(req, res, next) {
-        const product = await Product.findOneAndUpdate({ _id: req.params.id },
-            req.body, {
-                new: true,
+        let images = [];
+        if (req.files) {
+            for (const image of req.files.images) {
+                // deplacer image sur serveur
+                const path = "/uploads/" + Date.now() + "_" + image.name;
+                const url = process.cwd() + "/public" + path;
+
+                //create folder if not exist
+                if (!fs.existsSync(process.cwd() + "/public/uploads")) {
+                    fs.mkdirSync(process.cwd() + "/public/uploads", { recursive: true });
+                }
+
+                image.mv(url, (error) => {
+                    if (error) {
+                        return next(error);
+                    }
+                });
+
+                const i = await Image.create({
+                    url: config.appUrl + path,
+                });
+                images.push(i);
             }
-        );
+        }
+
+        const product = await Product.findOneAndUpdate({ _id: req.params.id }, {
+            name: req.body.name,
+            description: req.body.description,
+            price: req.body.price,
+            categories: [...req.body.categories],
+            images: [...images],
+
+        }, {
+            new: true,
+        });
         res.status(200).json(product);
     }
 
