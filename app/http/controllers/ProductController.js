@@ -68,7 +68,7 @@ export class ProductController {
     }
 
     static async show(req, res, next) {
-        const product = await Product.findById(req.params.id).populate("images");
+        const product = await Product.findById(req.params.id).populate("images").populate("categories");
         if (!product) {
             return res.status(404).json({ message: "Product not found" });
         }
