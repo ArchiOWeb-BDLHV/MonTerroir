@@ -4,6 +4,7 @@ import Image from "../../models/image.js";
 import { nonProcessable } from "../../../errors.js";
 import fs from "fs";
 import config from "../../../config.js";
+import User from "../../models/user.js";
 
 const debug = createDebugger("express-api:product");
 
@@ -117,5 +118,10 @@ export class ProductController {
     static async destroy(req, res, next) {
         const product = await Product.findOneAndDelete({ _id: req.params.id });
         res.status(204).json();
+    }
+
+    static async mine(req, res, next) {
+        const user = await User.findById(req.user._id).populate("products");
+        res.status(200).json(user.products);
     }
 }

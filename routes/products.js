@@ -46,6 +46,8 @@ router.delete(
     asyncRoute(ProductController.destroy)
 );
 
+router.get("/mine", ReviewPolicy.index, asyncRoute(ProductController.mine));
+
 //reviews 
 
 router.get("/:id/reviews", ReviewPolicy.index, asyncRoute(ProductReviewController.index));
