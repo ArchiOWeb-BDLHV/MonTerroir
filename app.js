@@ -36,7 +36,7 @@ app.use(cors())
 
 
 app.use(express.json({ limit: "50mb" }));
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: false, limit: '50mb' }));
 
 //check if user is authenticated
 
