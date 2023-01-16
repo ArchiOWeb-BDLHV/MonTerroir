@@ -5,7 +5,7 @@ import User from "../../models/user.js";
 
 export class ConversationController {
     static async index(req, res, next) {
-        const conversations = await Conversation.findMine(req.user);
+        const conversations = await Conversation.findMine(req.user).populate("users");
         res.status(200).json(conversations);
     }
 
