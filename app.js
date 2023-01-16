@@ -35,9 +35,8 @@ if (process.env.NODE_ENV !== "test") {
 app.use(cors())
 
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
 app.use(express.json({ limit: "50mb" }));
+app.use(express.urlencoded({ extended: false }));
 
 //check if user is authenticated
 
