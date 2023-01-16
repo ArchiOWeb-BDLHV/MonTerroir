@@ -121,7 +121,13 @@ export class ProductController {
     }
 
     static async mine(req, res, next) {
-        const user = await User.findById(req.user._id).populate("products");
+        const user = await User.findById(req.user._id).populate({
+            path: "products",
+            populate: {
+                path: "images",
+                model: "Image",
+            },
+        });
         res.status(200).json(user.products);
     }
 }
