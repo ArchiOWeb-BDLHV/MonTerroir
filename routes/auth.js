@@ -1,5 +1,5 @@
 import express from "express";
-import { login, register } from "../app/http/controllers/AuthController.js";
+import { login, register, me } from "../app/http/controllers/AuthController.js";
 import asyncRoute from "./asyncRoute.js";
 import fileUpload from "express-fileupload";
 
@@ -15,6 +15,8 @@ router.post("/register",
         createParentPath: true,
     }),
     asyncRoute(register));
+
+router.get('/me', asyncRoute(me))
 
 
 export default router;

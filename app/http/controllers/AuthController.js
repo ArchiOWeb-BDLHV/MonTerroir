@@ -114,3 +114,19 @@ export async function register(req, res, next) {
         }
     }
 }
+
+export async function me(req, res, next) {
+    const user = await User.findById(req.user.id).populate({
+        path: 'products',
+        populate: {
+            path: 'images',
+            model: 'Image'
+        }
+    });
+    if (!user) {
+        return res.status(404).json({ error: 'User not found' });
+    }
+    const accessToken = generateAccessToken(user.toJSON()); // on génère un token
+
+    return res.json({ user, accessToken });
+}
