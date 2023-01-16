@@ -5,6 +5,7 @@ import { nonProcessable } from "../../../errors.js";
 import fs from "fs";
 import config from "../../../config.js";
 import User from "../../models/user.js";
+import Category from "../../models/category.js";
 
 const debug = createDebugger("express-api:product");
 
@@ -46,11 +47,13 @@ export class ProductController {
             }
         }
         try {
+            const categories = await Category.find({ _id: { $in: req.body.categories } });
+
             const product = new Product({
                 name: req.body.name,
                 description: req.body.description,
                 price: req.body.price,
-                category: req.body.category,
+                categories: categories,
                 images: images,
             });
 
