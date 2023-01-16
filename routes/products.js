@@ -29,7 +29,7 @@ router.post(
     }),
     asyncRoute(ProductController.store)
 );
-router.get("/mine", ReviewPolicy.index, asyncRoute(ProductController.mine));
+router.get("/mine", ProductPolicy.index, asyncRoute(ProductController.mine));
 
 router.get("/:id", ProductPolicy.show, asyncRoute(ProductController.show));
 
