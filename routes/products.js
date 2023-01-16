@@ -29,6 +29,7 @@ router.post(
     }),
     asyncRoute(ProductController.store)
 );
+router.get("/mine", ReviewPolicy.index, asyncRoute(ProductController.mine));
 
 router.get("/:id", ProductPolicy.show, asyncRoute(ProductController.show));
 
@@ -46,7 +47,6 @@ router.delete(
     asyncRoute(ProductController.destroy)
 );
 
-router.get("/mine", ReviewPolicy.index, asyncRoute(ProductController.mine));
 
 //reviews 
 
