@@ -54,6 +54,11 @@ export class ProductController {
             });
 
             const result = await product.save();
+
+            //attach product to user 
+            const user = req.user;
+            user.products.push(result);
+            await user.save();
             res.status(201).json(result);
         } catch (e) {
             if (e.name === "ValidationError") {
