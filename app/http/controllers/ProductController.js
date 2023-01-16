@@ -127,6 +127,12 @@ export class ProductController {
                 path: "images",
                 model: "Image",
             },
+        }).populate({
+            path: "products",
+            populate: {
+                path: "categories",
+                model: "Category",
+            },
         });
         res.status(200).json(user.products);
     }
