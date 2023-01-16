@@ -32,7 +32,13 @@ router.post(
 
 router.get("/:id", ProductPolicy.show, asyncRoute(ProductController.show));
 
-router.put("/:id", ProductPolicy.update, asyncRoute(ProductController.update));
+router.put("/:id", ProductPolicy.update,
+    fileUpload({
+        limits: { fileSize: 50 * 1024 * 1024 },
+        createParentPath: true,
+    }),
+    asyncRoute(ProductController.update)
+);
 
 router.delete(
     "/:id",
