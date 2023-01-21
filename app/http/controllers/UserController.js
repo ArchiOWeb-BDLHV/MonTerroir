@@ -4,6 +4,7 @@ import User from "../../models/user.js";
 
 const debug = createDebugger('express-api:users')
 
+
 export class UserController {
 
     static async index(req, res, next) {
