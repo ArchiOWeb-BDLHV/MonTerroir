@@ -6,7 +6,9 @@ import Productor from "../../models/productor.js";
 import { nonProcessable } from "../../../errors.js";
 import fs from "fs";
 import Image from "../../models/image.js";
+import createDebugger from "debug";
 
+const debug = createDebugger('express-api:auth')
 
 export function generateAccessToken(user) {
     return Jwt.sign({ id: user._id }, config.jwt.secret, { expiresIn: config.jwt.expiresIn }); // Generation du token d'authentification
@@ -63,10 +65,10 @@ export async function register(req, res, next) {
                 let user;
 
                 let images = [];
-                if (req.files) {
-                    for (const image of req.files.images) {
+                if (req.body.images) {
+                    for (const image of req.body.images) {
                         // deplacer image sur serveur
-                        const path = "/uploads/" + Date.now() + "_" + image.name;
+                        const path = "/uploads/" + Date.now() + "_" + Math.floor(Math.random() * 100000) + ".png";
                         const url = process.cwd() + "/public" + path;
 
                         //create folder if not exist
@@ -74,11 +76,12 @@ export async function register(req, res, next) {
                             fs.mkdirSync(process.cwd() + "/public/uploads", { recursive: true });
                         }
 
-                        let buff = Buffer.from(data, 'base64');
-                        fs.writeFileSync(url, buff);
+                        let base64Image = image.split(';base64,').pop();
+                        fs.writeFileSync('image.png', base64Image, {encoding: 'base64'});
+                        fs.renameSync(process.cwd() + "/image.png", url);
 
                         const i = await Image.create({
-                            url: path,
+                            url: config.appUrl + path,
                         });
                         images.push(i);
                     }

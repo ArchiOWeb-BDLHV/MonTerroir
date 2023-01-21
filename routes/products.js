@@ -23,10 +23,6 @@ router.get("/", ProductPolicy.index, asyncRoute(ProductController.index));
 router.post(
     "/",
     ProductPolicy.store,
-    fileUpload({
-        limits: { fileSize: 50 * 1024 * 1024 },
-        createParentPath: true,
-    }),
     asyncRoute(ProductController.store)
 );
 router.get("/mine", ProductPolicy.index, asyncRoute(ProductController.mine));
@@ -34,10 +30,6 @@ router.get("/mine", ProductPolicy.index, asyncRoute(ProductController.mine));
 router.get("/:id", ProductPolicy.show, asyncRoute(ProductController.show));
 
 router.put("/:id", ProductPolicy.update,
-    fileUpload({
-        limits: { fileSize: 50 * 1024 * 1024 },
-        createParentPath: true,
-    }),
     asyncRoute(ProductController.update)
 );
 

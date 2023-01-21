@@ -25,9 +25,9 @@ export class ProductController {
     static async store(req, res, next) {
         let images = [];
         if (req.body.images) {
-            for (const image64 of req.body.images) {
+            for (const image of req.body.images) {
                 // deplacer image sur serveur
-                const path = "/uploads/" + Date.now() + "_" + randomUUID() + ".png";
+                const path = "/uploads/" + Date.now() + "_" + Math.floor(Math.random() * 100000) + ".png";
                 const url = process.cwd() + "/public" + path;
 
                 //create folder if not exist
@@ -35,8 +35,9 @@ export class ProductController {
                     fs.mkdirSync(process.cwd() + "/public/uploads", { recursive: true });
                 }
 
-                let buff = Buffer.from(image64, 'base64');
-                fs.writeFileSync(url, buff);
+                let base64Image = image.split(';base64,').pop();
+                fs.writeFileSync('image.png', base64Image, {encoding: 'base64'});
+                fs.renameSync(process.cwd() + "/image.png", url);
 
                 const i = await Image.create({
                     url: config.appUrl + path,
