@@ -92,6 +92,9 @@ export class ProductController {
     const product = await Product.findById(req.params.id)
       .populate("images")
       .populate("categories");
+
+    const user = await Productor.findOne({ products: product._id });
+    product.productor = user;
     if (!product) {
       return res.status(404).json({ message: "Product not found" });
     }
