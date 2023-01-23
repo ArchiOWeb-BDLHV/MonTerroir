@@ -7,6 +7,7 @@ import config from "../../../config.js";
 import User from "../../models/user.js";
 import Category from "../../models/category.js";
 import { randomUUID } from "crypto";
+import Productor from "../../models/productor.js";
 
 const debug = createDebugger("express-api:product");
 
@@ -26,7 +27,7 @@ export class ProductController {
 
     //find productor who has this product
     for (const product of products) {
-      const user = await User.find({ products: product._id });
+      const user = await Productor.findOne({ products: product._id });
       product.productor = user;
     }
     res.status(200).json(products);
