@@ -26,7 +26,7 @@ export class ProductController {
 
     //find productor who has this product
     for (const product of products) {
-      const user = await User.findOne().where("products").in(product._id);
+      const user = await User.find({ products: product._id });
       product.productor = user;
     }
     res.status(200).json(products);
