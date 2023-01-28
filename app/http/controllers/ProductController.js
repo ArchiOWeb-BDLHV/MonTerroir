@@ -108,7 +108,7 @@ export class ProductController {
   static async update(req, res, next) {
     let product = await Product.findById(req.params.id);
     let images = product.images;
-    if (req.body.images) {
+    if (req.body.images && req.body.images.length > 0) {
       images = [];
       for (const image of req.body.images) {
         // deplacer image sur serveur
