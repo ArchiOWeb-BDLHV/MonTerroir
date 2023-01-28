@@ -20,10 +20,8 @@ export class ProductController {
         .sort("name")
         .populate(["images", "categories"]);
     } else if (req.query.search) {
-      const $regex = escapeStringRegexp(req.query.search);
-
       products = await Product.find({
-        title: { $regex: $regex, $options: "i" },
+        title: { $regex: req.query.search, $options: "i" },
       })
         .sort("name")
         .populate(["images", "categories"]);
