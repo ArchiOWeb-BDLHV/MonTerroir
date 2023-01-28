@@ -20,8 +20,9 @@ export class ProductController {
         .sort("name")
         .populate(["images", "categories"]);
     } else if (req.query.search) {
+      //where products name includes req.query.search with query
       products = await Product.find({
-        title: { $regex: req.query.search, $options: "i" },
+        name: { $regex: req.query.search, $options: "i" },
       })
         .sort("name")
         .populate(["images", "categories"]);
