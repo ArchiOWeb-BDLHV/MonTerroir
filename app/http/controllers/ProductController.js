@@ -19,6 +19,10 @@ export class ProductController {
       products = await Product.find({ categories: req.query.category })
         .sort("name")
         .populate(["images", "categories"]);
+    } else if (req.query.search) {
+      products = await Product.find({ title: req.query.search })
+        .sort("name")
+        .populate(["images", "categories"]);
     } else {
       products = await Product.find()
         .sort("name")
@@ -102,8 +106,10 @@ export class ProductController {
   }
 
   static async update(req, res, next) {
-    let images = [];
+    let product = await Product.findById(req.params.id);
+    let images = product.images;
     if (req.body.images) {
+      images = [];
       for (const image of req.body.images) {
         // deplacer image sur serveur
         const path =
@@ -130,19 +136,14 @@ export class ProductController {
       }
     }
 
-    const product = await Product.findOneAndUpdate(
-      { _id: req.params.id },
-      {
-        name: req.body.name,
-        description: req.body.description,
-        price: req.body.price,
-        categories: [...req.body.categories],
-        images: [...images],
-      },
-      {
-        new: true,
-      }
-    );
+    //update product
+    product.name = req.body.name;
+    product.description = req.body.description;
+    product.price = req.body.price;
+    product.images = images;
+    product.categories = req.body.categories;
+    product = await product.update();
+
     res.status(200).json(product);
   }
 
