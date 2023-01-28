@@ -142,7 +142,7 @@ export class ProductController {
     product.price = req.body.price;
     product.images = images;
     product.categories = req.body.categories;
-    product = await product.update();
+    product = await product.save();
 
     res.status(200).json(product);
   }
