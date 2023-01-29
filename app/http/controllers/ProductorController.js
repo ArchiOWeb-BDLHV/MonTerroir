@@ -58,7 +58,13 @@ export class ProductorController {
             model: "User",
           },
         })
-        .populate("products");
+        .populate({
+          path: "products",
+          populate: {
+            path: "images",
+            model: "Image",
+          },
+        });
     }
 
     try {
